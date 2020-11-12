@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :id="uuid1" class="row" >
+    <div :id="uuid1" class="row">
       <!-- table scan -->
       <q-card :class="colTableClass" style="margin: 0px; background-color: red">
         <q-card-section class="q-pa-xs m-pa-xs" style="margin: 0px 0px 0px 0px">
