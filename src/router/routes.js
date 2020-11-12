@@ -1,18 +1,19 @@
-import layout from '../layouts/MyLayout.vue'
+// import layout from '../layouts/MyLayout.vue'
 import form from '../pages/form.vue'
 import error from '../pages/Error404.vue'
 
 const routes = [
   {
     path: "/",
+    component: form
     // component: () => import('../layouts/MyLayout.vue'),
       // component: require('../layouts/MyLayout.vue'),
-      component: layout,
-    children: [
-      // { path: '', component: () => import('../pages/form.vue') }
-      // { path: "", component: "../pages/form.vue" }
-      { path: "", component: form }
-    ]
+      // component: layout,
+    // children: [
+    //   // { path: '', component: () => import('../pages/form.vue') }
+    //   // { path: "", component: "../pages/form.vue" }
+    //   { path: "", component: form }
+    // ]
   }
 ];
 

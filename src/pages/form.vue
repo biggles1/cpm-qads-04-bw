@@ -2,10 +2,10 @@
   <div id="q-form" class="row">
     <q-card class="col-12">
       <q-card-section>
-        <q-select 
+        <q-select
           filled
           v-model="view"
-          :options="items" 
+          :options="items"
           use-input
           hide-selected
           fill-input
@@ -60,7 +60,7 @@
 
             <div v-if="$q.screen.lt.md">
               <q-toolbar class="bg-blue-1 shadow-1 rounded-borders">
-                <q-btn-dropdown auto-close stretch flat label="Typology">          
+                <q-btn-dropdown auto-close stretch flat label="Typology">
                   <q-list>
                     <q-item clickable @click="slide= 'headers'">
                       <q-item-section>Headers</q-item-section>
@@ -153,12 +153,12 @@
               <q-tab-panel name="attentionSeeking">
                 <div class="q-mt-md">
                   <q-card>
-                    <q-card-section class="text-center"> 
+                    <q-card-section class="text-center">
                       <div class="text-h6">Quotes</div>
                       <div class="text-subtitle2">Attention seeking</div>
                     </q-card-section>
                     <q-separator dark inset />
-                    <q-card-section>    
+                    <q-card-section>
                       <div class="bg-pink-4 shadow-9">
                         <div class="quote">
                           quote ... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
@@ -178,7 +178,7 @@
                       </div>
                     </q-card-section>
                   </q-card>
-                </div>              
+                </div>
               </q-tab-panel>
 
               <q-tab-panel name="descriptions">
@@ -207,15 +207,14 @@
                     </q-card-section>
                   </q-card>
                 </div>
-              </q-tab-panel>     
-            </q-tab-panels>     
+              </q-tab-panel>
+            </q-tab-panels>
           </div>
         </div>
       </q-card-section>
     </q-card>
   </div>
 </template>
-
 
 <script>
 import async from '../components/form/asyncLoad'
@@ -231,7 +230,7 @@ import treeview from '../components/form/treeview.vue'
 import conditional from '../components/form/conditional.vue'
 import list from '../components/form/list.vue'
 import pickers from '../components/form/pickers.vue'
-import formTable from '../components/form/table.vue'
+import formTable from '../components/form/table01.vue'
 
 const items = ['Simple Form', 'Lazy Loading Component for Async-Data', 'CSS, Slots & Buttons', 'Deep nested Data with Arrays & CSS', 'Treeviews',
   'Select Item(s) from Schema-Array', 'Select Item from Data-Array(List)', 'Edit Item(s) in Data-Array', 'Pickers', 'Partial & Linked', 'Conditional Form', 'Complete Form', 'Use Responsive Grid',

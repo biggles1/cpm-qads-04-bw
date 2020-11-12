@@ -3,7 +3,7 @@ import Vuex from "vuex";
 
 // we first import the module
 // import showcase from './showcase'
-import test from "./test1";
+import drillLevels from "./drillLevels";
 
 Vue.use(Vuex);
 
@@ -12,7 +12,7 @@ export default function(/* { ssrContext } */) {
     modules: {
       // then we reference it
       // showcase,
-      test
+      drillLevels
     }
 
     // enable strict mode (adds overhead!)
@@ -28,10 +28,10 @@ export default function(/* { ssrContext } */) {
   */
 
   // if (process.env.DEV && module.hot) {
-  //   module.hot.accept(['./showcase', './test1'], () => {
+  //   module.hot.accept(['./showcase', './drillLevels'], () => {
   //     const newShowcase = require('./showcase').default
-  //     const newTest = require('./test1').default
-  //     Store.hotUpdate({ modules: { showcase: newShowcase, test: newTest } })
+  //     const newdrillLevels = require('./drillLevels').default
+  //     Store.hotUpdate({ modules: { showcase: newShowcase, drillLevels: newdrillLevels } })
   //   })
   // }
 

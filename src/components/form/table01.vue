@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div :id="uuid1" class="row">
+    <div :id="uuid1" class="row" >
       <!-- table scan -->
-      <q-card :class="colTableClass" style="margin: 0px">
+      <q-card :class="colTableClass" style="margin: 0px; background-color: red">
         <q-card-section class="q-pa-xs m-pa-xs" style="margin: 0px 0px 0px 0px">
           <!-- Virtual scroll style -->
           <q-table
@@ -114,9 +114,10 @@
           </q-table>
         </q-card-section>
       </q-card>
+
       <!-- form edits :class="editAccess" -->
-      <q-card class="col-xs-12 col-md-6 p-pa-xs q-pa-xs" :class="editAccess" style="margin: 0px">
-        <q-card-section class="q-pa-xs" style="margin: 0px 5px 0px 5px">
+      <q-card class="col-xs-12 col-md-6" :class="editAccess" style="margin: 0px; background-color: red">
+        <q-card-section class="q-pa-xs" style="margin: 0px 5px 0px 5px; background-color: #fff">
           <q-form
             @submit="onSubmit"
             @reset="onReset"
@@ -143,6 +144,7 @@
           </q-form>
         </q-card-section>
       </q-card>
+
     <!-- access menus -->
       <q-card id="access-menu" class="col-xs-12 q-pa-x" :class="menuAccess" style="padding: 5px">
         <q-card-section v-if="uuid > 1">
@@ -198,27 +200,24 @@
         </q-card-section>
       </q-card>
     </div>
-    <div :id="tableChildrenId" class="row" :class="menuAccess">
-      <!-- <div class="col-xs-12"> -->
-        <!-- <q-card class="q-pr-xs" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; "> -->
-          <!-- <q-card-section style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px"> -->
-            <q-tab-panels v-model="drilledOption" animated class="row col-grow" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
-              <q-tab-panel v-if= "render" name="option1" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
-                <!-- <div class="q-mt-xs text-center" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px"> -->
-                  <!-- <q-card>
-                    <q-card-section style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; "> -->
-                      <!-- {{ uuid }} -->
-                      <CoreTable :formId = "uuid" />
-                    <!-- </q-card-section>
-                  </q-card> -->
-                <!-- </div> -->
-              </q-tab-panel>
-            </q-tab-panels>
-          <!-- </q-card-section> -->
-        <!-- </q-card> -->
-      <!-- </div> -->
-    </div>
+
+    <q-tab-panels :id="tableChildrenId" v-model="drilledOption" animated class="row col-grow col-xs-12" :class="menuAccess" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+      <q-tab-panel v-if= "render" name="option1" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+            <CoreTable :formId = "uuid" />
+      </q-tab-panel>
+    </q-tab-panels>
   </div>
+
+  <!-- <drill-down
+    uuid = 'uuid'
+    menuAccess = 'menuAccess'
+    tableChildrenId = 'tableChildrenId'
+    drilledOption = 'drilledOption'
+    render = 'render'
+  >
+  </drill-down> -->
+  <!-- </div> -->
+
 </template>
 
 <script>
@@ -226,6 +225,7 @@ import QFormBase from './qFormBase.vue'
 import { mapMutations } from 'vuex'
 import drillLevels from '../../store/drillLevels'
 import * as sdata from './seedData.vue'
+// import drillDown from './drillDown01.vue'
 
 export default {
   components: { QFormBase },
@@ -501,7 +501,6 @@ export default {
   .q-card
     margin: 0px 0px 0px 0px
     padding: 0px 0px 0px 0px
-
 
   .q-card-section
     margin: 0px 0px 0px 0px

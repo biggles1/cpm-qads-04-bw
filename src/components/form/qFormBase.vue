@@ -1,45 +1,18 @@
 <template>
   <div class="row shadow-1 q-pa-sm">
-    <!-- {{ obj.schema }} -->
-    <!-- <q-separator />
-      <div>
-        <div class="text-bold"> 1 schema </div>
-        {{ schema }}
-      </div>
-    <q-separator />
-      <div>
-        <div class="text-bold"> 2 flat array </div> 
-        {{ flatCombinedArraySorted }}
-      </div>
-    <q-separator />
-      <div>
-        <div class="text-bold"> 3 flat array 1 </div> 
-        {{ flatCombinedArray1 }}
-      </div>
-    <q-separator />
-      <div>
-        <div class="text-bold"> 4 value </div> 
-        {{ value }}
-      </div>
-    <q-separator /> -->
-
     <template v-for="(obj, index) in flatCombinedArraySorted">
-      <!-- {{ index }} 
-      flatCombinedArraySorted
-      -->
       <q-card
         v-show="!obj.schema.hidden"
         :key="index"
         :class="getClassName(obj)"
       >
-        <!-- :class= "(obj.flex) ? obj.flex : gridFormat" -->
-        <!-- slot on top of item  -> <v-btn slot="top-slot-[key]> -->
         <slot :name="getTypeTopSlot(obj)"></slot>
         <slot :name="getKeyTopSlot(obj)"></slot>
         <!-- slot replaces complete item of defined type -> <div slot="item-slot-[type]>-->
         <slot :name="getTypeItemSlot(obj)">
           <!-- slot replaces complete item of defined key -> <div slot="item-slot-[key]>-->
           <slot :name="getKeyItemSlot(obj)">
+
             <!-- radio -->
             <template v-if="obj.schema.type === 'radio'">
               <q-option-group
@@ -51,7 +24,6 @@
                 @input="onInput($event, obj)"
               ></q-option-group>
             </template>
-
             <!-- slider -->
             <template v-else-if="obj.schema.type === 'slider'">
               <q-badge :color="obj.schema.color">
@@ -67,7 +39,6 @@
                 :color="obj.schema.color"
               />
             </template>
-
             <!-- array -->
             <template v-else-if="obj.schema.type === 'array'">
               <div class="col">
@@ -79,8 +50,6 @@
                   :key="idx"
                 >
                   <slot :name="getKeyArraySlot(obj)" v-bind:item="item">
-                    <!-- {{ item }} -->
-                    <!-- {{ obj.schema.schema }} -->
                     <q-form-base
                       :id="`${id}-${obj.key}-${idx}`"
                       :value="item"
@@ -91,7 +60,6 @@
                 </div>
               </div>
             </template>
-
             <!-- Generic date Lookup -->
             <template v-else-if="obj.schema.type === 'dateLookup'">
               <q-menu
@@ -119,7 +87,6 @@
                 ></q-date-picker>
               </q-menu>
             </template>
-
             <!-- Date Text lookup  -->
             <template v-else-if="obj.schema.type === 'dateTextLookup'">
               <div class="q-pa-md">
@@ -161,7 +128,6 @@
                 </q-input>
               </div>
             </template>
-
             <!-- Time lookup 1  -->
             <template v-else-if="obj.schema.type === 'timeTextLookup'">
               <div class="q-pa-md">
@@ -202,14 +168,12 @@
                 </q-input>
               </div>
             </template>
-
             <!-- treeview -->
             <template v-else-if="obj.schema.type === 'treeview'">
               <div class="q-pa-md q-gutter-sm">
                 <q-tree :nodes="setValue(obj)" node-key="label"> </q-tree>
               </div>
             </template>
-
             <!-- list -->
             <template v-else-if="obj.schema.type === 'list'">
               <div class="row">
@@ -236,7 +200,6 @@
                 </q-list>
               </div>
             </template>
-
             <!-- checkbox || switch -->
             <template
               v-else-if="
@@ -255,7 +218,6 @@
                 </q-checkbox>
               </div>
             </template>
-
             <!-- file -->
             <template v-else-if="obj.schema.type === 'file'">
               <div class="q-pa-md">
@@ -280,10 +242,8 @@
                 </div>
               </div>
             </template>
-
             <!-- btn-toggle -->
             <template v-else-if="obj.schema.type === 'btnToggle'">
-              <!-- {{ obj.schema }} -->
               <q-btn-toggle
                 :options="[
                   { label: 'One', value: 'one' },
@@ -316,13 +276,12 @@
                   <q-icon :dark="obj.schema.dark">{{sanitizeOptions(b).icon}}</q-icon>
                   {{sanitizeOptions(b).label}}
                 </q-btn>
-                {{ obj.schema }} 
+                {{ obj.schema }}
                  :options="[ { 'label': 'A', 'value': '1' }, { 'label': 'B', 'value': '2' } ]"
-                
+
                 -->
               </q-btn-toggle>
             </template>
-
             <!-- btn   -->
             <template v-else-if="obj.schema.type === 'btn'">
               <q-btn
@@ -332,7 +291,6 @@
               >
               </q-btn>
             </template>
-
             <!-- if masked use this v-text-field section - https://vuejs-tips.github.io/vue-the-mask/  -->
             <template v-else-if="obj.schema.mask || obj.schema.type === 'text'">
               <q-input
@@ -342,42 +300,6 @@
                 @input="onInput($event, obj)"
               ></q-input>
             </template>
-            <!--
-              v-else-if= "obj.schema.mask"
-              v-bind = "obj.schema"
-              v-mask = "obj.schema.mask"
-              :value= "setValue(obj)"
-              @focus = "onFocus($event, obj)"
-              @blur = "onBlur($event, obj)"
-              @click:append = "onClick($event, obj, append)"
-              @click:append-outer = "onClick($event, obj, appendOuter)"
-              @click:clear = "onClick($event, obj, clear )"
-              @click:prepend = "onClick($event, obj, prepend )"
-              @click:prepend-inner = "onClick($event, obj, prependInner )"
-              @input= "onInput($event, obj)"
-              -->
-            <!-- all other Types -> see typeToComponent -->
-            <!-- <q-input
-              v-else-if= "obj.schema.type === 'text'"
-              v-bind = "obj.schema"
-              v-mask = "obj.schema.mask"
-              :value= "setValue(obj)"
-              filled
-              @input= "onInput($event, obj)"
-            ></q-input> -->
-
-            <!-- text -->
-            <template v-else-if="obj.schema.type === 'text'">
-              <q-input
-                type="text"
-                v-bind="obj.schema"
-                :value="setValue(obj)"
-                filled
-                @input="onInput($event, obj)"
-                >test</q-input
-              >
-            </template>
-
             <!-- textArea -->
             <template v-else-if="obj.schema.type === 'textArea'">
               <q-input
@@ -388,7 +310,6 @@
                 @input="onInput($event, obj)"
               ></q-input>
             </template>
-
             <!-- password -->
             <template v-else-if="obj.schema.type === 'password'">
               <q-input
@@ -410,7 +331,6 @@
                 </template>
               </q-input>
             </template>
-
             <!-- email -->
             <template v-else-if="obj.schema.type === 'email'">
               <q-input
@@ -422,7 +342,6 @@
               >
               </q-input>
             </template>
-
             <!-- select -->
             <template v-else-if="obj.schema.type === 'select'">
               <q-select
@@ -444,7 +363,6 @@
                 </template>
               </q-select>
             </template>
-
             <!-- combobox -->
             <template v-else-if="obj.schema.type === 'combobox'">
               <q-select
@@ -471,32 +389,6 @@
                 </template>
               </q-select>
             </template>
-
-            <!-- combobox1 -->
-            <!-- <template v-else-if= "obj.schema.type ==='combobox1'">
-              <q-select
-                filled
-                v-model = "obj.value"
-                :multiple = "obj.schema.multiple"
-                use-input
-                hide-selected
-                fill-input
-                input-debounce= "0"
-                :label= "obj.schema.label"
-                :options="options"
-                style="width: 250px"
-                @filter="(v,u,a) => { filterFn({v,u,a }, obj.schema.items) }"
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey">
-                      No results
-                    </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </template> -->
-
             <!-- autocomplete -->
             <template v-else-if="obj.schema.type === 'autocomplete'">
               <q-select
@@ -526,7 +418,6 @@
                 </template>
               </q-select>
             </template>
-
             <!-- all other Types -> see typeToComponent -->
             <template v-else>
               <div
@@ -559,7 +450,7 @@
 
 <script>
 // import & declarations
-// import { get, isPlainObject, isFunction, isString, orderBy } from 'lodash'
+ /* eslint-disable no-debugger */
 import { get, isPlainObject, isFunction, isString } from "lodash";
 import { mask } from "vue-the-mask";
 
@@ -573,8 +464,6 @@ const typeToComponent = {
   search: "v-text-field",
   number: "v-text-field",
 
-  // map schema.type to vuetify-control (vuetify 2.0)
-  // map schema.type to quasar-control
   text: "q-input",
   radio: "q-radio",
   treeview: "q-tree",
@@ -621,10 +510,7 @@ const prependInner = "prepend-inner";
 
 const gridSpacing = "q-pa-xs";
 const gridSize = "col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2";
-// const gridFormat2 = "col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 q-pa-xs"
 
-// const stringOptions = ['Tesla', 'Jobs', 'Taleb', 'Harari']
-//
 export default {
   name: "q-form-base",
   orange: false,
@@ -653,6 +539,8 @@ export default {
 
   data() {
     return {
+      debugStuff: false,
+      debugLevel: 0,
       flatCombinedArray: [],
       clear,
       button,
@@ -670,9 +558,6 @@ export default {
       proxyTime: null,
       group: "B",
       options: []
-
-      // ddate: '2019-04-01'
-      // options: this.schema.comboboxSingle.items
     };
   },
 
@@ -681,22 +566,30 @@ export default {
       return this.id;
     },
     flatCombinedArraySorted() {
-      // return orderBy(this.flatCombinedArray, ['schema.sort'], [orderDirection])
-      console.log("flat combined array: ", this.flatCombinedArray);
-      console.log("flat combined array 1: ", this.flatCombinedArray1);
+      // debugger
+      // debugging
+      if(this.debugStuff) {
+        console.log('flatCombineArray1: ', JSON.stringify(this.flatCombinedArray1));
+      }
       return this.flatCombinedArray1;
     },
-
     flatCombinedArray1() {
+      // debugging
+      if(this.debugStuff && this.debugLevel >= 0) {
+        console.log('storeStateData: ', JSON.stringify(this.storeStateData));
+        console.log('storeStateSchema: ', JSON.stringify(this.storeStateSchema));
+        console.log('flatternAndCombineToArray', JSON.stringify(this.flattenAndCombineToArray(
+          this.storeStateData,
+          this.storeStateSchema
+        )));
+      }
+
       return this.flattenAndCombineToArray(
         this.storeStateData,
         this.storeStateSchema
       );
-      // return '[hhhh]'
     },
-
     storeStateData() {
-      // console.log('this value: ', this.value)
       this.updateArrayFromState(this.value, this.schema);
       return this.value;
     },
@@ -706,52 +599,25 @@ export default {
     },
     gridFormat() {
       if (this.flex) {
-        console.log("flex: ", this.flex);
         var sflex = "col-".concat(this.flex).concat("${gridSpacing");
-        console.log("sflex: ", sflex);
         return sflex;
       } else {
         return "${gridSize} ${gridSpacing}";
       }
     }
-    // storeStateOptions (options) {
-    //   if (this.obj.schema.type === 'select' | this.obj.schema.type === 'combobox' | this.obj.schema.type === 'autocomplete')
-    //     { return this.obj.schema.items }
-    //   else { return null }
-    // }
   },
-
   methods: {
     // Date methods
     dateUpdateProxy(obj) {
-      // console.log('store state data: ', this.storeStateData)
-      // var proxy1 = this.props
-      // console.log('proxy values: ', proxy1)
-      // console.log('proxy: ', obj.value, this.obj.value)
-      // console.log('proxy: ', obj.value)
       this.proxyDate = obj.value;
-      // console.log('proxy date: ', this.proxyDate)
-      // this.proxyDate = this.obj.value
     },
     dateProxySave(obj) {
-      // this.date = this.proxyDate
-      // this.onInput(this.$event, this.proxyDate)
       this.onInput(this.proxyDate, obj);
     },
-    // Date methods
     timeUpdateProxy(obj) {
-      // console.log('store state data: ', this.storeStateData)
-      // var proxy1 = this.props
-      // console.log('proxy values: ', proxy1)
-      // console.log('proxy: ', obj.value, this.obj.value)
-      // console.log('proxy: ', obj.value)
       this.proxyTime = obj.value;
-      // console.log('proxy date: ', this.proxyDate)
-      // this.proxyDate = this.obj.value
     },
     timeProxySave(obj) {
-      // this.date = this.proxyDate
-      // this.onInput(this.$event, this.proxyDate)
       this.onInput(this.proxyTime, obj);
     },
     // Selection methods
@@ -768,14 +634,11 @@ export default {
     },
     // Generic methods
     mapTypeToComponent(type) {
-      // map ie. schema:{ type:'password', ... } to vuetify control v-text-field'
       return typeToComponent[type] ? typeToComponent[type] : `q-${type}`;
     },
-
     // KEY SLOTS
     getKeyArraySlot(obj) {
       // get Key specific name by replacing '.' with '-' and prepending 'slot-item'  -> 'slot-ARRAY-key-address-city'
-      console.log("array slot .... ", obj, " ... ", arraySlotAppendix);
       return this.getKeyClassNameWithAppendix(obj, arraySlotAppendix + "-key");
     },
     getKeyItemSlot(obj) {
@@ -839,15 +702,6 @@ export default {
       return this.getTypeClassNameWithAppendix(obj, typeClassAppendix);
     },
     getFlexGridClassName(obj) {
-      // var overWriteFlex = false
-      // console.log("schema: ", obj.schema)
-      // if (typeof(obj.schema.qOptions) != 'undefined') {
-      //   console.log("qOptions noFlex undefined: ")
-      //   console.log("noflex: ", obj.schema.qOptions.noFlex)
-      //   typeof(obj.schema.qOptions.noFlex) != 'undefined' ? overWriteFlex = obj.schema.qOptions.noFlex : overWriteFlex = false
-      // }
-      // console.log("overWriteFlex: ", overWriteFlex)
-
       // get FLEX class from schema.flex ->  schema:{ flex:{ xs:12, md:4  } || flex: 4 } // flex: 4 -> is shorthand for -> flex:{ xs:4 }
       const keysToGridClassName = key =>
         Object.keys(key)
@@ -873,10 +727,6 @@ export default {
     },
     getOrderGridClassName(obj) {
       // get ORDER-FLEX class from schema.order ->  schema:{ order:{ xs:12, md:4  } || order: 4 } // order: 4 -> is shorthand for -> order:{ xs:4 }
-      // quasar variables -> none, last, first
-      // const keysToOrderClassName = (key) => Object.keys(key).map(k => `order-${k}${key[k]}`).join(' ') //  { xs:12, md:6, lg:4  } => 'xs12 md6 lg4'
-      // original vuetify
-      // return obj.schema.order ? isPlainObject(obj.schema.order) ? keysToOrderClassName(obj.schema.order) : `order-xs${obj.schema.order}` : ''
       return obj.schema.order ? `order-${obj.schema.order}` : "";
     },
     getGridClassName(obj) {
@@ -888,7 +738,6 @@ export default {
         obj
       )} ${gridSpacing}`;
     },
-
     getClassName(obj) {
       // combines all into a single classname
       // class => ie. 'item type-checkbox key-address-zip prop-adress prop-zip xs12 md6 offset-xs0'
@@ -925,8 +774,6 @@ export default {
     // Set Value
     setValue(obj) {
       // Control gets a Value
-      // console.log('obj: ', obj.value, 'state data: ', this.storeStateData)
-      // console.log('set value obj: ', obj.value)
       return this.toCtrl({
         value: obj.value,
         obj,
@@ -937,7 +784,6 @@ export default {
     },
     setDateValue(obj) {
       // Control gets a Value
-      // console.log('set date value obj: ', obj.value)
       this.dateLookupDefault = obj.value;
       return this.toCtrl({
         value: obj.value,
@@ -949,9 +795,9 @@ export default {
     //
     // Get Value from Input & other Events
     onInput(value, obj) {
-      console.log("on input: ", value, obj);
-      console.log("this.$parent oninput: ", this.$parent);
-      console.log("this.$parent.parent oninput: ", this.$parent.$parent);
+      // console.log("on input: ", value, obj);
+      // console.log("this.$parent oninput: ", this.$parent);
+      // console.log("this.$parent.parent oninput: ", this.$parent.$parent);
       // console.log('on input: ', value)
       // Value after change in Control
       value = this.fromCtrl({
@@ -993,7 +839,6 @@ export default {
         data: this.storeStateData,
         schema: this.storeStateSchema
       });
-      // console.log('on click: ', index)
     },
     onFocus(event, obj) {
       this.emitValue("focus", {
@@ -1065,7 +910,6 @@ export default {
           ...val,
           parent: this.$parent
         });
-        // console.log('111')
       } else if (this.$parent.$parent.id) {
         this.$parent.$parent.$emit(this.getEventGrandParentName("update"), {
           ...val,
@@ -1077,13 +921,12 @@ export default {
             parent: this.$parent.$parent
           });
         this.$emit(this.getEventName("update"), val); // all listen to events
-        // console.log('222', this.getEventName('update'), ' index: ', val.index)
+
       } else {
         this.$emit(this.getEventName(emit), val); // listen to specific event
         if ("inputclick".indexOf(emit) > -1)
           this.$emit(this.getEventName("change"), val); // listen only to changes
         this.$emit(this.getEventName("update"), val); // all listen to events
-        // console.log('333', this.getEventName('update'), ' index: ', val.index)
       }
     },
     getEventName(eventName) {
@@ -1095,12 +938,6 @@ export default {
         : eventName;
     },
     getEventGrandParentName(eventName) {
-      console.log(
-        "event name & grandParent: ",
-        eventName,
-        this.$parent.$parent.id,
-        defaultID
-      );
       return this.$parent.$parent.id !== defaultID
         ? `${eventName}:${this.$parent.$parent.id}`
         : eventName;
@@ -1119,29 +956,16 @@ export default {
       this.flatCombinedArray.forEach(obj => {
         obj.value = get(data, obj.key, null); // get - lodash
         obj.schema = get(schema, obj.key, null); // get - lodash
-        // console.log('this.obj.schema: ', obj.schema)
       });
-      console.log("flatCombinedArray: ", this.flatCombinedArray);
     },
     flattenObjects(dat, sch) {
       let data = {};
       let schema = {};
-      console.log(
-        "flatten objects ... data: ",
-        dat,
-        " schema ",
-        sch,
-        "dat object length: ",
-        Object.keys(dat).length
-      );
-
       Object.keys(dat).forEach(i => {
         if (
           (!Array.isArray(dat[i]) && dat[i] && typeof dat[i] === "object") ||
           (Array.isArray(dat[i]) && Array.isArray(sch[i]))
         ) {
-          // console.log("flattening again")
-          // console.log(sch[i])
           let { data: flatData, schema: flatSchema } = this.flattenObjects(
             dat[i],
             sch[i]
@@ -1151,14 +975,16 @@ export default {
             schema[i + pathDelimiter + ii] = flatSchema[ii];
           });
         } else {
-          // console.log('data: ', dat, 'schema: ', sch, 'i: ', i)
-          // console.log("ok as is")
-          // console.log('data: ', dat, 'schema: ', sch, 'i: ', i)
           data[i] = dat[i];
           schema[i] = sch[i];
         }
       });
-      console.log("flattened: ", data, schema);
+
+      // debugging
+      if(this.debugStuff) {
+        console.log("flatten objects - schema, data: ", schema, data);
+      }
+
       return { data, schema };
     },
     combineObjectsToArray({ data, schema }) {
@@ -1182,54 +1008,93 @@ export default {
     },
     flattenAndCombineToArray(data, schema) {
       // flatten nested structure of both objects 'data' & 'schema' ...
-      console.log("schema form base: ", schema, data);
       let flattenedObjects = this.flattenObjects(data, schema);
+
+      // debugging
+      if(this.debugStuff) {
+        console.log("schema form base: ", schema, data);
+      }
+
       // ... and combine them to an array
       return this.combineObjectsToArray(flattenedObjects);
     }
   },
   created() {
-    // console.log('created ... parent before: ', this.$parent.id, this.$parent.$parent.id)
-    console.log(
-      "created ... parent before: ",
-      this.$parent.id,
-      this.$parent,
-      this.$parent.$parent.id,
-      this.$parent.$parent
-    );
+    // debugging
+    if(this.debugStuff && this.debugLevel >= 0) {
+      // console.log('created ... parent before: ', this.$parent.id, this.$parent.$parent.id)
+      // console.log(
+      //   "created ... parent before: ",
+      //   this.$parent.id,
+      //   this.$parent,
+      //   this.$parent.$parent.id,
+      //   this.$parent.$parent
+      // );
+    }
     this.flatCombinedArray = this.flattenAndCombineToArray(
       this.storeStateData,
       this.storeStateSchema
     );
-    // console.log('created ... parent after: ', this.$parent.id, this.$parent.$parent.id)
-    // console.log('flatCombinedArray .... ', this.flatCombinedArray)
-    // console.log('created ... parent 2: ', this.$parent.id)
+    // debugging
+    if(this.debugStuff && this.debugLevel >= 0) {
+      // console.log('created ... parent after: ', this.$parent.id, this.$parent.$parent.id)
+      // console.log('flatCombinedArray .... ', this.flatCombinedArray)
+      // console.log('created ... parent 2: ', this.$parent.id)
+      // console.log("schema form base: ", schema, data);
+    }
   },
   mounted() {
-    // console.log('mounted ... parent before: ', this.$parent.id, this.$parent.$parent.id, this.$parent.$parent.$parent.id, this.$parent.$parent.$parent.$parent.id)
+    // debugging
+    if(this.debugStuff && this.debugLevel >= 0) {
+       // console.log('mounted ... parent before: ', this.$parent.id,
+       //this.$parent.$parent.id, this.$parent.$parent.$parent.id, this.$parent.$parent.$parent.$parent.id)
+    }
     this.flatCombinedArray = this.flattenAndCombineToArray(
       this.storeStateData,
       this.storeStateSchema
     );
+    // debugging
+    if(this.debugStuff && this.debugLevel >= 0) {
     // console.log('mounted ... parent after: ', this.$parent.id, this.$parent.$parent.id)
     // console.log('flatCombinedArray .... ', this.flatCombinedArray)
     // console.log('mounted ... parent 1: ', this.$parent.id)
     // this.flatCombinedArray = this.flattenAndCombineToArray(this.storeStateData, this.storeStateSchema)
+    }
   },
   beforeUpdate() {
-    // console.log('beforeUpdate ... parent: ', this.$parent.id, this.$parent.$parent.id)
-    // this.flatCombinedArray = this.flattenAndCombineToArray(this.storeStateData, this.storeStateSchema)
+    // debugging
+    if(this.debugStuff && this.debugLevel >= 0) {
+      // console.log('beforeUpdate ... parent: ', this.$parent.id, this.$parent.$parent.id)
+      // this.flatCombinedArray = this.flattenAndCombineToArray(this.storeStateData, this.storeStateSchema)
+    }
   },
   afterUpdate() {
-    // console.log('afterUpdate ... parent: ', this.$parent.id, this.$parent.$parent.id)
+    // debugging
+    if(this.debugStuff && this.debugLevel >= 0) {
+      // console.log('afterUpdate ... parent: ', this.$parent.id, this.$parent.$parent.id)
+    }
   }
 };
 </script>
 
-<style scoped>
-/* .v-text-field input{
-    padding: 8px, 30px, 8px, 30px
-  } */
+<style>  /* scoped */
+.v-text-field input{
+    padding: 8px, 30px, 8px, 30px;
+    font-size: 10px
+  }
+
+/* .q-textarea .q-field__native .q-input {
+  font-size: 24px;
+} */
+
+.q-field {
+  font-size: 13px;
+}
+
+.q-table tbody td {
+    font-size: 13px;
+}
+
 /* .row {
     margin-right: 30px;
     margin-left: 0px;

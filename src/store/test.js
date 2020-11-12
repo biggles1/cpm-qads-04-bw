@@ -12,21 +12,21 @@ const mutations = {
     // },
 
     toggle1 (state, payload) {
-        console.log('payload update left: ', payload.update.left)
+        // console.log('payload update left: ', payload.update.left)
         if (payload.update.left != null) state.sideBar.left = payload.update.left
         // if (payload.update.right != null) state.sideBar.right = payload.update.right
-        console.log('after t1 left', state.sideBar.left)
+        // console.log('after t1 left', state.sideBar.left)
     },
 
     toggleLeft (state, payload) {
-        console.log("toggle left payload: ", !payload)
+        // console.log("toggle left payload: ", !payload)
         state.sideBar.left = !payload
     },
- 
+
     // toggleRight (state, payload) {
     //     console.log("toggle right payload: ", payload)
     //     // state.sideBar.right = payload
-    // },  
+    // },
 
 }
 
@@ -41,7 +41,7 @@ const getters = {
 
 const actions = {
     toggleLeftSideBar ( { commit }, payload ) {
-        console.log('toggle action: ', payload)
+        // console.log('toggle action: ', payload)
         commit('toggleLeft', payload)
     },
     toggleSideBar ( { commit }, payload ) {
@@ -54,8 +54,8 @@ const actions = {
 
 export default {
     namespaced: true,
-    state, 
-    mutations, 
-    getters, 
-    actions 
+    state,
+    mutations,
+    getters,
+    actions
 }

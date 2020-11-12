@@ -9,6 +9,7 @@
           :schema="mySchema"
           @blur="change"
           @input="change"
+          class="q-pa-lg"
         />
         <!-- <h4 slot="q-slot-top-key-name">Top Slot on Key Name Quasar</h4> -->
         <infoline :value="myValue" :schema="mySchema"></infoline>
