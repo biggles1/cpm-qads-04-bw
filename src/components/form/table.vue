@@ -1,223 +1,254 @@
 <template>
   <div>
     <div :id="uuid1" class="row">
-      <!-- table scan -->
-      <q-card :class="colTableClass" style="margin: 0px">
-        <q-card-section class="q-pa-xs m-pa-xs" style="margin: 0px 0px 0px 0px">
-          <!-- Virtual scroll style -->
-          <q-table
-            virtual-scroll
-              :pagination.sync="pagination"
-              :rows-per-page-options="[0]"
-            title="Treats"
-            :data="data"
-            :columns="columns"
-            row-key="name"
-            selection="single"
-            :selected.sync="selected"
-            :filter="filter"
-            binary-state-sort
-            :visible-columns="visibleColumns"
-            :dense="$q.screen.lt.xs"
-            @row-click="onRowClick"
-            class="my-sticky-header-table q-pa-xs"
-          >
-            <template v-slot:top>
-              <q-btn color="primary" icon="view_list" align="left" flat class="col-4">
-                <div class="q-pl-sm">Treats</div>
-                <q-menu>
-                  <q-list style="min-width: 200px">
-                    <q-separator />
-                    <div :class="menuAccess">
-                      <q-item-label header>Selections</q-item-label>
-                      <q-item clickable v-close-popup @click="btnEditMode">
-                        <q-item-section avatar>
-                          <q-icon size='xs' name="edit" />
-                        </q-item-section>
-                        <q-item-section>Edit</q-item-section>
-                      </q-item>
-                      <q-item clickable v-close-popup @click="deleteItem">
-                        <q-item-section avatar>
-                          <q-icon size='xs' name="delete" />
-                        </q-item-section>
-                        <q-item-section>Delete</q-item-section>
-                      </q-item>
-                      <q-separator />
-                    </div>
-                    <q-item-label header>Options</q-item-label>
-                    <q-item clickable v-close-popup @click="btnCreateMode">
-                      <q-item-section avatar>
-                        <q-icon size='xs' name="add" />
-                      </q-item-section>
-                      <q-item-section>Create</q-item-section>
-                    </q-item>
-                    <q-item clickable v-close-popup @click="searchOptionToggle">
-                      <q-item-section avatar>
-                        <q-icon size='xs' name="search" />
-                      </q-item-section>
-                      <q-item-section>Search</q-item-section>
-                    </q-item>
-                    <q-item-label header>Format</q-item-label>
-                    <q-item clickable>
-                      <q-item-section>
-                        <q-select
-                          v-model="visibleColumns"
-                          multiple
-                          dense
-                          options-dense
-                          :display-value="$q.lang.table.columns"
-                          emit-value
-                          map-options
-                          :options="columns"
-                          option-value="name"
-                          options-cover
-                          :visible-columns="visibleColumns"
-                        >
-                          <template v-slot:prepend>
-                            <q-icon size='xs' name="send" color="blue-6"/>
-                          </template>
-                        </q-select>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-menu>
-              </q-btn>
-              <!-- visible options -->
-              <q-space />
-              <div :class="tableSearchOption">
-                <q-input
-                  dense
-                  debounce="300"
-                  v-model="filter"
-                  placeholder="Search"
-                  >
-                    <template v-slot:prepend>
-                      <q-icon name="search" color="blue-6"/>
-                    </template>
-                </q-input>
-              </div>
-            </template>
-            <template v-slot:header="props">
-              <q-tr :props="props">
-                <q-th v-for="col in props.cols" :key="col.name" :props="props">
-                  {{ col.label }}
-                </q-th>
-              </q-tr>
-            </template>
-            <template v-slot:body="props">
-              <q-tr class="cursor-pointer" :props="props" @click="props.selected = !props.selected; onRowClick(props.selected, props)">
-                <q-td v-for="col in props.cols" :key="col.name" :props="props">
-                  {{ col.value }}
-                </q-td>
-              </q-tr>
-            </template>
-          </q-table>
-        </q-card-section>
-      </q-card>
-      <!-- form edits :class="editAccess" -->
-      <q-card class="col-xs-12 col-md-6 p-pa-xs q-pa-xs" :class="editAccess" style="margin: 0px">
-        <q-card-section class="q-pa-xs" style="margin: 0px 5px 0px 5px">
-          <q-form
-            @submit="onSubmit"
-            @reset="onReset"
-            class="q-pa-xs shadow-1"
-            style="padding: 0px"
-            rounded-borders
-          >
-            <q-toolbar style="padding: 0px">
-              <q-toolbar-title style="text-align: left">
-                <q-btn flat icon="edit" style="height: 50px; font-size: 12px; min-width: 150px; text-align: left">
-                  {{ recId }}
-                </q-btn>
-              </q-toolbar-title>
-              <q-space />
-              <q-btn label="Update" type="submit" icon="save" color="orange-8" flat style="height: 50px; font-size: 12px"/>
-              <q-btn label="Undo" type="reset" icon="undo" color="green-8" flat class="q-ml-sm" style="height: 50px; font-size: 12px"/>
-            </q-toolbar>
+      <!-- Suggested Props:
+        data
+        dataschema
+        selected item
+        hooks
+          before update
+          on update
+          on load
+          after destroy
+        options
+          table
+            * virtual scroll
+              export
+              keyboard navigation
+            paged table
+            cards
+          edits
+            * multi columns (auto)
+            schema designed (manual)
+            sliders/ combo
+          access
+            * drill down
+            branches
+            charts
+              google charts
+                bar
+                line
+                pie
+                heatmaps
+                sparklines
+              d3js.org
 
-            <q-form-base
-              id="formBaseTable"
-              :value= "editedItem"
-              :schema= "dataSchema"
-              />
-          </q-form>
-        </q-card-section>
-      </q-card>
-    <!-- access menus -->
-      <q-card id="access-menu" class="col-xs-12 q-pa-x" :class="menuAccess" style="padding: 5px">
-        <q-card-section v-if="uuid > 1">
-          <q-breadcrumbs
-            active-color="black"
-            style="font-size: 12px">
-              <q-breadcrumbs-el
-                v-for="(c, index) in this.$store.state.drillLevels.breadCrumb.slice(0,this.uuid-1)"
-                :key="index"
-                :label="c"
-                icon="navigation"
-                :to="'#table-'+(index+1).toString().padStart(2,'0')"
-              />
-          </q-breadcrumbs>
-        </q-card-section>
-        <q-card-section class="q-pa-xs" style="margin: 0px">
-          <q-form
-            class="shadow-0"
-          >
-            <q-toolbar>
-              <q-toolbar-title style="text-align: left">
-                <q-btn flat icon="arrow_drop_down" :label=recId @click="drilledOption = 'option1'; render = true" class="q-ma-xs bg-blue-2">
-                  <!-- <div class="q-pa-xs" style="font-size: 12px">
-                    {{ recId }}
-                  </div> -->
-                  <!-- <q-menu>
-                    <q-list style="min-width: 150px">
-                      <q-item clickable v-close-popup @click="drilledOption = 'option1'; render = true">
-                        <q-item-section>
-                          Next level
-                        </q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu> -->
-                </q-btn>
-                <q-btn flat icon="apps" class="q-ma-xs bg-blue-2" label="Options">
-                  <!-- <div class="q-pa-xs" style="font-size: 12px">
-                    Options
-                  </div> -->
+            dashboards
+              guage
+              cards
+
+      -->
+      <!-- table scan -->
+      <template>
+        <q-card :class="colTableClass" style="margin: 0px">
+          <q-card-section class="q-pa-xs m-pa-xs" style="margin: 0px 0px 0px 0px">
+            <!-- Virtual scroll style -->
+            <q-table
+              virtual-scroll
+                :pagination.sync="pagination"
+                :rows-per-page-options="[0]"
+              title="Treats"
+              :data="data"
+              :columns="columns"
+              row-key="name"
+              selection="single"
+              :selected.sync="selected"
+              :filter="filter"
+              binary-state-sort
+              :visible-columns="visibleColumns"
+              :dense="$q.screen.lt.xs"
+              @row-click="onRowClick"
+              class="my-sticky-header-table q-pa-xs"
+            >
+              <template v-slot:top>
+                <q-btn color="primary" icon="view_list" align="left" flat class="col-4">
+                  <div class="q-pl-sm">Treats</div>
                   <q-menu>
-                    <q-list style="min-width: 150px">
-                      <q-item clickable v-close-popup @click="drilledOption = 'option1'; render = true">
+                    <q-list style="min-width: 200px">
+                      <q-separator />
+                      <div :class="menuAccess">
+                        <q-item-label header>Selections</q-item-label>
+                        <q-item clickable v-close-popup @click="btnEditMode">
+                          <q-item-section avatar>
+                            <q-icon size='xs' name="edit" />
+                          </q-item-section>
+                          <q-item-section>Edit</q-item-section>
+                        </q-item>
+                        <q-item clickable v-close-popup @click="deleteItem">
+                          <q-item-section avatar>
+                            <q-icon size='xs' name="delete" />
+                          </q-item-section>
+                          <q-item-section>Delete</q-item-section>
+                        </q-item>
+                        <q-separator />
+                      </div>
+                      <q-item-label header>Options</q-item-label>
+                      <q-item clickable v-close-popup @click="btnCreateMode">
+                        <q-item-section avatar>
+                          <q-icon size='xs' name="add" />
+                        </q-item-section>
+                        <q-item-section>Create</q-item-section>
+                      </q-item>
+                      <q-item clickable v-close-popup @click="searchOptionToggle">
+                        <q-item-section avatar>
+                          <q-icon size='xs' name="search" />
+                        </q-item-section>
+                        <q-item-section>Search</q-item-section>
+                      </q-item>
+                      <q-item-label header>Format</q-item-label>
+                      <q-item clickable>
                         <q-item-section>
-                          Next level
+                          <q-select
+                            v-model="visibleColumns"
+                            multiple
+                            dense
+                            options-dense
+                            :display-value="$q.lang.table.columns"
+                            emit-value
+                            map-options
+                            :options="columns"
+                            option-value="name"
+                            options-cover
+                            :visible-columns="visibleColumns"
+                          >
+                            <template v-slot:prepend>
+                              <q-icon size='xs' name="send" color="blue-6"/>
+                            </template>
+                          </q-select>
                         </q-item-section>
                       </q-item>
                     </q-list>
                   </q-menu>
                 </q-btn>
-              </q-toolbar-title>
-            </q-toolbar>
-          </q-form>
-        </q-card-section>
-      </q-card>
+                <!-- visible options -->
+                <q-space />
+                <div :class="tableSearchOption">
+                  <q-input
+                    dense
+                    debounce="300"
+                    v-model="filter"
+                    placeholder="Search"
+                    >
+                      <template v-slot:prepend>
+                        <q-icon name="search" color="blue-6"/>
+                      </template>
+                  </q-input>
+                </div>
+              </template>
+              <template v-slot:header="props">
+                <q-tr :props="props">
+                  <q-th v-for="col in props.cols" :key="col.name" :props="props">
+                    {{ col.label }}
+                  </q-th>
+                </q-tr>
+              </template>
+              <template v-slot:body="props">
+                <q-tr class="cursor-pointer" :props="props" @click="props.selected = !props.selected; onRowClick(props.selected, props)">
+                  <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                    {{ col.value }}
+                  </q-td>
+                </q-tr>
+              </template>
+            </q-table>
+          </q-card-section>
+        </q-card>
+      </template>
+      <!-- form edits :class="editAccess" -->
+      <template>
+        <q-card class="col-xs-12 col-md-6 p-pa-xs q-pa-xs" :class="editAccess" style="margin: 0px">
+          <q-card-section class="q-pa-xs" style="margin: 0px 5px 0px 5px">
+            <q-form
+              @submit="onSubmit"
+              @reset="onReset"
+              class="q-pa-xs shadow-1"
+              style="padding: 0px"
+              rounded-borders
+            >
+              <q-toolbar style="padding: 0px">
+                <q-toolbar-title style="text-align: left">
+                  <q-btn flat icon="edit" style="height: 50px; font-size: 12px; min-width: 150px; text-align: left">
+                    {{ recId }}
+                  </q-btn>
+                </q-toolbar-title>
+                <q-space />
+                <q-btn label="Update" type="submit" icon="save" color="orange-8" flat style="height: 50px; font-size: 12px"/>
+                <q-btn label="Undo" type="reset" icon="undo" color="green-8" flat class="q-ml-sm" style="height: 50px; font-size: 12px"/>
+              </q-toolbar>
+
+              <q-form-base
+                id="formBaseTable"
+                :value= "editedItem"
+                :schema= "dataSchema"
+                />
+            </q-form>
+          </q-card-section>
+        </q-card>
+      </template>
+    <!-- access menus -->
+      <template>
+        <q-card id="access-menu" class="col-xs-12 q-pa-x" :class="menuAccess" style="padding: 5px">
+          <q-card-section v-if="uuid > 1">
+            <q-breadcrumbs
+              active-color="black"
+              style="font-size: 12px">
+                <q-breadcrumbs-el
+                  v-for="(c, index) in this.$store.state.drillLevels.breadCrumb.slice(0,this.uuid-1)"
+                  :key="index"
+                  :label="c"
+                  icon="navigation"
+                  :to="'#table-'+(index+1).toString().padStart(2,'0')"
+                />
+            </q-breadcrumbs>
+          </q-card-section>
+          <q-card-section class="q-pa-xs" style="margin: 0px">
+            <q-form
+              class="shadow-0"
+            >
+              <q-toolbar>
+                <q-toolbar-title style="text-align: left">
+                  <q-btn flat icon="arrow_drop_down" :label=recId @click="drilledOption = 'option1'; render = true" class="q-ma-xs bg-blue-2">
+                    <!-- <div class="q-pa-xs" style="font-size: 12px">
+                      {{ recId }}
+                    </div> -->
+                    <!-- <q-menu>
+                      <q-list style="min-width: 150px">
+                        <q-item clickable v-close-popup @click="drilledOption = 'option1'; render = true">
+                          <q-item-section>
+                            Next level
+                          </q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu> -->
+                  </q-btn>
+                  <q-btn flat icon="apps" class="q-ma-xs bg-blue-2" label="Options">
+                    <!-- <div class="q-pa-xs" style="font-size: 12px">
+                      Options
+                    </div> -->
+                    <q-menu>
+                      <q-list style="min-width: 150px">
+                        <q-item clickable v-close-popup @click="drilledOption = 'option1'; render = true">
+                          <q-item-section>
+                            Next level
+                          </q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-btn>
+                </q-toolbar-title>
+              </q-toolbar>
+            </q-form>
+          </q-card-section>
+        </q-card>
+      </template>
     </div>
-    <div :id="tableChildrenId" class="row" :class="menuAccess">
-      <!-- <div class="col-xs-12"> -->
-        <!-- <q-card class="q-pr-xs" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; "> -->
-          <!-- <q-card-section style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px"> -->
-            <q-tab-panels v-model="drilledOption" animated class="row col-grow" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
-              <q-tab-panel v-if= "render" name="option1" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
-                <!-- <div class="q-mt-xs text-center" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px"> -->
-                  <!-- <q-card>
-                    <q-card-section style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; "> -->
-                      <!-- {{ uuid }} -->
-                      <CoreTable :formId = "uuid" />
-                    <!-- </q-card-section>
-                  </q-card> -->
-                <!-- </div> -->
-              </q-tab-panel>
-            </q-tab-panels>
-          <!-- </q-card-section> -->
-        <!-- </q-card> -->
-      <!-- </div> -->
-    </div>
+    <!-- next drill down -->
+    <template>
+      <q-tab-panels :id="tableChildrenId" v-model="drilledOption" animated class="row col-grow" :class="menuAccess" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+        <q-tab-panel v-if= "render" name="option1" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+          <CoreTable :formId = "uuid" />
+        </q-tab-panel>
+      </q-tab-panels>
+    </template>
   </div>
 </template>
 
