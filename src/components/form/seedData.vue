@@ -9,7 +9,7 @@
         field: row => row.name,
         format: val => `${val}`,
         sortable: true,
-        headerClasses: 'bg-blue-2 text-black',
+        headerClasses: 'bg-grey-2 text-black',
         classes: 'bg-grey-2 ellipsis'
       },
       { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
@@ -31,7 +31,7 @@
         field: row => row.name,
         format: val => `${val}`,
         sortable: true,
-        headerClasses: 'bg-blue-2 text-black',
+        headerClasses: 'bg-grey-2 text-black',
         classes: 'bg-grey-2 ellipsis',
         defaultValue: ''
         },

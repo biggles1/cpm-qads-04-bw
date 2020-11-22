@@ -21,7 +21,7 @@
                 <q-list style="min-width: 150px">
                   <q-separator />
                   <q-item-label header>Selections</q-item-label>
-                  
+
                   <q-item clickable v-close-popup @click="btnMenuMode">
                     <q-item-section avatar>
                       <q-icon name="apps" />
@@ -30,7 +30,7 @@
                         Drill down
                     </q-item-section>
                   </q-item>
-                  
+
                   <q-item clickable v-close-popup @click="btnEditMode">
                     <q-item-section avatar>
                       <q-icon name="edit" />
@@ -40,14 +40,14 @@
                   <q-separator />
 
                   <q-item-label header>Table Options</q-item-label>
-                     
+
                   <q-item clickable v-close-popup @click="btnEditMode">
                     <q-item-section avatar>
                       <q-icon name="add" />
                     </q-item-section>
                     <q-item-section>Create</q-item-section>
                   </q-item>
-                  
+
                   <q-item clickable v-close-popup>
                     <q-item-section avatar>
                       <q-icon name="search" />
@@ -109,15 +109,15 @@
 
             </q-toggle>
 
-            <q-space />    
+            <q-space />
 
             <!-- visible options -->
-            <div :class="tableAccessOption">     
+            <div :class="tableAccessOption">
               <div class="row">
-                <q-input 
-                  dense 
-                  debounce="300" 
-                  v-model="filter" 
+                <q-input
+                  dense
+                  debounce="300"
+                  v-model="filter"
                   placeholder="Search"
                   class="q-px-md col-sm-6 col-xs-12">
                     <template v-slot:prepend>
@@ -148,10 +148,10 @@
         </q-table>
       </q-card-section>
     </q-card>
-    
+
     <!-- form edits :class="editAccess" -->
     <q-card class="col-xs-12 col-md-6 p-pa-xs q-pa-xs" :class="editAccess" style="margin: 0px">
-      <q-card-section class="q-pa-xs" style="margin: 0px 5px 0px 5px">     
+      <q-card-section class="q-pa-xs" style="margin: 0px 5px 0px 5px">
         <q-form
           @submit="onSubmit"
           @reset="onReset"
@@ -160,10 +160,10 @@
           rounded-borders
         >
           <q-toolbar style="padding: 0px">
-            <q-toolbar-title>    
+            <q-toolbar-title>
               <q-btn flat icon="edit" style="height: 50px; font-size: 12px; min-width: 150px">
                 <div class="q-pa-xs" style="font-size: 12px">
-                  {{ recId }} 
+                  {{ recId }}
                 </div>
                 <!-- <q-chip color="primary" icon="edit">Editing</q-chip> -->
                 <q-menu>
@@ -191,18 +191,18 @@
                   </q-list>
                 </q-menu>
 
-              </q-btn>    
+              </q-btn>
             </q-toolbar-title>
-            <q-space />   
+            <q-space />
             <q-btn label="Update" type="submit" icon="save" color="orange-8" flat style="height: 50px; font-size: 12px"/>
             <q-btn label="Undo" type="reset" icon="undo" color="green-8" flat class="q-ml-sm" style="height: 50px; font-size: 12px"/>
             <q-btn label="Delete" type="delete" icon="delete" color="red-8" flat class="q-ml-sm" style="height: 50px; font-size: 12px"/>
           </q-toolbar>
 
-          <q-form-base 
-            id="formBaseTable"  
-            :value= "selectedRow" 
-            :schema= "dataSchema" 
+          <q-form-base
+            id="formBaseTable"
+            :value= "selectedRow"
+            :schema= "dataSchema"
             />
 
         </q-form>
@@ -217,7 +217,7 @@
 
   <!-- access menus -->
     <q-card rounded-borders class="col-xs-12 col-md-6 q-pa-xs" :class="menuAccess" style="margin: 0px">
-      <q-card-section class="q-pa-xs" style="margin: 0px">     
+      <q-card-section class="q-pa-xs" style="margin: 0px">
         <q-form
           class="shadow-1"
           rounded-borders
@@ -244,10 +244,10 @@
                   </q-list>
                 </q-menu>
 
-              </q-btn>            
+              </q-btn>
             </q-toolbar-title>
             <!-- <q-space /> -->
-     
+
             <q-btn flat label="Link" icon="arrow_drop_down" style="font-size: 12px; height: 50px"/>
             <q-btn flat label="Link" icon="arrow_drop_down" style="font-size: 12px; height: 50px"/>
 
@@ -286,7 +286,7 @@
           </q-toolbar>
         </q-form>
 
-      </q-card-section>   
+      </q-card-section>
     </q-card>
 
     <!-- {{ drilledDown }}
@@ -340,7 +340,7 @@ export default {
           field: row => row.name,
           format: val => `${val}`,
           sortable: true,
-          headerClasses: 'bg-blue-2 text-black',
+          headerClasses: 'bg-grey-2 text-black',
           classes: 'bg-grey-2 ellipsis'
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
@@ -351,7 +351,7 @@ export default {
         { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
- 
+
       dataSchema: {
         name: {
           type: 'text',
@@ -362,7 +362,7 @@ export default {
           field: row => row.name,
           format: val => `${val}`,
           sortable: true,
-          headerClasses: 'bg-blue-2 text-black',
+          headerClasses: 'bg-grey-2 text-black',
           classes: 'bg-grey-2 ellipsis'
           },
         calories: { type: 'text', name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
@@ -480,7 +480,7 @@ export default {
   },
 
   methods: {
-    onRowClick(event, row) {     
+    onRowClick(event, row) {
       // console.log("row clicked on ....")
       // console.log("event: ", event)
       // console.log("row: ", row.name)

@@ -1,6 +1,15 @@
 <template>
   <div id="q-form" class="row">
+
     <q-card class="col-12">
+      <q-card-section class="row justify-end q-pa-xs">
+        <div class="col-2">
+          <q-btn class="q-pa-xs" style="float: right" size="xs" color="grey-2" text-color="black" label="Component Options" @click="componentOptions = !componentOptions"/>
+        </div>
+      </q-card-section>
+    </q-card>
+
+    <q-card class="col-12" :class=" ( componentOptions == false ) ? 'display: hidden' : 'display: none' ">
       <q-card-section>
         <q-select
           filled
@@ -9,39 +18,36 @@
           use-input
           hide-selected
           fill-input
-          class="bg-blue-1 shadow-6"
+          class="bg-grey-1 shadow-6"
         >
         </q-select>
       </q-card-section>
     </q-card>
 
     <q-card class="col-12">
-      <q-card-section>
-        <div>
-          <simple v-if="view === items[0]"></simple>
-          <async v-if="view === items[1]"></async>
-          <css v-if="view === items[2]"></css>
-          <deep v-if="view === items[3]"></deep>
-          <treeview v-if="view === items[4]"></treeview>
-          <selection v-if="view === items[5]"></selection>
-          <list v-if="view === items[6]"></list>
-          <array v-if="view === items[7]"></array>
-          <pickers v-if="view === items[8]"></pickers>
-          <partial v-if="view === items[9]"></partial>
-          <conditional v-if="view === items[10]"></conditional>
-          <complex v-if="view === items[11]"></complex>
-          <grid v-if="view === items[12]"></grid>
-          <formTable v-if="view === items[13]"></formTable>
-        </div>
+      <q-card-section  id="123" class="q-pa-xs" >
+        <simple v-if="view === items[0]"></simple>
+        <async v-if="view === items[1]"></async>
+        <css v-if="view === items[2]"></css>
+        <deep v-if="view === items[3]"></deep>
+        <treeview v-if="view === items[4]"></treeview>
+        <selection v-if="view === items[5]"></selection>
+        <list v-if="view === items[6]"></list>
+        <array v-if="view === items[7]"></array>
+        <pickers v-if="view === items[8]"></pickers>
+        <partial v-if="view === items[9]"></partial>
+        <conditional v-if="view === items[10]"></conditional>
+        <complex v-if="view === items[11]"></complex>
+        <grid v-if="view === items[12]"></grid>
+        <formTable v-if="view === items[13]"></formTable>
       </q-card-section>
     </q-card>
 
-    <q-card class="col-12">
+    <q-card class="col-12" :class=" ( componentOptions == false ) ? 'display: hidden' : 'display: none' ">
       <div class="q-ma-md">
         <q-btn outline size="xs" class="bg-gray-1" label="Typology" @click="typology = !typology"/>
       </div>
       <q-card-section :class=" ( typology == false ) ? 'display: hidden' : 'display: none' ">
-        <!-- :style=" ( typology == true ) ? 'display: hidden' : 'display: none' " -->
         <div>
           <div>
             <div v-if="$q.screen.gt.sm">
@@ -230,7 +236,7 @@ import treeview from '../components/form/treeview.vue'
 import conditional from '../components/form/conditional.vue'
 import list from '../components/form/list.vue'
 import pickers from '../components/form/pickers.vue'
-import formTable from '../components/form/table01.vue'
+import formTable from '../components/form/table02.vue'
 
 const items = ['Simple Form', 'Lazy Loading Component for Async-Data', 'CSS, Slots & Buttons', 'Deep nested Data with Arrays & CSS', 'Treeviews',
   'Select Item(s) from Schema-Array', 'Select Item from Data-Array(List)', 'Edit Item(s) in Data-Array', 'Pickers', 'Partial & Linked', 'Conditional Form', 'Complete Form', 'Use Responsive Grid',
@@ -242,6 +248,7 @@ export default {
     simple, async, grid, css, deep, partial, complex, treeview, array, selection, conditional, list, pickers, formTable },
   data () {
     return {
+      componentOptions: false,
       typology: false,
       slide: 'style',
       items,

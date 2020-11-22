@@ -8,8 +8,9 @@
       -->
       <!-- table scan -->
       <template>
-        <q-card :class="colTableClass" style="margin: 0px; background-color: red">
-          <q-card-section class="q-pa-xs m-pa-xs" style="margin: 0px 0px 0px 0px">
+        <q-card :class="colTableClass" style="margin: 0px; border-width: thick; border-color: red">
+           <!-- ; background-color: red -->
+          <q-card-section class="q-pa-xs m-pa-xs" style="margin: 0px 0px 0px 0px" :class= "( hideTable == false ) ? 'display: None': 'display: hidden'">
             <!-- Virtual scroll style -->
             <q-table
               virtual-scroll
@@ -27,9 +28,11 @@
               :dense="$q.screen.lt.xs"
               @row-click="onRowClick"
               class="my-sticky-header-table q-pa-xs"
+              :hide-bottom=true
+              style="box-shadow: none"
             >
               <template v-slot:top>
-                <q-btn color="primary" icon="view_list" align="left" flat class="col-4">
+                <q-btn icon="view_list" align="left" flat class="col-4">
                   <div class="q-pl-sm">Treats</div>
                   <q-menu>
                     <q-list style="min-width: 200px">
@@ -80,7 +83,7 @@
                             :visible-columns="visibleColumns"
                           >
                             <template v-slot:prepend>
-                              <q-icon size='xs' name="send" color="blue-6"/>
+                              <q-icon size='xs' name="send" color="grey-4"/>
                             </template>
                           </q-select>
                         </q-item-section>
@@ -98,7 +101,7 @@
                     placeholder="Search"
                     >
                       <template v-slot:prepend>
-                        <q-icon name="search" color="blue-6"/>
+                        <q-icon name="search" color="grey-4"/>
                       </template>
                   </q-input>
                 </div>
@@ -121,6 +124,13 @@
           </q-card-section>
         </q-card>
       </template>
+
+      <template>
+        <q-card style="text-align: left" class="col-12" :class="( hideTable == true ) ? 'display: None': 'display: hidden'" >
+          <q-btn class="bg-grey-4" :label=recId @click="hideTable = !hideTable"/>
+        </q-card>
+      </template>
+
       <!-- form edits :class="editAccess" -->
       <template>
         <q-card class="col-xs-12 col-md-6" :class="editAccess" style="margin: 0px; background-color: red">
@@ -174,7 +184,7 @@
             >
               <q-toolbar>
                 <q-toolbar-title style="text-align: left">
-                  <q-btn flat icon="arrow_drop_down" :label=recId @click="drilledOption = 'option1'; render = true" class="q-ma-xs bg-blue-2">
+                  <q-btn flat icon="arrow_drop_down" :label=recId @click="drilledOption = 'option1'; render = true; hideTable = true" class="q-ma-xs bg-grey-4">
                     <!-- <div class="q-pa-xs" style="font-size: 12px">
                       {{ recId }}
                     </div> -->
@@ -188,7 +198,7 @@
                       </q-list>
                     </q-menu> -->
                   </q-btn>
-                  <q-btn flat icon="apps" class="q-ma-xs bg-blue-2" label="Options">
+                  <q-btn flat icon="apps" class="q-ma-xs bg-grey-4" label="Options">
                     <!-- <div class="q-pa-xs" style="font-size: 12px">
                       Options
                     </div> -->
@@ -211,6 +221,7 @@
     </div>
     <!-- next drill down -->
     <template>
+      {{ drilledOption }} {{ hideTable }}
       <q-tab-panels :id="tableChildrenId" v-model="drilledOption" animated class="row col-grow col-xs-12" :class="menuAccess" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px">
         <q-tab-panel v-if= "render" name="option1" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
               <CoreTable :formId = "uuid" />
@@ -277,6 +288,7 @@ export default {
       breadcrumb: [],
       editedIndex: -1,
       data: {},
+      hideTable: false
     }
   },
   computed: {
@@ -472,12 +484,11 @@ export default {
   max-width: 100%
 
   td:first-child
-    background-color: $blue-1 !important
+    background-color: $grey-4 !important
 
   tr th
     position: sticky
     z-index: 2
-    background: #fff
 
   thead tr:last-child th
     /* height of all previous header rows */
@@ -488,7 +499,7 @@ export default {
   thead tr:first-child th
     top: 0
     z-index: 1
-    background-color: $blue-1
+    background-color: $grey-4
 
   tr:first-child th:first-child
     /* highest z-index */
@@ -500,6 +511,7 @@ export default {
   td:first-child, th:first-child
     position: sticky
     left: 0
+    background-color: $grey-4
 
   .tab-panels
     margin: 0px 0px 0px 0px
