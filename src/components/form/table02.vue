@@ -15,36 +15,43 @@
         @onEdit="onEdit"
         @onCreate="onCreate"
         @onDelete="onDelete"
+        @onRowClick="onRowClick"
       >
       </TableScan>
 
       <!-- table reduced/ hidden -->
-      <template>
+      <!-- <template>
         <q-card style="text-align: left" class="col-12" :class="( hideTable == true ) ? 'display: None': 'display: hidden'" >
           <q-btn class="bg-grey-4" :label=recId @click="hideTable = !hideTable"/>
         </q-card>
-      </template>
+      </template> -->
+
       <!-- form edits :class="editAccess" -->
       <template>
-        <q-card class="col-xs-12 col-md-6" :class="editAccess" style="margin: 0px; background-color: red">
-          <q-card-section class="q-pa-xs" style="margin: 0px 5px 0px 5px; background-color: #fff">
+        <q-card class="col-xs-12 col-md-6" :class="editAccess">
+          <q-card-section class="q-pa-xl">
             <q-form
               @submit="onSubmit"
               @reset="onReset"
-              class="q-pa-xs shadow-1"
+              class="shadow-5"
               style="padding: 0px"
               rounded-borders
             >
-              <q-toolbar style="padding: 0px">
+              <q-toolbar>
                 <q-toolbar-title style="text-align: left">
-                  <q-btn flat icon="edit" style="height: 50px; font-size: 12px; min-width: 150px; text-align: left">
+                  <q-btn flat icon="edit" :label=editAddLabel>
+                    <q-space />
                     {{ recId }}
                   </q-btn>
                 </q-toolbar-title>
                 <q-space />
-                <q-btn label="Update" type="submit" icon="save" color="orange-8" flat style="height: 50px; font-size: 12px"/>
-                <q-btn label="Undo" type="reset" icon="undo" color="green-8" flat class="q-ml-sm" style="height: 50px; font-size: 12px"/>
+                <q-btn label="Update" type="submit" icon="save" color="orange-8" flat style="font-size: 12px"/>
+                <q-btn label="Undo" type="reset" icon="undo" color="green-8" flat class="q-ml-sm" style="font-size: 12px"/>
               </q-toolbar>
+              <!-- 1: {{ this.editItem }}
+              2: {{ this.editedItem }}
+              3: {{ this.editedIndex }}
+              4: {{ this.defaultItem }} -->
 
               <q-form-base
                 id="formBaseTable"
@@ -114,7 +121,7 @@
     </div>
     <!-- next drill down -->
     <template>
-      {{ drilledOption }} {{ hideTable }}
+      <!-- {{ drilledOption }} {{ hideTable }} -->
       <q-tab-panels :id="tableChildrenId" v-model="drilledOption" animated class="row col-grow col-xs-12" :class="menuAccess" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px">
         <q-tab-panel v-if= "render" name="option1" style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
               <CoreTable :formId = "uuid" />
@@ -183,7 +190,8 @@ export default {
       breadcrumb: [],
       editedIndex: -1,
       data: {},
-      hideTable: false
+      hideTable: false,
+      editAddLabel: 'editing >>> '
     }
   },
   computed: {
@@ -221,14 +229,40 @@ export default {
       this.$store.commit('drillLevels/updateBreadCrumb', id)
     },
 
-    onRowClick(selected, props) {
-      if (this.recId == props.row.name) {
+    // onRowClick(selected, props) {
+    //   if (this.recId == props.row.name) {
+    //     this.recId = ''
+    //     this.selectedRow = {}
+    //   }
+    //   else {
+    //     this.recId = props.row.name
+    //     this.selectedRow = props.row
+    //     this.editItem(this.selectedRow)
+    //     this.render = false
+    //   }
+
+    //   if (this.recId == '') {
+    //     this.menuEditToggle = 'display: hidden'
+    //     this.menuAccess= 'display: hidden'
+    //     this.editAccess = 'display: hidden'
+    //     this.colTableClass = 'col-xs-12 col-md-8'
+    //   } else {
+    //     // this.colTableClass = 'col-xs-12 col-md-4'
+    //     // this.menuEditToggle = 'display: block'
+    //     this.menuAccess= 'display: block'
+    //   }
+    //   this.updateBreadCrumb({'idx': this.uuid-1, 'selection': this.recId})
+    // },
+
+    onRowClick(payload) {
+      console.log('on row clicked ...', payload);
+      if (this.recId == payload.recId) {
         this.recId = ''
         this.selectedRow = {}
       }
       else {
-        this.recId = props.row.name
-        this.selectedRow = props.row
+        this.recId = payload.recId
+        this.selectedRow = payload.row
         this.editItem(this.selectedRow)
         this.render = false
       }
@@ -248,30 +282,60 @@ export default {
 
     onEdit(payload) {
       // console.log('onEdit: ', JSON.stringify(payload));
-      this.menuMode = payload.menuMode
-      this.editAccess = payload.menuAccess
-      this.colTableClass = payload.colTableClass
-      this.editAccess = payload.editAccess
-      this.recId = payload.recId
-      this.editedItem = payload.row
-
+      // this.menuMode = payload.menuMode
+      // this.editAccess = payload.menuAccess
+      // this.colTableClass = payload.colTableClass
+      // this.editAccess = payload.editAccess
+      // this.recId = payload.recId
+      // this.editedItem = payload.row
+      this.extractPayload(payload)
       this.btnEditMode()
     },
 
     onCreate(payload) {
       // console.log('creating: ', JSON.stringify(payload));
+      // this.menuMode = payload.menuMode
+      // this.editAccess = payload.menuAccess
+      // this.colTableClass = payload.colTableClass
+      // this.editAccess = payload.editAccess
+      // this.recId = payload.recId
+      // this.editedItem = payload.row
+      this.extractPayload(payload)
+      this.btnCreateMode()
+    },
+
+    extractPayload(payload) {
       this.menuMode = payload.menuMode
       this.editAccess = payload.menuAccess
       this.colTableClass = payload.colTableClass
       this.editAccess = payload.editAccess
       this.recId = payload.recId
       this.editedItem = payload.row
-
-      this.btnCreateMode()
+      this.editAddLabel = payload.editAddLabel
     },
 
     onDelete(payload) {
-      console.log('deleting: ', JSON.stringify(payload));
+      // console.log('deleting: ', JSON.stringify(payload));
+      // this.menuMode = payload.menuMode
+      // this.editAccess = payload.menuAccess
+      // this.colTableClass = payload.colTableClass
+      // this.editAccess = payload.editAccess
+      // this.recId = payload.recId
+      // this.editedItem = payload.row
+      this.extractPayload(payload)
+      this.deleteItem()
+    },
+
+    onClick(payload) {
+      // console.log('onEdit: ', JSON.stringify(payload));
+      // this.menuMode = payload.menuMode
+      // this.editAccess = payload.menuAccess
+      // this.colTableClass = payload.colTableClass
+      // this.editAccess = payload.editAccess
+      // this.recId = payload.recId
+      // this.editedItem = payload.row
+      // this.btn
+      this.extractPayload(payload)
     },
 
     searchOptionToggle () {
@@ -298,16 +362,21 @@ export default {
 
     btnEditMode() {
       this.menuMode = 'edit'
-      // console.log('editing ....');
-      // console.log(this.recId);
+      console.log('editing ....');
+      console.log(this.recId);
       if (this.recId == '' || !this.recId) {
         this.editAccess = 'display: hidden'
         this.colTableClass = 'col-xs-12 col-md-6'
+        // console.log('create');
+        this.editAddLabel = 'Creating new record >>> '
+        // this.editAddLabel = 'Editing >> '
       } else {
         // console.log('should be editing now ..... >>>>');
         this.colTableClass = 'col-xs-12 col-md-6'
         this.editAccess = 'display: block'
         this.menuAccess = 'display: hidden'
+        console.log('edit');
+        this.editAddLabel = 'Editing >> '
       }
     },
 
@@ -318,6 +387,7 @@ export default {
       this.editItem(this.defaultItem)
       this.colTableClass = 'col-xs-12 col-md-6'
       this.editAccess = 'display: block'
+      this.editAddLabel = 'Creating new record >> '
     },
 
     drilledDownToggle () {
@@ -330,7 +400,7 @@ export default {
     onSubmit () {
       if (this.accept !== true) {
         this.$q.notify({
-          color: 'primary',
+          color: 'warning',
           textColor: 'white',
           icon: 'warning',
           message: 'You need to accept the license and terms first'
@@ -338,7 +408,7 @@ export default {
       }
       else {
         this.$q.notify({
-          color: 'green-4',
+          color: 'accent',
           textColor: 'white',
           icon: 'cloud_done',
           message: 'Updated'
@@ -347,12 +417,15 @@ export default {
           Object.assign(this.data[this.editedIndex], this.editedItem)
           } else {
             this.data.push(this.editedItem)
+            this.editItem(this.defaultItem)
           }
+        // Object.assign(this.editedItem, this.defaultItem)
+        // this.editedIndex = -1
         }
     },
     onReset () {
       this.$q.notify({
-        color: 'green-4',
+        color: 'accent',
         textColor: 'white',
         icon: 'cloud_done',
         message: 'Resetting',
@@ -371,7 +444,7 @@ export default {
     deleteItem () {
       // confirm('Are you sure you want to delete this item?') && this.data.splice(this.editedIndex, 1);
       this.$q.notify({
-        color: 'red-7',
+        color: 'accent',
         textColor: 'white',
         icon: 'delete_forever',
         message: 'Deleting',

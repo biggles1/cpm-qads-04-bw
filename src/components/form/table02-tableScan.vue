@@ -1,9 +1,8 @@
 <template>
-  <q-card :class="colTableClass" style="margin: 0px; border-width: thick; border-color: red">
+  <q-card :class="colTableClass">
       <!-- ; background-color: red -->
-    <q-card-section class="q-pa-xs m-pa-xs" style="margin: 0px 0px 0px 0px" :class= "( hideTable == false ) ? 'display: None': 'display: hidden'">
+    <q-card-section class="q-pa-xl" :class= "( hideTable == false ) ? 'display: None': 'display: hidden'">
       <!-- Virtual scroll style -->
-      <!-- <p> {{ data }}</p> <p> {{ columns }} </p>> -->
       <q-table
         virtual-scroll
           :pagination.sync="pagination"
@@ -19,13 +18,16 @@
         :visible-columns="visibleColumns"
         :dense="$q.screen.lt.xs"
         @row-click="onRowClick"
-        class="my-sticky-header-table q-pa-xs"
+        class="my-sticky-header-table shadow-5"
         :hide-bottom=true
-        style="box-shadow: none"
+
       >
         <template v-slot:top>
-          <q-btn icon="view_list" align="left" flat class="col-4">
-            <div class="q-pl-sm">Treats</div>
+          <q-btn icon="view_list" align="left" flat>
+            <div class="q-pl-sm">
+              Treats
+              <q-tooltip content-class="bg-accent">Options</q-tooltip>
+            </div>
             <q-menu>
               <q-list style="min-width: 200px">
                 <q-separator />
@@ -50,7 +52,7 @@
                   <q-item-section avatar>
                     <q-icon size='xs' name="add" />
                   </q-item-section>
-                  <q-item-section>Create1</q-item-section>
+                  <q-item-section>Create</q-item-section>
                 </q-item>
                 <q-item clickable v-close-popup @click="searchOptionToggle">
                   <q-item-section avatar>
@@ -83,6 +85,25 @@
               </q-list>
             </q-menu>
           </q-btn>
+          <q-btn-group>
+            <div :class="menuAccess">
+              <q-btn @click="btnEditMode" icon="edit">
+                <q-tooltip content-class="bg-accent">Edit a record</q-tooltip>
+              </q-btn>
+              <q-btn @click="deleteItem" icon="delete">
+                <q-tooltip content-class="bg-accent">Delete a record</q-tooltip>
+              </q-btn>
+            </div>
+            <div>
+              <q-btn @click="btnCreateMode" icon="add">
+                  <q-tooltip content-class="bg-accent">Add a record</q-tooltip>
+              </q-btn>
+              <q-btn @click="searchOptionToggle" icon="search">
+                <q-tooltip content-class="bg-accent">Search for data</q-tooltip>
+              </q-btn>
+            </div>
+          </q-btn-group>
+
           <!-- visible options -->
           <q-space />
           <div :class="tableSearchOption">
@@ -105,7 +126,9 @@
             </q-th>
           </q-tr>
         </template>
+        <!-- {{ props.selected }} -->
         <template v-slot:body="props">
+          <!-- {{ props.selected }} -->
           <q-tr class="cursor-pointer" :props="props" @click="props.selected = !props.selected; onRowClick(props.selected, props)">
             <q-td v-for="col in props.cols" :key="col.name" :props="props">
               {{ col.value }}
@@ -118,10 +141,8 @@
 </template>
 
 <script>
-// import QFormBase from './qFormBase.vue'
 import { mapMutations } from 'vuex'
 import drillLevels from '../../store/drillLevels'
-// import * as sdata from './seedData.vue'
 
 export default {
 props: {
@@ -159,7 +180,7 @@ props: {
       pagination: {
         rowsPerPage: 0
       },
-      colTableClass: 'col-xs-12 col-md-7',
+      colTableClass: 'col-xs-12 col-md-6',
       // colEditAccessClass: 'col-xs-12 col-md-6',
       breadcrumb: [],
       editedIndex: -1,
@@ -167,6 +188,7 @@ props: {
       hideTable: false,
       visibleColumns: [],
       payload: {},
+      editAddLabel: 'editing >>> '
     }
   },
 
@@ -204,7 +226,11 @@ props: {
     updateBreadCrumb(id) {
       this.$store.commit('drillLevels/updateBreadCrumb', id)
       },
+
     onRowClick(selected, props) {
+      // console.log('selected: ', selected, 'props: ', JSON.stringify(props));
+      // console.log('selected: ', selected, 'props: ', JSON.stringify(props.key));
+      // console.log('recId: ', this.recId, 'props: ', props.row.name);
       if (this.recId == props.row.name) {
         this.recId = ''
         this.selectedRow = {}
@@ -214,21 +240,48 @@ props: {
         this.selectedRow = props.row
         this.editItem(this.selectedRow)
         this.render = false
-        console.log(JSON.stringify(this.selectedRow));
+        // console.log('this.selectedRow: ', JSON.stringify(this.selectedRow));
       }
 
       if (this.recId == '') {
         this.menuEditToggle = 'display: hidden'
         this.menuAccess= 'display: hidden'
         this.editAccess = 'display: hidden'
-        this.colTableClass = 'col-xs-12 col-md-8'
+        this.colTableClass = 'col-xs-12 col-md-6'
+        this.editAddLabel = 'Create new record >>> '
       } else {
         // this.colTableClass = 'col-xs-12 col-md-4'
         // this.menuEditToggle = 'display: block'
         this.menuAccess= 'display: block'
+        this.editAddLabel = 'Editing >>> '
       }
+
+      // this.payload = {
+      //   menuMode: this.menuMode,
+      //   editAccess: this.editAccess,
+      //   colTableClass: this.colTableClass,
+      //   menuAccess: this.menuAccess,
+      //   recId: this.recId,
+      //   row: this.selectedRow,
+      //   }
+      this.assignPayload()
+      // console.log('payload 1: ', JSON.stringify(this.payload));
+      this.$emit('onRowClick', this.payload)
       this.updateBreadCrumb({'idx': this.uuid-1, 'selection': this.recId})
     },
+
+    assignPayload() {
+      this.payload = {
+      menuMode: this.menuMode,
+      editAccess: this.editAccess,
+      colTableClass: this.colTableClass,
+      menuAccess: this.menuAccess,
+      recId: this.recId,
+      row: this.selectedRow,
+      editAddLabel: this.editAddLabel,
+      }
+    },
+
     searchOptionToggle () {
       if (this.tableSearchOption == 'display: hidden') {
         this.tableSearchOption = 'display: block'
@@ -241,7 +294,6 @@ props: {
       this.editAccess = 'display: hidden'
       this.editAccessL = false
       this.menuMode = 'menu'
-
       if (this.recId == '') {
         this.menuEditToggle = 'display: hidden'
         this.menuAccess = 'display: hidden'
@@ -260,16 +312,18 @@ props: {
         this.colTableClass = 'col-xs-12 col-md-6'
         this.editAccess = 'display: block'
         this.menuAccess = 'display: hidden'
+        this.editAddLabel = 'Edit >>> '
       }
 
-      this.payload = {
-        menuMode: this.menuMode,
-        editAccess: this.editAccess,
-        colTableClass: this.colTableClass,
-        menuAccess: this.menuAccess,
-        recId: this.recId,
-        row: this.selectedRow,
-        }
+      // this.payload = {
+      //   menuMode: this.menuMode,
+      //   editAccess: this.editAccess,
+      //   colTableClass: this.colTableClass,
+      //   menuAccess: this.menuAccess,
+      //   recId: this.recId,
+      //   row: this.selectedRow,
+      //   }
+      this.assignPayload()
       // console.log('on edit', JSON.stringify(this.payload));
       this.$emit('onEdit', this.payload)
     },
@@ -282,16 +336,20 @@ props: {
       this.editItem(this.defaultItem)
       this.colTableClass = 'col-xs-12 col-md-6'
       this.editAccess = 'display: block'
+      this.editAddLabel = 'creating new record >>> '
 
-      this.payload = {
-        menuMode: this.menuMode,
-        editAccess: this.editAccess,
-        colTableClass: this.colTableClass,
-        menuAccess: this.menuAccess,
-        recId: this.recId,
-        row: this.selectedRow,
-        }
-
+      // this.payload = {
+      //   menuMode: this.menuMode,
+      //   editAccess: this.editAccess,
+      //   colTableClass: this.colTableClass,
+      //   menuAccess: this.menuAccess,
+      //   recId: this.recId,
+      //   row: this.selectedRow,
+      //   }
+      this.assignPayload()
+      // console.log('create recId: ', this.recId);
+      // console.log('create payload1: ', this.payload.recId);
+      // console.log('create payload2: ', JSON.stringify(this.payload));
       // console.log('creating >>>>');
       this.$emit('onCreate', this.payload)
     },
@@ -299,7 +357,7 @@ props: {
   deleteItem () {
     // confirm('Are you sure you want to delete this item?') && this.data.splice(this.editedIndex, 1);
     this.$q.notify({
-      color: 'red-7',
+      color: 'accent',
       textColor: 'white',
       icon: 'delete_forever',
       message: 'Deleting',
@@ -312,8 +370,10 @@ props: {
     this.recId = ''
     this.menuAccess= 'display: hidden'
     this.editAccess= 'display: hidden'
-    },
 
+    this.assignPayload()
+    this.$emit('onDelete', this.payload)
+    },
 
     drilledDownToggle () {
       if (this.drilledDown == 'display: hidden') {
