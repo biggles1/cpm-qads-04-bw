@@ -137,6 +137,13 @@
         </template>
       </q-table>
     </q-card-section>
+    <q-card-section>
+      menuAccess {{ menuAccess }} <br/>
+      recId {{ recId }} >>> <br/>
+      selectedRow {{ selectedRow }} >>> <br/>
+      selected {{ selected }} <br/>
+      editedIndex {{ editedIndex }}
+    </q-card-section>
   </q-card>
 </template>
 
@@ -161,18 +168,20 @@ props: {
       uuid1: '',
       tableChildrenId: '',
       selectedRow: {},
-      editRow: {},
+      // editRow: {},
       selected: [],
       filter: '',
       accept: true,
       tableAccessOption: 'display: hidden',
       tableSearchOption: 'display: hidden',
+      addRecordOption: true,
+      editRecordOption: true,
       editAccess: 'display: hidden',
       menuAccess: 'display: hidden',
       menuEditToggle: 'display: hidden',
       menuMode: 'menu',
-      dropto: null,
-      editedItem: {},
+      // dropto: null,
+      // editedItem: {},
       drilledDown: 'display: hidden',
       drilledDownDisplay: 'display: hidden',
       drilledOption: null,
@@ -188,7 +197,7 @@ props: {
       hideTable: false,
       visibleColumns: [],
       payload: {},
-      editAddLabel: 'editing >>> '
+      editAddLabel: ''
     }
   },
 
@@ -234,26 +243,36 @@ props: {
       if (this.recId == props.row.name) {
         this.recId = ''
         this.selectedRow = {}
-      }
-      else {
-        this.recId = props.row.name
-        this.selectedRow = props.row
-        this.editItem(this.selectedRow)
-        this.render = false
-        // console.log('this.selectedRow: ', JSON.stringify(this.selectedRow));
-      }
-
-      if (this.recId == '') {
         this.menuEditToggle = 'display: hidden'
         this.menuAccess= 'display: hidden'
         this.editAccess = 'display: hidden'
         this.colTableClass = 'col-xs-12 col-md-6'
         this.editAddLabel = 'Create new record >>> '
+      }
+      // else if (this.editAddLabel == 'Create new record >>> ') {
+      //     this.editAccess = 'display: hidden'
+      // }
+      else {
+        this.recId = props.row.name
+        this.selectedRow = props.row
+        this.editItem(this.selectedRow)
+        this.render = false
+        this.menuAccess= 'display: block'
+        this.editAddLabel = 'Editing >>> '
+        // console.log('this.selectedRow: ', JSON.stringify(this.selectedRow));
+      }
+
+      if (this.recId == '') {
+        // this.menuEditToggle = 'display: hidden'
+        // this.menuAccess= 'display: hidden'
+        // this.editAccess = 'display: hidden'
+        // this.colTableClass = 'col-xs-12 col-md-6'
+        // this.editAddLabel = 'Create new record >>> '
       } else {
         // this.colTableClass = 'col-xs-12 col-md-4'
         // this.menuEditToggle = 'display: block'
-        this.menuAccess= 'display: block'
-        this.editAddLabel = 'Editing >>> '
+        // this.menuAccess= 'display: block'
+        // this.editAddLabel = 'Editing >>> '
       }
 
       // this.payload = {
@@ -266,6 +285,7 @@ props: {
       //   }
       this.assignPayload()
       // console.log('payload 1: ', JSON.stringify(this.payload));
+      // console.log('editAdd: ', this.payload.editAddLabel);
       this.$emit('onRowClick', this.payload)
       this.updateBreadCrumb({'idx': this.uuid-1, 'selection': this.recId})
     },
@@ -279,6 +299,7 @@ props: {
       recId: this.recId,
       row: this.selectedRow,
       editAddLabel: this.editAddLabel,
+      editedIndex: this.editedIndex,
       }
     },
 
@@ -305,13 +326,18 @@ props: {
 
     btnEditMode() {
       this.menuMode = 'edit'
+      this.colTableClass = 'col-xs-12 col-md-6'
       if (this.recId == '' || !this.recId) {
         this.editAccess = 'display: hidden'
-        this.colTableClass = 'col-xs-12 col-md-6'
+        // this.colTableClass = 'col-xs-12 col-md-6'
       } else {
-        this.colTableClass = 'col-xs-12 col-md-6'
-        this.editAccess = 'display: block'
+        // this.colTableClass = 'col-xs-12 col-md-6'
         this.menuAccess = 'display: hidden'
+        this.editAccess = 'display: block'
+        this.editItem(this.selectedRow)
+        // this.editItem(this.selected)
+        //this.editedItem = Object.assign({}, this.defaultItem)
+
         this.editAddLabel = 'Edit >>> '
       }
 
@@ -324,19 +350,24 @@ props: {
       //   row: this.selectedRow,
       //   }
       this.assignPayload()
+      console.log('editItem: ', this.editedItem);
       // console.log('on edit', JSON.stringify(this.payload));
       this.$emit('onEdit', this.payload)
     },
 
     btnCreateMode() {
       // console.log('creating 1111111 ');
-      this.menuAccess = 'display: hidden'
       this.menuMode = 'edit'
-      this.recId = ''
-      this.editItem(this.defaultItem)
       this.colTableClass = 'col-xs-12 col-md-6'
+      this.menuAccess = 'display: hidden'
       this.editAccess = 'display: block'
-      this.editAddLabel = 'creating new record >>> '
+
+      this.recId = ''
+      this.selectedRow = {}
+      this.selected = []
+      this.editItem(this.defaultItem)
+
+      this.editAddLabel = 'Add >>> '
 
       // this.payload = {
       //   menuMode: this.menuMode,
@@ -364,6 +395,10 @@ props: {
       timeout: 500,
       position: 'left'
     })
+
+    // this.assignPayload()
+    // this.$emit('onDelete', this.payload)
+
     this.data.splice(this.editedIndex, 1);
     this.editedItem = Object.assign({}, this.defaultItem)
     this.editedIndex = -1

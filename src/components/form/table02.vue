@@ -29,6 +29,12 @@
       <!-- form edits :class="editAccess" -->
       <template>
         <q-card class="col-xs-12 col-md-6" :class="editAccess">
+          <q-card-section>
+            <!-- id {{ recId }} <br/> -->
+            editedItem {{ editedItem }} <br/>
+            <!-- editedIndex {{ editedIndex }} <br/> -->
+            dataSchema {{ dataSchema }} <br/>
+          </q-card-section>
           <q-card-section class="q-pa-xl">
             <q-form
               @submit="onSubmit"
@@ -45,15 +51,15 @@
                   </q-btn>
                 </q-toolbar-title>
                 <q-space />
-                <q-btn label="Update" type="submit" icon="save" color="orange-8" flat style="font-size: 12px"/>
-                <q-btn label="Undo" type="reset" icon="undo" color="green-8" flat class="q-ml-sm" style="font-size: 12px"/>
+                <q-btn label="Update" type="submit" icon="save" flat style="font-size: 12px"/>
+                <q-btn label="Undo" type="reset" icon="undo" flat class="q-ml-sm" style="font-size: 12px"/>
               </q-toolbar>
               <!-- 1: {{ this.editItem }}
               2: {{ this.editedItem }}
               3: {{ this.editedIndex }}
               4: {{ this.defaultItem }} -->
-
-              <q-form-base
+              <!-- <h6> test </h6> -->
+              <QFormBase
                 id="formBaseTable"
                 :value= "editedItem"
                 :schema= "dataSchema"
@@ -255,17 +261,18 @@ export default {
     // },
 
     onRowClick(payload) {
-      console.log('on row clicked ...', payload);
-      if (this.recId == payload.recId) {
-        this.recId = ''
-        this.selectedRow = {}
-      }
-      else {
-        this.recId = payload.recId
-        this.selectedRow = payload.row
-        this.editItem(this.selectedRow)
-        this.render = false
-      }
+      console.log('on row clicked ...', JSON.stringify(payload));
+      this.extractPayload(payload)
+      // if (this.recId == payload.recId) {
+      //   this.recId = ''
+      //   this.selectedRow = {}
+      // }
+      // else {
+      //   this.recId = payload.recId
+      //   this.selectedRow = payload.row
+      //   this.editItem(this.selectedRow)
+      //   this.render = false
+      // }
 
       if (this.recId == '') {
         this.menuEditToggle = 'display: hidden'
@@ -306,12 +313,15 @@ export default {
 
     extractPayload(payload) {
       this.menuMode = payload.menuMode
-      this.editAccess = payload.menuAccess
+      this.menuAccess = payload.menuAccess
       this.colTableClass = payload.colTableClass
       this.editAccess = payload.editAccess
       this.recId = payload.recId
-      this.editedItem = payload.row
+      Object.assign(this.editedItem, payload.row)
+      // this.editedItem = payload.row
+      console.log('extracting payload: ', JSON.stringify(this.editedItem), JSON.stringify(payload.row));
       this.editAddLabel = payload.editAddLabel
+      this.editedIndex = payload.editedIndex
     },
 
     onDelete(payload) {
@@ -365,18 +375,18 @@ export default {
       console.log('editing ....');
       console.log(this.recId);
       if (this.recId == '' || !this.recId) {
-        this.editAccess = 'display: hidden'
-        this.colTableClass = 'col-xs-12 col-md-6'
+        // this.editAccess = 'display: hidden'
+        // this.colTableClass = 'col-xs-12 col-md-6'
         // console.log('create');
-        this.editAddLabel = 'Creating new record >>> '
+        // this.editAddLabel = 'Creating new record >>> '
         // this.editAddLabel = 'Editing >> '
       } else {
         // console.log('should be editing now ..... >>>>');
-        this.colTableClass = 'col-xs-12 col-md-6'
-        this.editAccess = 'display: block'
-        this.menuAccess = 'display: hidden'
-        console.log('edit');
-        this.editAddLabel = 'Editing >> '
+        // this.colTableClass = 'col-xs-12 col-md-6'
+        // this.editAccess = 'display: block'
+        // this.menuAccess = 'display: hidden'
+        // console.log('edit');
+        // this.editAddLabel = 'Editing >> '
       }
     },
 
@@ -413,6 +423,7 @@ export default {
           icon: 'cloud_done',
           message: 'Updated'
         })
+        console.log('editedIndex: ', this.editedIndex);
         if (this.editedIndex > -1) {
           Object.assign(this.data[this.editedIndex], this.editedItem)
           } else {
@@ -438,6 +449,7 @@ export default {
     },
     editItem (item) {
       this.editedIndex = this.data.indexOf(item)
+      console.log('this.editedIndex: ', this.editedIndex);
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
@@ -489,7 +501,7 @@ export default {
   max-width: 100%
 
   td:first-child
-    background-color: $grey-4 !important
+    background-color: $grey-1 !important
 
   tr th
     position: sticky
@@ -504,7 +516,7 @@ export default {
   thead tr:first-child th
     top: 0
     z-index: 1
-    background-color: $grey-4
+    background-color: $grey-1
 
   tr:first-child th:first-child
     /* highest z-index */
@@ -516,7 +528,6 @@ export default {
   td:first-child, th:first-child
     position: sticky
     left: 0
-    background-color: $grey-4
 
   .tab-panels
     margin: 0px 0px 0px 0px
