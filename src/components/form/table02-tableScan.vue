@@ -350,7 +350,7 @@ props: {
       //   row: this.selectedRow,
       //   }
       this.assignPayload()
-      console.log('editItem: ', this.editedItem);
+      // console.log('editItem: ', this.editedItem);
       // console.log('on edit', JSON.stringify(this.payload));
       this.$emit('onEdit', this.payload)
     },

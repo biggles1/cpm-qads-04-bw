@@ -54,10 +54,10 @@
                 <q-btn label="Update" type="submit" icon="save" flat style="font-size: 12px"/>
                 <q-btn label="Undo" type="reset" icon="undo" flat class="q-ml-sm" style="font-size: 12px"/>
               </q-toolbar>
-              <!-- 1: {{ this.editItem }}
+              <!-- 1: {{ this.editItem }} -->
               2: {{ this.editedItem }}
-              3: {{ this.editedIndex }}
-              4: {{ this.defaultItem }} -->
+              <!-- 3: {{ this.editedIndex }} -->
+              <!-- 4: {{ this.defaultItem }} -->
               <!-- <h6> test </h6> -->
               <QFormBase
                 id="formBaseTable"
