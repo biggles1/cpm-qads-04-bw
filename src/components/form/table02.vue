@@ -29,12 +29,12 @@
       <!-- form edits :class="editAccess" -->
       <template>
         <q-card class="col-xs-12 col-md-6" :class="editAccess">
-          <q-card-section>
+          <!-- <q-card-section> -->
             <!-- id {{ recId }} <br/> -->
-            editedItem {{ editedItem }} <br/>
+            <!-- editedItem {{ editedItem }} <br/> -->
             <!-- editedIndex {{ editedIndex }} <br/> -->
-            dataSchema {{ dataSchema }} <br/>
-          </q-card-section>
+            <!-- dataSchema {{ dataSchema }} <br/> -->
+          <!-- </q-card-section> -->
           <q-card-section class="q-pa-xl">
             <q-form
               @submit="onSubmit"
@@ -55,7 +55,7 @@
                 <q-btn label="Undo" type="reset" icon="undo" flat class="q-ml-sm" style="font-size: 12px"/>
               </q-toolbar>
               <!-- 1: {{ this.editItem }} -->
-              2: {{ this.editedItem }}
+              <!-- 2: {{ this.editedItem }} -->
               <!-- 3: {{ this.editedIndex }} -->
               <!-- 4: {{ this.defaultItem }} -->
               <!-- <h6> test </h6> -->
@@ -374,6 +374,7 @@ export default {
       this.menuMode = 'edit'
       console.log('editing ....');
       console.log(this.recId);
+      this.editItem(this.editedItem)
       if (this.recId == '' || !this.recId) {
         // this.editAccess = 'display: hidden'
         // this.colTableClass = 'col-xs-12 col-md-6'
@@ -449,7 +450,7 @@ export default {
     },
     editItem (item) {
       this.editedIndex = this.data.indexOf(item)
-      console.log('this.editedIndex: ', this.editedIndex);
+      // console.log('this.editedIndex: ', this.editedIndex);
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },

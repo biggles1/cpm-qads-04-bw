@@ -138,11 +138,11 @@
       </q-table>
     </q-card-section>
     <q-card-section>
-      menuAccess {{ menuAccess }} <br/>
+      <!-- menuAccess {{ menuAccess }} <br/>
       recId {{ recId }} >>> <br/>
       selectedRow {{ selectedRow }} >>> <br/>
       selected {{ selected }} <br/>
-      editedIndex {{ editedIndex }}
+      editedIndex {{ editedIndex }} -->
     </q-card-section>
   </q-card>
 </template>
