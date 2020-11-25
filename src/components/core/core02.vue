@@ -1,5 +1,5 @@
 <template>
-  <div :id="core">
+  <div id="MainCore">
     <div :id="uuid1" class="row">
       <!-- table scan -->
       <TableScan
@@ -160,7 +160,7 @@
         editedIndex: -1,
         data: {},
         hideTable: false,
-        // editAddLabel: 'edit >> '
+        editAddLabel: 'Edit .. ',
       }
     },
 
@@ -234,7 +234,6 @@
         this.editItem(this.defaultItem)
         this.colTableClass = 'col-xs-12 col-lg-6'
         this.editAccess = 'display: block'
-        // this.editAddLabel = 'Add >> '
       },
 
       extractPayload(payload) {
@@ -288,16 +287,6 @@
       },
 
       onSubmit () {
-        // if (this.accept !== true) {
-        //   this.$q.notify({
-        //     color: 'warning',
-        //     textColor: 'white',
-        //     icon: 'warning',
-        //     message: 'You need to accept the license and terms first',
-        //     position: 'top-left'
-        //   })
-        // }
-        // else {
         this.$q.notify({
           color: 'accent',
           textColor: 'white',
@@ -305,7 +294,6 @@
           message: 'Updated',
           position: 'center'
         })
-        // console.log('editedIndex: ', this.editedIndex);
         if (this.editedIndex > -1) {
           Object.assign(this.data[this.editedIndex], this.editedItem)
           }
@@ -331,7 +319,6 @@
       },
 
       editItem (item) {
-        this.editedIndex = this.data.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
