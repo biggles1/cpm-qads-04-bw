@@ -239,7 +239,7 @@ props: {
         this.editItem(this.selectedRow)
         this.render = false
         this.menuAccess= 'display: block'
-        this.editAddLabel = 'Editing >>> '
+        this.editAddLabel = 'Edit >> '
       }
       this.assignPayload()
       this.$emit('onRowClick', this.payload)
@@ -318,7 +318,7 @@ props: {
       icon: 'delete_forever',
       message: 'Deleting',
       timeout: 500,
-      position: 'left'
+      position: 'center'
     })
     this.data.splice(this.editedIndex, 1);
     this.editedItem = Object.assign({}, this.defaultItem)

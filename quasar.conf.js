@@ -104,8 +104,8 @@ module.exports = function (ctx) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'example',
-        short_name: 'example',
+        name: 'CPM alpha',
+        short_name: 'cPm',
         description: 'A Quasar Framework app',
         display: 'standalone',
         orientation: 'portrait',

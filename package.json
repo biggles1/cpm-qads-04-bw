@@ -2,7 +2,7 @@
   "name": "qtags",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
-  "productName": "example",
+  "productName": "cPm",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "Greg Sier <gregsier@gregsier.com.au>",

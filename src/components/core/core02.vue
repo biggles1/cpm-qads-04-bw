@@ -43,7 +43,6 @@
           </q-card-section>
         </q-card>
       </template>
-
     <!-- access menus -->
       <template>
         <q-card id="access-menu" class="col-xs-12 q-pa-x" :class="menuAccess" style="padding: 5px">
@@ -96,7 +95,6 @@
     </div>
     <!-- next drill down -->
     <template>
-      <!-- {{ drilledOption }} {{ hideTable }} -->
       <q-tab-panels
         :id="tableChildrenId"
         v-model="drilledOption"
@@ -114,284 +112,278 @@
       </q-tab-panels>
     </template>
   </div>
-
 </template>
 
 <script>
-import QFormBase from '../form/qFormBase.vue'
-import { mapMutations } from 'vuex'
-import drillLevels from '../../store/drillLevels'
-import * as sdata from '../form/seedData.vue'
-import TableScan from './table02'
+  import QFormBase from '../form/qFormBase.vue'
+  import { mapMutations } from 'vuex'
+  import drillLevels from '../../store/drillLevels'
+  import * as sdata from '../form/seedData.vue'
+  import TableScan from './table02'
 
-export default {
-  components: { QFormBase, TableScan },
-  props: {
-    formId: {
-      type: Number,
-      default: 0
-    }
-  },
-  data () {
-    return {
-      recId: '',
-      uuid: 0,
-      uuid1: '',
-      tableChildrenId: '',
-      selectedRow: {},
-      editRow: {},
-      selected: [],
-      filter: '',
-      accept: true,
-      tableAccessOption: 'display: hidden',
-      tableSearchOption: 'display: hidden',
-      editAccess: 'display: hidden',
-      menuAccess: 'display: hidden',
-      menuEditToggle: 'display: hidden',
-      menuMode: 'menu',
-      dropto: null,
-      editedItem: {},
-      drilledDown: 'display: hidden',
-      drilledDownDisplay: 'display: hidden',
-      drilledOption: null,
-      render: true,
-      pagination: {
-        rowsPerPage: 0
+  export default {
+    components: { QFormBase, TableScan },
+    props: {
+      formId: {
+        type: Number,
+        default: 0
+      }
+    },
+    data () {
+      return {
+        recId: '',
+        uuid: 0,
+        uuid1: '',
+        tableChildrenId: '',
+        selectedRow: {},
+        editRow: {},
+        selected: [],
+        filter: '',
+        accept: true,
+        tableAccessOption: 'display: hidden',
+        tableSearchOption: 'display: hidden',
+        editAccess: 'display: hidden',
+        menuAccess: 'display: hidden',
+        menuEditToggle: 'display: hidden',
+        menuMode: 'menu',
+        dropto: null,
+        editedItem: {},
+        drilledDown: 'display: hidden',
+        drilledDownDisplay: 'display: hidden',
+        drilledOption: null,
+        render: true,
+        pagination: {
+          rowsPerPage: 0
+        },
+        colTableClass: 'col-xs-12 col-lg-6',
+        breadcrumb: [],
+        editedIndex: -1,
+        data: {},
+        hideTable: false,
+        // editAddLabel: 'edit >> '
+      }
+    },
+
+    computed: {
+
+      defaultItem() {
+          var h1 = Object.keys(this.dataSchema);
+          var h2 = {};
+          for (var i=0; i < h1.length; i++ ) {
+              h2[h1[i]] = this.dataSchema[h1[i]].defaultValue;
+          }
+          return h2
       },
-      colTableClass: 'col-xs-12 col-lg-6',
-      breadcrumb: [],
-      editedIndex: -1,
-      data: {},
-      hideTable: false,
-      editAddLabel: 'editing >>> '
-    }
-  },
 
-  computed: {
-
-    defaultItem() {
+      columns() {
         var h1 = Object.keys(this.dataSchema);
-        var h2 = {};
+        var h2 = [];
         for (var i=0; i < h1.length; i++ ) {
-            h2[h1[i]] = this.dataSchema[h1[i]].defaultValue;
+          h2.push(this.dataSchema[h1[i]])
+          }
+        return h2
+      },
+
+      dataSchema() { return sdata.default.dataSchema },
+
+      visibleColumns() {
+        var h1 = Object.keys(this.dataSchema);
+        var h2 = [];
+        for (var i=0; i < h1.length; i++ ) {
+          if (this.dataSchema[h1[i]].defaultVisible) {
+            h2.push(h1[i])
+          }
         }
         return h2
+      }
     },
 
-    columns() {
-      var h1 = Object.keys(this.dataSchema);
-      var h2 = [];
-      for (var i=0; i < h1.length; i++ ) {
-        h2.push(this.dataSchema[h1[i]])
+    methods: {
+      ...mapMutations(drillLevels, ['updateBreadCrumb']),
+
+      updateBreadCrumb(id) {
+        this.$store.commit('drillLevels/updateBreadCrumb', id)
+      },
+
+      onRowClick(payload) {
+        this.extractPayload(payload)
+        if (this.recId == '') {
+          this.menuEditToggle = 'display: hidden'
+          this.menuAccess= 'display: hidden'
+          this.editAccess = 'display: hidden'
+          this.colTableClass = 'col-xs-12 col-md-8'
+        } else {
+          this.menuAccess= 'display: block'
         }
-      return h2
-    },
+        this.updateBreadCrumb({'idx': this.uuid-1, 'selection': this.recId})
+      },
 
-    dataSchema() { return sdata.default.dataSchema },
-
-    visibleColumns() {
-      var h1 = Object.keys(this.dataSchema);
-      var h2 = [];
-      for (var i=0; i < h1.length; i++ ) {
-        if (this.dataSchema[h1[i]].defaultVisible) {
-          h2.push(h1[i])
-        }
-      }
-      return h2
-    }
-  },
-  methods: {
-    ...mapMutations(drillLevels, ['updateBreadCrumb']),
-
-    updateBreadCrumb(id) {
-      console.log('mutation triggered')
-      this.$store.commit('drillLevels/updateBreadCrumb', id)
-    },
-
-    onRowClick(payload) {
-      this.extractPayload(payload)
-      if (this.recId == '') {
-        this.menuEditToggle = 'display: hidden'
-        this.menuAccess= 'display: hidden'
-        this.editAccess = 'display: hidden'
-        this.colTableClass = 'col-xs-12 col-md-8'
-      } else {
-        this.menuAccess= 'display: block'
-      }
-      this.updateBreadCrumb({'idx': this.uuid-1, 'selection': this.recId})
-    },
-
-    onEdit(payload) {
-      this.extractPayload(payload)
-      this.btnEditMode()
-    },
-
-    onCreate(payload) {
-      this.extractPayload(payload)
-      this.btnCreateMode()
-    },
-
-    extractPayload(payload) {
-      this.menuMode = payload.menuMode
-      this.menuAccess = payload.menuAccess
-      this.colTableClass = payload.colTableClass
-      this.editAccess = payload.editAccess
-      this.recId = payload.recId
-      Object.assign(this.editedItem, payload.row)
-      this.editAddLabel = payload.editAddLabel
-      this.editedIndex = payload.editedIndex
-    },
-
-    onDelete(payload) {
-      this.extractPayload(payload)
-      this.deleteItem()
-    },
-
-    onClick(payload) {
-      this.extractPayload(payload)
-    },
-
-    searchOptionToggle () {
-      if (this.tableSearchOption == 'display: hidden') {
-        this.tableSearchOption = 'display: block'
-      } else {
-        this.tableSearchOption = 'display: hidden'
-      }
-    },
-
-    btnMenuMode() {
-      this.editAccess = 'display: hidden'
-      this.editAccessL = false
-      this.menuMode = 'menu'
-
-      if (this.recId == '') {
-        this.menuEditToggle = 'display: hidden'
+      onEdit(payload) {
+        this.extractPayload(payload)
         this.menuAccess = 'display: hidden'
-      } else {
-        this.menuEditToggle = 'display: block'
-        this.menuAccess = 'display: block'
-      }
-    },
+        this.menuMode = 'edit'
+        this.editItem(this.editedItem)
+        this.colTableClass = 'col-xs-12 col-lg-6'
+        this.editAccess = 'display: block'
+      },
 
-    btnEditMode() {
-      this.menuMode = 'edit'
-      console.log('editing ....');
-      console.log(this.recId);
-      this.editItem(this.editedItem)
-    },
+      onCreate(payload) {
+        this.extractPayload(payload)
+        this.menuMode = 'edit'
+        this.recId = ''
+        this.editItem(this.defaultItem)
+        this.colTableClass = 'col-xs-12 col-lg-6'
+        this.editAccess = 'display: block'
+        // this.editAddLabel = 'Add >> '
+      },
 
-    btnCreateMode() {
-      this.menuAccess = 'display: hidden'
-      this.menuMode = 'edit'
-      this.recId = ''
-      this.editItem(this.defaultItem)
-      this.colTableClass = 'col-xs-12 col-lg-6'
-      this.editAccess = 'display: block'
-      this.editAddLabel = 'Creating new record >> '
-    },
+      extractPayload(payload) {
+        this.menuMode = payload.menuMode
+        this.menuAccess = payload.menuAccess
+        this.colTableClass = payload.colTableClass
+        this.editAccess = payload.editAccess
+        this.recId = payload.recId
+        Object.assign(this.editedItem, payload.row)
+        this.editAddLabel = payload.editAddLabel
+        this.editedIndex = payload.editedIndex
+      },
 
-    drilledDownToggle () {
-      if (this.drilledDown == 'display: hidden') {
-        this.drilledDown = 'display: block'
-      } else {
-        this.drilledDown = 'display: hidden'
-      }
-    },
+      onDelete(payload) {
+        this.extractPayload(payload)
+        this.deleteItem()
+      },
 
-    onSubmit () {
-      if (this.accept !== true) {
-        this.$q.notify({
-          color: 'warning',
-          textColor: 'white',
-          icon: 'warning',
-          message: 'You need to accept the license and terms first'
-        })
-      }
-      else {
+      onClick(payload) {
+        this.extractPayload(payload)
+      },
+
+      searchOptionToggle () {
+        if (this.tableSearchOption == 'display: hidden') {
+          this.tableSearchOption = 'display: block'
+        } else {
+          this.tableSearchOption = 'display: hidden'
+        }
+      },
+
+      btnMenuMode() {
+        this.editAccess = 'display: hidden'
+        this.editAccessL = false
+        this.menuMode = 'menu'
+
+        if (this.recId == '') {
+          this.menuEditToggle = 'display: hidden'
+          this.menuAccess = 'display: hidden'
+        } else {
+          this.menuEditToggle = 'display: block'
+          this.menuAccess = 'display: block'
+        }
+      },
+
+      drilledDownToggle () {
+        if (this.drilledDown == 'display: hidden') {
+          this.drilledDown = 'display: block'
+        } else {
+          this.drilledDown = 'display: hidden'
+        }
+      },
+
+      onSubmit () {
+        // if (this.accept !== true) {
+        //   this.$q.notify({
+        //     color: 'warning',
+        //     textColor: 'white',
+        //     icon: 'warning',
+        //     message: 'You need to accept the license and terms first',
+        //     position: 'top-left'
+        //   })
+        // }
+        // else {
         this.$q.notify({
           color: 'accent',
           textColor: 'white',
           icon: 'cloud_done',
-          message: 'Updated'
+          message: 'Updated',
+          position: 'center'
         })
-        console.log('editedIndex: ', this.editedIndex);
+        // console.log('editedIndex: ', this.editedIndex);
         if (this.editedIndex > -1) {
           Object.assign(this.data[this.editedIndex], this.editedItem)
-          } else {
+          }
+          else {
             this.data.push(this.editedItem)
             this.editItem(this.defaultItem)
           }
+        },
+
+      onReset () {
+        this.$q.notify({
+          color: 'accent',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Resetting',
+          position: 'center'
+        })
+        if (this.editedIndex > -1) {
+          this.editItem(this.selectedRow)
+        } else {
+          this.editItem(this.defaultItem)
         }
+      },
+
+      editItem (item) {
+        this.editedIndex = this.data.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialog = true
+      },
+
+      deleteItem () {
+        this.$q.notify({
+          color: 'accent',
+          textColor: 'white',
+          icon: 'delete_forever',
+          message: 'Deleting',
+          timeout: 500,
+          position: 'center'
+        })
+        this.data.splice(this.editedIndex, 1);
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+        this.recId = ''
+        this.menuAccess= 'display: hidden'
+        this.editAccess= 'display: hidden'
+      },
+
+      closeEditor() {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      },
+
+      toggleMenuEdit() {
+        if (this.menuMode == 'menu') {
+          this.editAccess = 'display: hidden'
+        }
+        else {
+          this.editAccess= 'display: none'
+        }
+      },
+
+      // scrollToEnd() {
+      //   var container = this.$el.querySelector("#core");
+      //   container.scrollTop = container.scrollHeight;
+      // },
     },
 
-    onReset () {
-      this.$q.notify({
-        color: 'accent',
-        textColor: 'white',
-        icon: 'cloud_done',
-        message: 'Resetting',
-      })
-      if (this.editedIndex > -1) {
-        this.editItem(this.selectedRow)
-      } else {
-        this.editItem(this.defaultItem)
-      }
+    mounted() {
+      this.uuid = parseInt(this.formId, 10);
+      this.uuid += 1
+      this.uuid1 = "table-"+this.uuid.toString().padStart(2,'0')
+      this.tableChildrenId = "tableChildren-"+this.uuid.toString().padStart(2,'0')
     },
 
-    editItem (item) {
-      this.editedIndex = this.data.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
-    },
-
-    deleteItem () {
-      this.$q.notify({
-        color: 'accent',
-        textColor: 'white',
-        icon: 'delete_forever',
-        message: 'Deleting',
-        timeout: 500,
-        position: 'left'
-      })
-      this.data.splice(this.editedIndex, 1);
-      this.editedItem = Object.assign({}, this.defaultItem)
-      this.editedIndex = -1
-      this.recId = ''
-      this.menuAccess= 'display: hidden'
-      this.editAccess= 'display: hidden'
-    },
-
-    closeEditor() {
-      this.editedItem = Object.assign({}, this.defaultItem)
-      this.editedIndex = -1
-    },
-
-    toggleMenuEdit() {
-      if (this.menuMode == 'menu') {
-        this.editAccess = 'display: hidden'
-      }
-      else {
-        this.editAccess= 'display: none'
-      }
-    },
-
-    scrollToEnd() {
-      var container = this.$el.querySelector("#core");
-      container.scrollTop = container.scrollHeight;
-    },
-  },
-
-  mounted() {
-    this.uuid = parseInt(this.formId, 10);
-    this.uuid += 1
-    this.uuid1 = "table-"+this.uuid.toString().padStart(2,'0')
-    this.tableChildrenId = "tableChildren-"+this.uuid.toString().padStart(2,'0')
-  },
-
-  created() {
-    this.data = JSON.parse(JSON.stringify(sdata.default.recordData))
+    created() {
+      this.data = JSON.parse(JSON.stringify(sdata.default.recordData))
+    }
   }
-}
 </script>
 
 <style lang="sass">
