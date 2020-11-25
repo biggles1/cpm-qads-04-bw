@@ -1,9 +1,8 @@
 // file: /src/boot/register-my-component.js
 import Vue from "vue";
-import coreTable from "../components/form/table.vue";
-// we globally register our component with Vue
+import core02 from "../components/core/core02.vue";
 
-Vue.component("CoreTable", coreTable);
+Vue.component("Core", core02);
 
 // "async" is optional
 // eslint-disable-next-line no-unused-vars

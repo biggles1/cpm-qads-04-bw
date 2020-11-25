@@ -3,8 +3,7 @@ const state = {
 }
 const mutations = {
     updateBreadCrumb (state, payload) {
-        state.breadCrumb = state.breadCrumb.slice(0,payload.idx)
-        if(payload.selection) state.breadCrumb[payload.idx] = payload.selection
+      if(payload.selection) state.breadCrumb[payload.idx] = payload.selection
     }
 }
 const getters = {}

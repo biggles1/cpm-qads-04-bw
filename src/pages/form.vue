@@ -4,12 +4,21 @@
     <q-card class="col-12">
       <q-card-section class="row justify-end q-pa-xs">
         <div class="col-2">
-          <q-btn class="q-pa-xs" style="float: right" size="xs" color="grey-2" text-color="black" label="Component Options" @click="componentOptions = !componentOptions"/>
+          <q-btn
+            class="q-pa-xs"
+            style="float: right"
+            size="xs"
+            color="grey-2"
+            text-color="black"
+            label="Component Options"
+            @click="componentOptions = !componentOptions"/>
         </div>
       </q-card-section>
     </q-card>
 
-    <q-card class="col-12" :class=" ( componentOptions == false ) ? 'display: hidden' : 'display: none' ">
+    <q-card
+      class="col-12"
+      :class=" ( componentOptions == false ) ? 'display: hidden' : 'display: none' ">
       <q-card-section>
         <q-select
           filled
@@ -236,7 +245,7 @@ import treeview from '../components/form/treeview.vue'
 import conditional from '../components/form/conditional.vue'
 import list from '../components/form/list.vue'
 import pickers from '../components/form/pickers.vue'
-import formTable from '../components/form/table02.vue'
+import formTable from '../components/core/core02.vue'
 
 const items = ['Simple Form', 'Lazy Loading Component for Async-Data', 'CSS, Slots & Buttons', 'Deep nested Data with Arrays & CSS', 'Treeviews',
   'Select Item(s) from Schema-Array', 'Select Item from Data-Array(List)', 'Edit Item(s) in Data-Array', 'Pickers', 'Partial & Linked', 'Conditional Form', 'Complete Form', 'Use Responsive Grid',
