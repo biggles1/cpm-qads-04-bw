@@ -12,12 +12,6 @@
         @onRowClick="onRowClick"
       >
       </TableScan>
-      <!-- table reduced/ hidden -->
-      <!-- <template>
-        <q-card style="text-align: left" class="col-12" :class="( hideTable == true ) ? 'display: None': 'display: hidden'" >
-          <q-btn class="bg-grey-4" :label=recId @click="hideTable = !hideTable"/>
-        </q-card>
-      </template> -->
       <!-- form edits :class="editAccess" -->
       <template>
         <q-card class="col-xs-12 col-lg-6" :class="editAccess">
@@ -119,15 +113,6 @@
         </q-tab-panel>
       </q-tab-panels>
     </template>
-
-    <!-- <drill-down
-      uuid = 'uuid'
-      menuAccess = 'menuAccess'
-      tableChildrenId = 'tableChildrenId'
-      drilledOption = 'drilledOption'
-      render = 'render'
-    >
-    </drill-down> -->
   </div>
 
 </template>
@@ -138,7 +123,6 @@ import { mapMutations } from 'vuex'
 import drillLevels from '../../store/drillLevels'
 import * as sdata from '../form/seedData.vue'
 import TableScan from './table02'
-// import drillDown from './drillDown01.vue'
 
 export default {
   components: { QFormBase, TableScan },
