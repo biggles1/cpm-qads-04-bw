@@ -12,9 +12,9 @@
             @click="left = !left"
           />
           <q-toolbar-title>
-            Quasar Generator Test Application
+            cPm
           </q-toolbar-title>
-          <div>Quasar v{{ $q.version }}</div>
+          <div>alpha Quasar v{{ $q.version }}</div>
           <q-btn
           dense
           flat

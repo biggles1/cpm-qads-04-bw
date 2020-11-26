@@ -1,6 +1,7 @@
 <template>
   <div id="q-form" class="row">
-
+    <!-- <pre class="q-ma-none container">{{ scrollInfo }}</pre>
+    <q-scroll-observer @scroll="onScroll" /> -->
     <q-card class="col-12">
       <q-card-section class="row justify-end q-pa-xs">
         <div class="col-2">
@@ -8,10 +9,13 @@
             class="q-pa-xs"
             style="float: right"
             size="xs"
-            color="grey-2"
+            round
+            color="blue-grey-2"
             text-color="black"
-            label="Component Options"
-            @click="componentOptions = !componentOptions"/>
+            icon="expand"
+            @click="componentOptions = !componentOptions">
+              <q-tooltip content-class="bg-accent">exposes qFormBase components</q-tooltip>
+          </q-btn>
         </div>
       </q-card-section>
     </q-card>
@@ -261,7 +265,13 @@ export default {
       typology: false,
       slide: 'style',
       items,
-      view: items[13]
+      view: items[13],
+      scrollInfo: {}
+    }
+  },
+  methods: {
+    onScroll (info) {
+      this.scrollInfo = info
     }
   }
 }

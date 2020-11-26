@@ -1,6 +1,6 @@
 <template>
   <q-card :class="colTableClass">
-    <q-card-section class="q-pa-xl" :class= "( hideTable == false ) ? 'display: None': 'display: hidden'">
+    <q-card-section class="q-px-xl" :class= "( hideTable == false ) ? 'display: None': 'display: hidden'">
       <!-- Virtual scroll style -->
       <q-table
         virtual-scroll
@@ -182,7 +182,8 @@ props: {
       hideTable: false,
       visibleColumns: [],
       payload: {},
-      editAddLabel: ''
+      editAddLabel: '',
+      createForm: true,
     }
   },
 
@@ -231,7 +232,8 @@ props: {
         this.menuAccess= 'display: hidden'
         this.editAccess = 'display: hidden'
         this.colTableClass = 'col-xs-12 col-lg-6'
-        this.editAddLabel = 'Create new record >>> '
+        this.editAddLabel = 'Add >> '
+        this.createForm = true
       }
       else {
         this.recId = props.row.name
@@ -240,6 +242,7 @@ props: {
         this.render = false
         this.menuAccess= 'display: block'
         this.editAddLabel = 'Edit >> '
+        this.createForm = false
       }
       this.assignPayload()
       this.$emit('onRowClick', this.payload)
@@ -256,6 +259,7 @@ props: {
       row: this.selectedRow,
       editAddLabel: this.editAddLabel,
       editedIndex: this.editedIndex,
+      createForm: this.createForm,
       }
     },
 
@@ -285,11 +289,13 @@ props: {
       this.colTableClass = 'col-xs-12 col-lg-6'
       if (this.recId == '' || !this.recId) {
         this.editAccess = 'display: hidden'
+        this.createForm = false
       } else {
         this.menuAccess = 'display: hidden'
         this.editAccess = 'display: block'
         this.editItem(this.selectedRow)
-        this.editAddLabel = 'Edit >>> '
+        this.editAddLabel = 'Edit >> '
+        this.createForm = true
       }
       this.assignPayload()
       this.$emit('onEdit', this.payload)
@@ -306,7 +312,8 @@ props: {
       this.selected = []
       this.editItem(this.defaultItem)
 
-      this.editAddLabel = 'Add >>> '
+      this.editAddLabel = 'Add >> '
+      this.createForm = true
       this.assignPayload()
       this.$emit('onCreate', this.payload)
     },

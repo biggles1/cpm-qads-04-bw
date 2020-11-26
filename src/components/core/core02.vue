@@ -25,14 +25,36 @@
             >
               <q-toolbar>
                 <q-toolbar-title style="text-align: left">
-                  <q-btn flat icon="edit" :label=editAddLabel>
+                  <q-btn
+                    flat
+                    :icon=iconAddEdit()
+                    :label=editAddLabel
+                  >
                     <q-space />
                     {{ recId }}
+                    <q-tooltip content-class="bg-accent">Add or edit data</q-tooltip>
                   </q-btn>
                 </q-toolbar-title>
                 <q-space />
-                <q-btn label="Update" type="submit" icon="save" flat style="font-size: 12px"/>
-                <q-btn label="Undo" type="reset" icon="undo" flat class="q-ml-sm" style="font-size: 12px"/>
+                <q-btn
+                  :label=saveLabel()
+                  type="submit"
+                  icon="save"
+                  flat
+                  style="font-size: 12px"
+                  >
+                    <q-tooltip content-class="bg-accent">Save changes</q-tooltip>
+                </q-btn>
+                <q-btn
+                  label="Undo"
+                  type="reset"
+                  icon="undo"
+                  flat
+                  class="q-ml-sm"
+                  style="font-size: 12px"
+                  >
+                    <q-tooltip content-class="bg-accent">Undo changes</q-tooltip>
+                </q-btn>
               </q-toolbar>
               <QFormBase
                 id="formBaseTable"
@@ -45,26 +67,25 @@
       </template>
     <!-- access menus -->
       <template>
-        <q-card id="access-menu" class="col-xs-12 q-pa-x" :class="menuAccess" style="padding: 5px">
-          <q-card-section v-if="uuid > 1">
-            <q-breadcrumbs
-              active-color="black"
-              style="font-size: 12px">
-                <q-breadcrumbs-el
-                  v-for="(c, index) in this.$store.state.drillLevels.breadCrumb.slice(0,this.uuid-1)"
-                  :key="index"
-                  :label="c"
-                  icon="navigation"
-                  :to="'#table-'+(index+1).toString().padStart(2,'0')"
-                />
-            </q-breadcrumbs>
-          </q-card-section>
-          <q-card-section class="q-pa-xs" style="margin: 0px">
+        <q-card id="access-menu" class="col-xs-12" :class="menuAccess">
+          <q-card-section class="q-px-xl">
             <q-form
               class="shadow-0"
             >
               <q-toolbar>
                 <q-toolbar-title style="text-align: left">
+                  <q-breadcrumbs
+                    class="q-py-sm"
+                    active-color="black"
+                    style="font-size: 12px">
+                      <q-breadcrumbs-el
+                        v-for="(c, index) in this.$store.state.drillLevels.breadCrumb.slice(0,this.uuid-1)"
+                        :key="index"
+                        :label="c"
+                        icon="navigation"
+                        :to="'#table-'+(index+1).toString().padStart(2,'0')"
+                      />
+                  </q-breadcrumbs>
                   <q-btn
                     flat
                     icon="arrow_drop_down"
@@ -86,6 +107,17 @@
                       </q-list>
                     </q-menu>
                   </q-btn>
+                  <!-- <q-breadcrumbs
+                    active-color="black"
+                    style="font-size: 12px">
+                      <q-breadcrumbs-el
+                        v-for="(c, index) in this.$store.state.drillLevels.breadCrumb.slice(0,this.uuid-1)"
+                        :key="index"
+                        :label="c"
+                        icon="navigation"
+                        :to="'#table-'+(index+1).toString().padStart(2,'0')"
+                      />
+                  </q-breadcrumbs> -->
                 </q-toolbar-title>
               </q-toolbar>
             </q-form>
@@ -135,9 +167,9 @@
         uuid: 0,
         uuid1: '',
         tableChildrenId: '',
-        selectedRow: {},
-        editRow: {},
-        selected: [],
+        // selectedRow: {},
+        // editRow: {},
+        // selected: [],
         filter: '',
         accept: true,
         tableAccessOption: 'display: hidden',
@@ -148,6 +180,7 @@
         menuMode: 'menu',
         dropto: null,
         editedItem: {},
+        editedItemBase: {},
         drilledDown: 'display: hidden',
         drilledDownDisplay: 'display: hidden',
         drilledOption: null,
@@ -160,7 +193,8 @@
         editedIndex: -1,
         data: {},
         hideTable: false,
-        editAddLabel: 'Edit .. ',
+        editAddLabel: 'Edit >> ',
+        createForm: true,
       }
     },
 
@@ -243,7 +277,9 @@
         this.editAccess = payload.editAccess
         this.recId = payload.recId
         Object.assign(this.editedItem, payload.row)
+        Object.assign(this.editedItemBase, payload.row)
         this.editAddLabel = payload.editAddLabel
+        this.createForm = payload.createForm
         this.editedIndex = payload.editedIndex
       },
 
@@ -312,7 +348,7 @@
           position: 'center'
         })
         if (this.editedIndex > -1) {
-          this.editItem(this.selectedRow)
+          this.editItem(this.editedItemBase)
         } else {
           this.editItem(this.defaultItem)
         }
@@ -354,10 +390,12 @@
         }
       },
 
-      // scrollToEnd() {
-      //   var container = this.$el.querySelector("#core");
-      //   container.scrollTop = container.scrollHeight;
-      // },
+      iconAddEdit() {
+        return this.createForm ? 'add' : 'edit'
+      },
+      saveLabel() {
+        return this.createForm ? 'save' : 'update'
+      }
     },
 
     mounted() {
