@@ -1,5 +1,5 @@
 <template>
-  <div id="MainCore">
+  <div id="EditCore">
     <div :id="uuid1" class="row">
       <!-- table scan -->
       <TableScan
@@ -14,19 +14,6 @@
       </TableScan>
       <!-- form edits :class="editAccess" -->
       <template>
-        <q-card class="col-xs-12 col-lg-6" :class="editAccess">
-          {{ this.editedIndex }}
-          <EditAdd
-            :editedItem=this.editedItem
-            :dataSchema=this.dataSchema
-            :editAddLabel=this.editAddLabel
-            :recId=this.recId
-            :editedIndex=this.editedIndex
-          >
-          </EditAdd>
-        </q-card>
-      </template>
-      <!-- <template>
         <q-card class="col-xs-12 col-lg-6" :class="editAccess">
           <q-card-section class="q-pa-xl">
             <q-form
@@ -77,7 +64,7 @@
             </q-form>
           </q-card-section>
         </q-card>
-      </template> -->
+      </template>
     <!-- access menus -->
       <template>
         <q-card id="access-menu" class="col-xs-12" :class="menuAccess">
@@ -120,6 +107,17 @@
                       </q-list>
                     </q-menu>
                   </q-btn>
+                  <!-- <q-breadcrumbs
+                    active-color="black"
+                    style="font-size: 12px">
+                      <q-breadcrumbs-el
+                        v-for="(c, index) in this.$store.state.drillLevels.breadCrumb.slice(0,this.uuid-1)"
+                        :key="index"
+                        :label="c"
+                        icon="navigation"
+                        :to="'#table-'+(index+1).toString().padStart(2,'0')"
+                      />
+                  </q-breadcrumbs> -->
                 </q-toolbar-title>
               </q-toolbar>
             </q-form>
@@ -149,15 +147,14 @@
 </template>
 
 <script>
-  // import QFormBase from '../form/qFormBase.vue'
+  import QFormBase from '../form/qFormBase.vue'
   import { mapMutations } from 'vuex'
   import drillLevels from '../../store/drillLevels'
   import * as sdata from '../form/seedData.vue'
   import TableScan from './table02'
-  import EditAdd from './edit02'
 
   export default {
-    components: { TableScan, EditAdd },
+    components: { QFormBase, TableScan },
     props: {
       formId: {
         type: Number,
@@ -264,10 +261,6 @@
         this.editAccess = 'display: block'
       },
 
-      onEdit1(payload) {
-        console.log('onEdit1: ', payload);
-      },
-
       onCreate(payload) {
         this.extractPayload(payload)
         this.menuMode = 'edit'
@@ -275,10 +268,6 @@
         this.editItem(this.defaultItem)
         this.colTableClass = 'col-xs-12 col-lg-6'
         this.editAccess = 'display: block'
-      },
-
-      onCreate1(payload) {
-        console.log('onCreate1: ', payload);
       },
 
       extractPayload(payload) {
