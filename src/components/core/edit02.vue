@@ -1,7 +1,7 @@
 <template>
   <q-card class="col-xs-12 col-lg-6">
     <q-card-section class="q-pa-xl">
-      {{ editedIndex }}
+      <!-- {{ editedIndex }} -->
       <q-form
         @submit="onSubmit"
         @reset="onReset"
@@ -44,7 +44,7 @@
         </q-toolbar>
         <QFormBase
           id="formBaseTable"
-          :value= "editedItem"
+          :value= "row"
           :schema= "dataSchema"
           />
       </q-form>
@@ -59,7 +59,7 @@
     components: { QFormBase },
     props: {
       editedItem: Object,
-      editedIndex: Number,
+      // editedIndex: Number,
       dataSchema: Object,
       editAddLabel: String,
       recId: String,
@@ -78,7 +78,8 @@
         menuEditToggle: 'display: hidden',
         menuMode: 'menu',
         dropto: null,
-        editedItemBase: {},
+        row: {},
+        rowBase: {},
         drilledDown: 'display: hidden',
         drilledDownDisplay: 'display: hidden',
         drilledOption: null,
@@ -93,6 +94,7 @@
         hideTable: false,
         createForm: true,
         payload: {},
+        editData: {},
       }
     },
 
@@ -110,8 +112,10 @@
 
     methods: {
       assignPayload() {
-        console.log('editedItem bb: ', JSON.stringify(this.editedItem))
+        // console.log('editedItem bb: ', JSON.stringify(this.editedItem))
+        // console.log('payload: ', this.editedItemBase);
         this.payload = {
+          row: this.row,
         // menuMode: this.menuMode,
         // editAccess: this.editAccess,
         // colTableClass: this.colTableClass,
@@ -119,12 +123,10 @@
         // recId: this.recId,
         // row: this.selectedRow,
         // editAddLabel: this.editAddLabel,
-        // editedIndex: this.editedIndex,
+          // editedIndex: this.editedIndex,
         // createForm: this.createForm,
-
-          editedItem: this.editedItem
         }
-        console.log('this.payload', this.payLoad);
+        // console.log('this.payload', JSON.stringify(this.payload));
       },
 
 
@@ -159,11 +161,11 @@
       //   this.editedIndex = payload.editedIndex
       // },
 
-      onClick(payload) {
-        console.log('onClick: ', payload);
-        // this.assignPayload()
-        // this.extractPayload(payload)
-      },
+      // onClick(payload) {
+      //   console.log('onClick: ', payload);
+      //   // this.assignPayload()
+      //   // this.extractPayload(payload)
+      // },
 
       onSubmit () {
         this.$q.notify({
@@ -173,15 +175,17 @@
           message: 'Updated',
           position: 'center'
         })
+        this.assignPayload()
         if (this.editedIndex > -1) {
+          // console.log('payload: ', this.payload);
           // this.payload.editedItem = this.editedItem
-          this.assignPayload()
-          console.log('ggggg', JSON.stringify(this.payroll));
+          // console.log('ggggg', JSON.stringify(this.payload));
           // Object.assign(this.data[this.editedIndex], this.editedItem)
-          this.$emit('onCreate1', this.payload)
+          // console.log('edit');
+          this.$emit('onEdit', this.payload)
           }
           else {
-            this.$emit('onEdit1', this.payload)
+            this.$emit('onCreate', this.payload)
             // this.data.push(this.editedItem)
             // this.editItem(this.defaultItem)
           }
@@ -196,19 +200,19 @@
           position: 'center'
         })
         if (this.editedIndex > -1) {
-          this.editItem(this.editedItemBase)
+          this.editItem(this.rowBase)
         } else {
           this.editItem(this.defaultItem)
         }
       },
 
       editItem (item) {
-        this.editedItem = Object.assign({}, item)
+        this.row = Object.assign({}, item)
         this.dialog = true
       },
 
       closeEditor() {
-        this.editedItem = Object.assign({}, this.defaultItem)
+        this.row = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
       },
 
@@ -229,13 +233,31 @@
       }
     },
 
-    mounted() {
+    // mounted() {
+    //   // this.editedItemBase = Object.assign({}, this.editedItem)
+    //   // this.editedItem = Object.assign({}, this.editedItem)
+    //   // console.log('target item 1: ', JSON.stringify(this.editedItem));
+    //   // console.log('editedIndex: ', JSON.stringify(this.editedIndex));
+    //   // console.log('editedItemBase: ', JSON.stringify(this.editedItemBase));
+    // },
 
+    beforeUpdate() {
+      this.row = Object.assign({}, this.editedItem)
+      // this.editBase = Object.assign({}, this.edit)
+      this.rowBase = Object.assign({}, this.editedItem)
+      // console.log('beforeUpdate editedIndex: ', JSON.stringify(this.editedIndex));
+      // console.log('beforeUpdate editedItem: ', JSON.stringify(this.editedItem));
+      // console.log('beforeUpdate edit: ', JSON.stringify(this.row));
+      // console.log('beforeUpdate editBase: ', JSON.stringify(this.rowBase));
     },
 
-    created() {
-
-    }
+    // created() {
+    //   // this.editedItemBase = Object.assign({}, this.editedItem)
+    //   // this.editedItem = Object.assign({}, this.editedItem)
+    //   // // console.log('target item 1: ', JSON.stringify(this.editedItem));
+    //   // // console.log('editedIndex: ', JSON.stringify(this.editedIndex));
+    //   // console.log('editedItemBase: ', JSON.stringify(this.editedItemBase));
+    // }
   }
 </script>
 

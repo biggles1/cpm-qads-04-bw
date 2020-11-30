@@ -257,8 +257,8 @@ props: {
       menuAccess: this.menuAccess,
       recId: this.recId,
       row: this.selectedRow,
-      editAddLabel: this.editAddLabel,
       editedIndex: this.editedIndex,
+      editAddLabel: this.editAddLabel,
       createForm: this.createForm,
       }
     },
@@ -348,7 +348,7 @@ props: {
     editItem (item) {
       this.editedIndex = this.data.indexOf(item)
       this.editedItem = Object.assign({}, item)
-      this.dialog = true
+      // this.dialog = true
     },
   },
 
