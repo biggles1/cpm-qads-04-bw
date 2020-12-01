@@ -19,6 +19,7 @@
           <!-- {{ this.editedIndex }} -->
           <EditAdd
             :editedItem=this.editedItem
+            :editedIndex=this.editedIndex
             :recId=this.recId
             :dataSchema=this.dataSchema
             :editAddLabel=this.editAddLabel
@@ -177,11 +178,13 @@
         // selected: [],
         filter: '',
         accept: true,
+
         tableAccessOption: 'display: hidden',
         tableSearchOption: 'display: hidden',
         editAccess: 'display: hidden',
         menuAccess: 'display: hidden',
         menuEditToggle: 'display: hidden',
+
         menuMode: 'menu',
         dropto: null,
         editedItem: {},
@@ -346,9 +349,9 @@
         this.deleteItem()
       },
 
-      onClick(payload) {
-        this.extractPayload(payload)
-      },
+      // onClick(payload) {
+      //   this.extractPayload(payload)
+      // },
 
       searchOptionToggle () {
         if (this.tableSearchOption == 'display: hidden') {
@@ -387,7 +390,7 @@
           icon: 'cloud_done',
           message: 'Updated',
           position: 'center'
-        })
+        }, 500)
         // if (this.editedIndex > -1) {
         //   Object.assign(this.data[this.editedIndex], this.editedItem)
         //   }
@@ -481,8 +484,16 @@
 
     created() {
       this.data = JSON.parse(JSON.stringify(sdata.default.recordData))
-    }
+
+      this.tableAccessOption = 'display: hidden',
+      this.tableSearchOption = 'display: hidden',
+      this.editAccess = 'display: hidden',
+      this.menuAccess = 'display: hidden',
+      this.menuEditToggle = 'display: hidden'
+
+    },
   }
+
 </script>
 
 <style lang="sass">

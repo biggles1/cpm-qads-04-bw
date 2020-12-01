@@ -49,6 +49,9 @@
           />
       </q-form>
     </q-card-section>
+    <!-- <q-card-section>
+      {{rowBase}}
+    </q-card-section> -->
   </q-card>
 </template>
 
@@ -59,7 +62,7 @@
     components: { QFormBase },
     props: {
       editedItem: Object,
-      // editedIndex: Number,
+      editedIndex: Number,
       dataSchema: Object,
       editAddLabel: String,
       recId: String,
@@ -120,7 +123,7 @@
         // editAccess: this.editAccess,
         // colTableClass: this.colTableClass,
         // menuAccess: this.menuAccess,
-        // recId: this.recId,
+          recId: this.row.name,
         // row: this.selectedRow,
         // editAddLabel: this.editAddLabel,
           // editedIndex: this.editedIndex,
@@ -183,6 +186,7 @@
           // Object.assign(this.data[this.editedIndex], this.editedItem)
           // console.log('edit');
           this.$emit('onEdit', this.payload)
+          this.rowBase = Object.assign({}, this.editedItem)
           }
           else {
             this.$emit('onCreate', this.payload)
@@ -199,16 +203,27 @@
           message: 'Resetting',
           position: 'center'
         })
+        console.log('onReset rowBase: ', JSON.stringify(this.rowBase), this.editedIndex)
         if (this.editedIndex > -1) {
           this.editItem(this.rowBase)
+          console.log('this.row: ', JSON.stringify(this.row));
+          // console.log(this.editedIndex);
+          // console.log(JSON.stringify(this.rowBase));
+          // console.log('edit reset');
         } else {
           this.editItem(this.defaultItem)
+          // console.log(this.editedIndex);
+          // console.log('create reset');
         }
       },
 
       editItem (item) {
+        // console.log('begin editItem');
+        // console.log(JSON.stringify(item));
         this.row = Object.assign({}, item)
+        // console.log(JSON.stringify(this.row));
         this.dialog = true
+        // console.log('after editItem');
       },
 
       closeEditor() {
@@ -248,6 +263,7 @@
       // console.log('beforeUpdate editedIndex: ', JSON.stringify(this.editedIndex));
       // console.log('beforeUpdate editedItem: ', JSON.stringify(this.editedItem));
       // console.log('beforeUpdate edit: ', JSON.stringify(this.row));
+      // console.log('beforeUpdate row value: ', JSON.stringify(this.row));
       // console.log('beforeUpdate editBase: ', JSON.stringify(this.rowBase));
     },
 
