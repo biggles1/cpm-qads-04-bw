@@ -319,18 +319,6 @@ props: {
     },
 
   deleteItem () {
-    // this.$q.notify({
-    //   color: 'accent',
-    //   textColor: 'white',
-    //   icon: 'delete_forever',
-    //   message: 'Deleting',
-    //   timeout: 500,
-    //   position: 'center'
-    // })
-    // this.data.splice(this.editedIndex, 1);
-    // this.editedItem = Object.assign({}, this.defaultItem)
-    // this.editedIndex = -1
-    // this.recId = ''
     this.menuAccess= 'display: hidden'
     this.editAccess= 'display: hidden'
     this.assignPayload()
@@ -348,7 +336,6 @@ props: {
     editItem (item) {
       this.editedIndex = this.data.indexOf(item)
       this.editedItem = Object.assign({}, item)
-      // this.dialog = true
     },
   },
 

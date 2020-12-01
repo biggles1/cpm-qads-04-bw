@@ -49,9 +49,6 @@
           />
       </q-form>
     </q-card-section>
-    <!-- <q-card-section>
-      {{rowBase}}
-    </q-card-section> -->
   </q-card>
 </template>
 
@@ -92,7 +89,6 @@
         },
         colTableClass: 'col-xs-12 col-lg-6',
         breadcrumb: [],
-        // editedIndex: -1,
         data: {},
         hideTable: false,
         createForm: true,
@@ -115,60 +111,11 @@
 
     methods: {
       assignPayload() {
-        // console.log('editedItem bb: ', JSON.stringify(this.editedItem))
-        // console.log('payload: ', this.editedItemBase);
         this.payload = {
           row: this.row,
-        // menuMode: this.menuMode,
-        // editAccess: this.editAccess,
-        // colTableClass: this.colTableClass,
-        // menuAccess: this.menuAccess,
           recId: this.row.name,
-        // row: this.selectedRow,
-        // editAddLabel: this.editAddLabel,
-          // editedIndex: this.editedIndex,
-        // createForm: this.createForm,
         }
-        // console.log('this.payload', JSON.stringify(this.payload));
       },
-
-
-      // onEdit(payload) {
-      //   // this.extractPayload(payload)
-      //   // this.menuAccess = 'display: hidden'
-      //   // this.menuMode = 'edit'
-      //   // this.editItem(this.editedItem)
-      //   // this.colTableClass = 'col-xs-12 col-lg-6'
-      //   // this.editAccess = 'display: block'
-      // },
-
-      // onCreate(payload) {
-      //   // this.extractPayload(payload)
-      //   // this.menuMode = 'edit'
-      //   // this.recId = ''
-      //   // this.editItem(this.defaultItem)
-      //   // this.colTableClass = 'col-xs-12 col-lg-6'
-      //   // this.editAccess = 'display: block'
-      // },
-
-      // extractPayload(payload) {
-      //   this.menuMode = payload.menuMode
-      //   this.menuAccess = payload.menuAccess
-      //   this.colTableClass = payload.colTableClass
-      //   this.editAccess = payload.editAccess
-      //   this.recId = payload.recId
-      //   Object.assign(this.editedItem, payload.row)
-      //   Object.assign(this.editedItemBase, payload.row)
-      //   this.editAddLabel = payload.editAddLabel
-      //   this.createForm = payload.createForm
-      //   this.editedIndex = payload.editedIndex
-      // },
-
-      // onClick(payload) {
-      //   console.log('onClick: ', payload);
-      //   // this.assignPayload()
-      //   // this.extractPayload(payload)
-      // },
 
       onSubmit () {
         this.$q.notify({
@@ -180,18 +127,11 @@
         })
         this.assignPayload()
         if (this.editedIndex > -1) {
-          // console.log('payload: ', this.payload);
-          // this.payload.editedItem = this.editedItem
-          // console.log('ggggg', JSON.stringify(this.payload));
-          // Object.assign(this.data[this.editedIndex], this.editedItem)
-          // console.log('edit');
           this.$emit('onEdit', this.payload)
           this.rowBase = Object.assign({}, this.editedItem)
           }
           else {
             this.$emit('onCreate', this.payload)
-            // this.data.push(this.editedItem)
-            // this.editItem(this.defaultItem)
           }
         },
 
@@ -206,24 +146,14 @@
         console.log('onReset rowBase: ', JSON.stringify(this.rowBase), this.editedIndex)
         if (this.editedIndex > -1) {
           this.editItem(this.rowBase)
-          console.log('this.row: ', JSON.stringify(this.row));
-          // console.log(this.editedIndex);
-          // console.log(JSON.stringify(this.rowBase));
-          // console.log('edit reset');
         } else {
           this.editItem(this.defaultItem)
-          // console.log(this.editedIndex);
-          // console.log('create reset');
         }
       },
 
       editItem (item) {
-        // console.log('begin editItem');
-        // console.log(JSON.stringify(item));
         this.row = Object.assign({}, item)
-        // console.log(JSON.stringify(this.row));
         this.dialog = true
-        // console.log('after editItem');
       },
 
       closeEditor() {
@@ -248,32 +178,11 @@
       }
     },
 
-    // mounted() {
-    //   // this.editedItemBase = Object.assign({}, this.editedItem)
-    //   // this.editedItem = Object.assign({}, this.editedItem)
-    //   // console.log('target item 1: ', JSON.stringify(this.editedItem));
-    //   // console.log('editedIndex: ', JSON.stringify(this.editedIndex));
-    //   // console.log('editedItemBase: ', JSON.stringify(this.editedItemBase));
-    // },
-
     beforeUpdate() {
       this.row = Object.assign({}, this.editedItem)
-      // this.editBase = Object.assign({}, this.edit)
       this.rowBase = Object.assign({}, this.editedItem)
-      // console.log('beforeUpdate editedIndex: ', JSON.stringify(this.editedIndex));
-      // console.log('beforeUpdate editedItem: ', JSON.stringify(this.editedItem));
-      // console.log('beforeUpdate edit: ', JSON.stringify(this.row));
-      // console.log('beforeUpdate row value: ', JSON.stringify(this.row));
-      // console.log('beforeUpdate editBase: ', JSON.stringify(this.rowBase));
     },
 
-    // created() {
-    //   // this.editedItemBase = Object.assign({}, this.editedItem)
-    //   // this.editedItem = Object.assign({}, this.editedItem)
-    //   // // console.log('target item 1: ', JSON.stringify(this.editedItem));
-    //   // // console.log('editedIndex: ', JSON.stringify(this.editedIndex));
-    //   // console.log('editedItemBase: ', JSON.stringify(this.editedItemBase));
-    // }
   }
 </script>
 

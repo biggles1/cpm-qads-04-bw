@@ -2,7 +2,6 @@
   <div id="MainCore">
     <div :id="uuid1" class="row">
       <!-- table scan -->
-      <!-- {{ this.editedIndex }} -->
       <TableScan
         :formId="formId"
         :data="data"
@@ -16,7 +15,6 @@
       <!-- form edits :class="editAccess" -->
       <template>
         <q-card class="col-xs-12 col-lg-6" :class="editAccess">
-          <!-- {{ this.editedIndex }} -->
           <EditAdd
             :editedItem=this.editedItem
             :editedIndex=this.editedIndex
@@ -28,8 +26,7 @@
           >
           </EditAdd>
         </q-card>
-      </template>
-      <!-- <template>
+
         <q-card class="col-xs-12 col-lg-6" :class="editAccess">
           <q-card-section class="q-pa-xl">
             <q-form
@@ -80,7 +77,8 @@
             </q-form>
           </q-card-section>
         </q-card>
-      </template> -->
+      </template>
+
     <!-- access menus -->
       <template>
         <q-card id="access-menu" class="col-xs-12" :class="menuAccess">
@@ -129,30 +127,30 @@
           </q-card-section>
         </q-card>
       </template>
+
+      <!-- next drill down -->
+      <template>
+        <q-tab-panels
+          :id="tableChildrenId"
+          v-model="drilledOption"
+          animated
+          class="row col-grow col-xs-12"
+          :class="menuAccess"
+          style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px"
+          >
+          <q-tab-panel
+            v-if= "render"
+            name="nextLevel"
+            style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+              <Core :formId = "uuid" />
+          </q-tab-panel>
+        </q-tab-panels>
+      </template>
     </div>
-    <!-- next drill down -->
-    <template>
-      <q-tab-panels
-        :id="tableChildrenId"
-        v-model="drilledOption"
-        animated
-        class="row col-grow col-xs-12"
-        :class="menuAccess"
-        style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px"
-        >
-        <q-tab-panel
-          v-if= "render"
-          name="nextLevel"
-          style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
-            <Core :formId = "uuid" />
-        </q-tab-panel>
-      </q-tab-panels>
-    </template>
   </div>
 </template>
 
 <script>
-  // import QFormBase from '../form/qFormBase.vue'
   import { mapMutations } from 'vuex'
   import drillLevels from '../../store/drillLevels'
   import * as sdata from '../form/seedData.vue'
@@ -173,9 +171,6 @@
         uuid: 0,
         uuid1: '',
         tableChildrenId: '',
-        // selectedRow: {},
-        // editRow: {},
-        // selected: [],
         filter: '',
         accept: true,
 
@@ -260,86 +255,41 @@
       },
 
       onEdit(payload) {
-        // console.log('core onEdit: ', JSON.stringify(payload));
         this.extractPayload(payload)
-        // console.log('onEdit payload: ', JSON.stringify(payload));
-        // console.log('onEdit payload -- this.editedItem: ', JSON.stringify(this.editedItem));
-        // console.log('onEdit payload index: ', JSON.stringify(this.editedIndex));
         this.menuAccess = 'display: hidden'
         this.menuMode = 'edit'
         this.editItem(this.editedItem)
         this.colTableClass = 'col-xs-12 col-lg-6'
         this.editAccess = 'display: block'
-        // this.save()
       },
 
       onEditSave(payload) {
-        // console.log('core onEdit: ', JSON.stringify(payload));
         this.extractPayload(payload)
-        // // console.log('onEdit payload: ', JSON.stringify(payload));
-        // // console.log('onEdit payload -- this.editedItem: ', JSON.stringify(this.editedItem));
-        // // console.log('onEdit payload index: ', JSON.stringify(this.editedIndex));
-        // this.menuAccess = 'display: hidden'
-        // this.menuMode = 'edit'
-        // this.editItem(this.editedItem)
-        // this.colTableClass = 'col-xs-12 col-lg-6'
-        // this.editAccess = 'display: block'
         this.save()
       },
 
-      // onEdit1(payload) {
-      //   console.log('onEdit1: ', payload);
-      // },
-
       onCreate(payload) {
         this.extractPayload(payload)
-        // console.log('core onCreate: ', JSON.stringify(payload))
-        // console.log('core onCreate: ', JSON.stringify(this.editedItem))
-        // console.log('core onCreate index: ', JSON.stringify(payload.editedIndex));
-        // console.log('core onCreate index: ', JSON.stringify(this.editedIndex));
         this.menuMode = 'edit'
         this.recId = ''
         this.editItem(this.defaultItem)
         this.colTableClass = 'col-xs-12 col-lg-6'
         this.editAccess = 'display: block'
-        // this.save()
       },
 
       onCreateSave(payload) {
-        // this.extractPayload(payload)
-        // // console.log('core onCreate: ', JSON.stringify(payload))
-        // // console.log('core onCreate: ', JSON.stringify(this.editedItem))
-        // // console.log('core onCreate index: ', JSON.stringify(payload.editedIndex));
-        // // console.log('core onCreate index: ', JSON.stringify(this.editedIndex));
-        // this.menuMode = 'edit'
-        // this.recId = ''
-        // // this.editItem(this.defaultItem)
-        // this.colTableClass = 'col-xs-12 col-lg-6'
-        // this.editAccess = 'display: block'
         this.extractPayload(payload)
         this.save()
       },
 
-
-      // onCreate1(payload) {
-      //   console.log('onCreate1: ', payload);
-      // },
-
       extractPayload(payload) {
-        // console.log('extracting payload: ', JSON.stringify(payload))
         if (payload.menuMode) this.menuMode = payload.menuMode
         if (payload.menuAccess) this.menuAccess = payload.menuAccess
         if (payload.colTableClass) this.colTableClass = payload.colTableClass
         if (payload.editAccess) this.editAccess = payload.editAccess
         if (payload.recId) this.recId = payload.recId
-        // if (payload.editedItem) this.editedItem = Object.assign({}, payload.row)
-        // if (payload.editedItem) Object.assign(this.editedItem, payload.row)
         if (payload.row) this.editedItem = payload.row
         if (payload.editedIndex) this.editedIndex = payload.editedIndex
-        // this.editedItem = payload.row
-        // console.log('edited row: ', JSON.stringify(payload.row))
-        // console.log('edited item: ', JSON.stringify(this.editedItem))
-        // if (payload.row) Object.assign(this.editedItemBase, payload.row)
         if (payload.editAddLabel) this.editAddLabel = payload.editAddLabel
         if (payload.createForm) this.createForm = payload.createForm
       },
@@ -348,10 +298,6 @@
         this.extractPayload(payload)
         this.deleteItem()
       },
-
-      // onClick(payload) {
-      //   this.extractPayload(payload)
-      // },
 
       searchOptionToggle () {
         if (this.tableSearchOption == 'display: hidden') {
@@ -365,7 +311,6 @@
         this.editAccess = 'display: hidden'
         this.editAccessL = false
         this.menuMode = 'menu'
-
         if (this.recId == '') {
           this.menuEditToggle = 'display: hidden'
           this.menuAccess = 'display: hidden'
@@ -389,51 +334,25 @@
           textColor: 'white',
           icon: 'cloud_done',
           message: 'Updated',
-          position: 'center'
-        }, 500)
-        // if (this.editedIndex > -1) {
-        //   Object.assign(this.data[this.editedIndex], this.editedItem)
-        //   }
-        //   else {
-        //     this.data.push(this.editedItem)
-        //     this.editItem(this.defaultItem)
-        //   }
+          position: 'center',
+          timeout: 500,
+          })
         this.save()
         },
 
       save () {
-        console.log('create index ', JSON.stringify(this.editedIndex))
         if (this.editedIndex > -1) {
           Object.assign(this.data[this.editedIndex], this.editedItem)
           }
         else {
-          // console.log('create');
-          // console.log('create payload: ', JSON.stringify(this.editedItem))
           console.log('created');
           this.data.push(this.editedItem)
-          // this.editItem(this.defaultItem)
         }
       },
-
-      // onReset () {
-      //   this.$q.notify({
-      //     color: 'accent',
-      //     textColor: 'white',
-      //     icon: 'cloud_done',
-      //     message: 'Resetting',
-      //     position: 'center'
-      //   })
-      //   if (this.editedIndex > -1) {
-      //     this.editItem(this.editedItemBase)
-      //   } else {
-      //     this.editItem(this.defaultItem)
-      //   }
-      // },
 
       editItem (item) {
         this.editedIndex = this.data.indexOf(item)
         this.editedItem = Object.assign({}, item)
-        // this.dialog = true
       },
 
       deleteItem () {
@@ -470,6 +389,7 @@
       iconAddEdit() {
         return this.createForm ? 'add' : 'edit'
       },
+
       saveLabel() {
         return this.createForm ? 'save' : 'update'
       }
@@ -484,13 +404,11 @@
 
     created() {
       this.data = JSON.parse(JSON.stringify(sdata.default.recordData))
-
       this.tableAccessOption = 'display: hidden',
       this.tableSearchOption = 'display: hidden',
       this.editAccess = 'display: hidden',
       this.menuAccess = 'display: hidden',
       this.menuEditToggle = 'display: hidden'
-
     },
   }
 
