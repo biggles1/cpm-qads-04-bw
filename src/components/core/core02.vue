@@ -26,56 +26,6 @@
           >
           </EditAdd>
         </q-card>
-
-        <!-- <q-card class="col-xs-12 col-lg-6" :class="editAccess">
-          <q-card-section class="q-pa-xl">
-            <q-form
-              @submit="onSubmit"
-              class="shadow-5"
-              style="padding: 0px"
-              rounded-borders
-            >
-              <q-toolbar>
-                <q-toolbar-title style="text-align: left">
-                  <q-btn
-                    flat
-                    :icon=iconAddEdit()
-                    :label=editAddLabel
-                  >
-                    <q-space />
-                    {{ recId }}
-                    <q-tooltip content-class="bg-accent">Add or edit data</q-tooltip>
-                  </q-btn>
-                </q-toolbar-title>
-                <q-space />
-                <q-btn
-                  :label=saveLabel()
-                  type="submit"
-                  icon="save"
-                  flat
-                  style="font-size: 12px"
-                  >
-                    <q-tooltip content-class="bg-accent">Save changes</q-tooltip>
-                </q-btn>
-                <q-btn
-                  label="Undo"
-                  type="reset"
-                  icon="undo"
-                  flat
-                  class="q-ml-sm"
-                  style="font-size: 12px"
-                  >
-                    <q-tooltip content-class="bg-accent">Undo changes</q-tooltip>
-                </q-btn>
-              </q-toolbar>
-              <QFormBase
-                id="formBaseTable"
-                :value= "editedItem"
-                :schema= "dataSchema"
-                />
-            </q-form>
-          </q-card-section>
-        </q-card> -->
       </template>
 
     <!-- access menus -->
@@ -195,7 +145,6 @@
         editedIndex: -1,
         data: {},
         hideTable: false,
-        // editAddLabel: 'Edit >> ',
         editAddLabel: '',
         createForm: true,
       }
@@ -268,7 +217,6 @@
         this.save()
       },
 
-      // onCreate(payload) {
       onCreate(payload) {
         this.extractPayload(payload)
         this.menuMode = 'edit'
@@ -280,9 +228,7 @@
 
       onCreateSave(payload) {
         this.extractPayload(payload)
-        // console.log('milestone ...');
         this.save()
-        // this.recId = ''
         this.editItem(this.defaultItem)
       },
 
@@ -313,7 +259,6 @@
 
       btnMenuMode() {
         this.editAccess = 'display: hidden'
-        // this.editAccessL = false
         this.menuMode = 'menu'
         if (this.recId == '') {
           this.menuEditToggle = 'display: hidden'
@@ -349,7 +294,6 @@
           Object.assign(this.data[this.editedIndex], this.editedItem)
           }
         else {
-          // console.log('created');
           this.data.push(this.editedItem)
         }
       },

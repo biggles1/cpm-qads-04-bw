@@ -1,7 +1,6 @@
 <template>
   <q-card class="col-xs-12 col-lg-6">
     <q-card-section class="q-pa-xl">
-      <!-- {{ editedIndex }} -->
       <q-form
         @submit="onSubmit"
         @reset="onReset"
@@ -17,9 +16,6 @@
               :label=editAddLabel
             >
               <q-space />
-              <!-- {{ recId }} -->
-              <!-- {{ formLabel }} -->
-              <!-- :label=editAddLabel -->
               <q-tooltip content-class="bg-accent">Add or edit data</q-tooltip>
             </q-btn>
           </q-toolbar-title>
@@ -44,11 +40,6 @@
               <q-tooltip content-class="bg-accent">Undo changes</q-tooltip>
           </q-btn>
         </q-toolbar>
-        <!-- {{ row.name }}
-        {{ row }}
-        <q-space />
-        {{ formLabel }}
-        <h1> test </h1> -->
         <QFormBase
           id="formBaseTable"
           :value= "row"
@@ -101,7 +92,7 @@
         createForm: true,
         payload: {},
         editData: {},
-        formLabel: 'bbb',
+        formLabel: '',
       }
     },
 
@@ -141,7 +132,6 @@
           else {
             this.$emit('onCreate', this.payload)
             this.editItem(this.defaultItem)
-            // console.log('row: ', JSON.stringify(this.row));
           }
         },
 
@@ -153,7 +143,6 @@
           message: 'Resetting',
           position: 'center'
         })
-        // console.log('onReset rowBase: ', JSON.stringify(this.rowBase), this.editedIndex)
         if (this.editedIndex > -1) {
           this.editItem(this.rowBase)
         } else {
@@ -163,27 +152,12 @@
 
       editItem (item) {
         this.row = Object.assign({}, item)
-        // console.log('this.row 1: ', JSON.stringify(this.row));
         this.dialog = true
       },
 
       formTitle() {
         return (this.createForm)? '': this.recId
       },
-
-      // closeEditor() {
-      //   this.row = Object.assign({}, this.defaultItem)
-      //   this.editedIndex = -1
-      // },
-
-      // toggleMenuEdit() {
-      //   if (this.menuMode == 'menu') {
-      //     this.editAccess = 'display: hidden'
-      //   }
-      //   else {
-      //     this.editAccess= 'display: none'
-      //   }
-      // },
 
       iconAddEdit() {
         return this.createForm ? 'add' : 'edit'
@@ -194,24 +168,10 @@
       }
     },
 
-    // mounted() {
-    //   this.formLabel = (this.editedIndex < 0)? 'Add >> ': 'Edit >> ' + JSON.stringify(this.row.name),
-    //   console.log('this.formLabel: ', this.formLabel);
-    // },
-
-    // formLabel1() {
-    //   console.log('formLabel11');
-    //   return (this.editedIndex < 0)? 'Add >> ': "Edit >>>> ${this.row.name}"
-    // },
-
     beforeUpdate() {
-      // console.log('beforeUpdate this.editedItem: ', JSON.stringify(this.editedItem));
       this.row = Object.assign({}, this.editedItem)
       this.rowBase = Object.assign({}, this.editedItem)
-
       this.createForm = (this.editedIndex < 0)? true: false
-      // this.formLabel = (this.editedIndex < 0)? 'Add >> ': 'Edit >> ' + JSON.stringify(this.row.name),
-      // console.log('this.formLabel: ', this.formLabel);
     },
 
   }
