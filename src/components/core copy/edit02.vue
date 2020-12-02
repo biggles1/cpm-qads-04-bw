@@ -17,9 +17,8 @@
               :label=editAddLabel
             >
               <q-space />
-              <!-- {{ recId }} -->
-              <!-- {{ formLabel }} -->
-              <!-- :label=editAddLabel -->
+              {{ recId }} {{ editedIndex}}
+              <!-- {{ formTitle() }} -->
               <q-tooltip content-class="bg-accent">Add or edit data</q-tooltip>
             </q-btn>
           </q-toolbar-title>
@@ -44,17 +43,16 @@
               <q-tooltip content-class="bg-accent">Undo changes</q-tooltip>
           </q-btn>
         </q-toolbar>
-        <!-- {{ row.name }}
-        {{ row }}
-        <q-space />
-        {{ formLabel }}
-        <h1> test </h1> -->
         <QFormBase
           id="formBaseTable"
           :value= "row"
           :schema= "dataSchema"
           />
+          {{ row.name }}
       </q-form>
+      <!-- <q-form>
+        {{ row }} {{editedItem }}
+      </q-form> -->
     </q-card-section>
   </q-card>
 </template>
@@ -101,7 +99,6 @@
         createForm: true,
         payload: {},
         editData: {},
-        formLabel: 'bbb',
       }
     },
 
@@ -141,7 +138,7 @@
           else {
             this.$emit('onCreate', this.payload)
             this.editItem(this.defaultItem)
-            // console.log('row: ', JSON.stringify(this.row));
+            console.log('row: ', JSON.stringify(this.row));
           }
         },
 
@@ -163,7 +160,6 @@
 
       editItem (item) {
         this.row = Object.assign({}, item)
-        // console.log('this.row 1: ', JSON.stringify(this.row));
         this.dialog = true
       },
 
@@ -171,47 +167,36 @@
         return (this.createForm)? '': this.recId
       },
 
-      // closeEditor() {
-      //   this.row = Object.assign({}, this.defaultItem)
-      //   this.editedIndex = -1
-      // },
+      closeEditor() {
+        this.row = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      },
 
-      // toggleMenuEdit() {
-      //   if (this.menuMode == 'menu') {
-      //     this.editAccess = 'display: hidden'
-      //   }
-      //   else {
-      //     this.editAccess= 'display: none'
-      //   }
-      // },
+      toggleMenuEdit() {
+        if (this.menuMode == 'menu') {
+          this.editAccess = 'display: hidden'
+        }
+        else {
+          this.editAccess= 'display: none'
+        }
+      },
 
       iconAddEdit() {
         return this.createForm ? 'add' : 'edit'
       },
-
       saveLabel() {
         return this.createForm ? 'save' : 'update'
       }
     },
 
-    // mounted() {
-    //   this.formLabel = (this.editedIndex < 0)? 'Add >> ': 'Edit >> ' + JSON.stringify(this.row.name),
-    //   console.log('this.formLabel: ', this.formLabel);
-    // },
-
-    // formLabel1() {
-    //   console.log('formLabel11');
-    //   return (this.editedIndex < 0)? 'Add >> ': "Edit >>>> ${this.row.name}"
-    // },
-
+// beforeUpdate() {
     beforeUpdate() {
-      // console.log('beforeUpdate this.editedItem: ', JSON.stringify(this.editedItem));
+      console.log('before update');
       this.row = Object.assign({}, this.editedItem)
       this.rowBase = Object.assign({}, this.editedItem)
 
-      this.createForm = (this.editedIndex < 0)? true: false
-      // this.formLabel = (this.editedIndex < 0)? 'Add >> ': 'Edit >> ' + JSON.stringify(this.row.name),
-      // console.log('this.formLabel: ', this.formLabel);
+      // this.createForm = (this.editedIndex < 0)? true: false
+
     },
 
   }

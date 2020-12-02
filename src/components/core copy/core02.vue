@@ -195,8 +195,7 @@
         editedIndex: -1,
         data: {},
         hideTable: false,
-        // editAddLabel: 'Edit >> ',
-        editAddLabel: '',
+        editAddLabel: 'Edit >> ',
         createForm: true,
       }
     },
@@ -280,10 +279,9 @@
 
       onCreateSave(payload) {
         this.extractPayload(payload)
-        // console.log('milestone ...');
         this.save()
         // this.recId = ''
-        this.editItem(this.defaultItem)
+        // this.editItem(this.defaultItem)
       },
 
       extractPayload(payload) {
@@ -313,7 +311,7 @@
 
       btnMenuMode() {
         this.editAccess = 'display: hidden'
-        // this.editAccessL = false
+        this.editAccessL = false
         this.menuMode = 'menu'
         if (this.recId == '') {
           this.menuEditToggle = 'display: hidden'

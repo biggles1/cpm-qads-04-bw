@@ -204,7 +204,6 @@ props: {
         }
       return h2
       },
-
     setVisibleColumns() {
       var h1 = Object.keys(this.dataSchema);
       var h2 = [];
@@ -215,15 +214,6 @@ props: {
         }
       return h2
       },
-
-    editAddLabelCompute() {
-      if (this.createForm) {
-        return 'Add >> '
-      } else {
-        return 'Edit >> '+ JSON.stringify(this.recId)
-      }
-    },
-
     },
 
   methods: {
@@ -242,7 +232,7 @@ props: {
         this.menuAccess= 'display: hidden'
         this.editAccess = 'display: hidden'
         this.colTableClass = 'col-xs-12 col-lg-6'
-        // this.editAddLabel = 'Add >> '
+        this.editAddLabel = 'Add >> '
         this.createForm = true
       }
       else {
@@ -251,11 +241,9 @@ props: {
         this.editItem(this.selectedRow)
         this.render = false
         this.menuAccess= 'display: block'
-        // this.editAddLabel = 'Edit >>> '+ JSON.stringify(this.recId)
-        // this.editAddLabel = this.editAddLabelCompute
+        this.editAddLabel = 'Edit >> '
         this.createForm = false
       }
-      this.editAddLabel = this.editAddLabelCompute
       this.assignPayload()
       this.$emit('onRowClick', this.payload)
       this.updateBreadCrumb({'idx': this.uuid-1, 'selection': this.recId})
@@ -306,8 +294,7 @@ props: {
         this.menuAccess = 'display: hidden'
         this.editAccess = 'display: block'
         this.editItem(this.selectedRow)
-        // this.editAddLabel = 'Edit >> '
-        this.editAddLabel = this.editAddLabelCompute
+        this.editAddLabel = 'Edit >> '
         this.createForm = true
       }
       this.assignPayload()

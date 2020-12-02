@@ -1,5 +1,5 @@
 <template>
-  <div id="MainCore">
+  <div id="EditCore">
     <div :id="uuid1" class="row">
       <!-- table scan -->
       <TableScan
@@ -15,22 +15,10 @@
       <!-- form edits :class="editAccess" -->
       <template>
         <q-card class="col-xs-12 col-lg-6" :class="editAccess">
-          <EditAdd
-            :editedItem=this.editedItem
-            :editedIndex=this.editedIndex
-            :recId=this.recId
-            :dataSchema=this.dataSchema
-            :editAddLabel=this.editAddLabel
-            @onEdit="onEditSave"
-            @onCreate="onCreateSave"
-          >
-          </EditAdd>
-        </q-card>
-
-        <!-- <q-card class="col-xs-12 col-lg-6" :class="editAccess">
           <q-card-section class="q-pa-xl">
             <q-form
               @submit="onSubmit"
+              @reset="onReset"
               class="shadow-5"
               style="padding: 0px"
               rounded-borders
@@ -75,9 +63,8 @@
                 />
             </q-form>
           </q-card-section>
-        </q-card> -->
+        </q-card>
       </template>
-
     <!-- access menus -->
       <template>
         <q-card id="access-menu" class="col-xs-12" :class="menuAccess">
@@ -120,44 +107,54 @@
                       </q-list>
                     </q-menu>
                   </q-btn>
+                  <!-- <q-breadcrumbs
+                    active-color="black"
+                    style="font-size: 12px">
+                      <q-breadcrumbs-el
+                        v-for="(c, index) in this.$store.state.drillLevels.breadCrumb.slice(0,this.uuid-1)"
+                        :key="index"
+                        :label="c"
+                        icon="navigation"
+                        :to="'#table-'+(index+1).toString().padStart(2,'0')"
+                      />
+                  </q-breadcrumbs> -->
                 </q-toolbar-title>
               </q-toolbar>
             </q-form>
           </q-card-section>
         </q-card>
       </template>
-
-      <!-- next drill down -->
-      <template>
-        <q-tab-panels
-          :id="tableChildrenId"
-          v-model="drilledOption"
-          animated
-          class="row col-grow col-xs-12"
-          :class="menuAccess"
-          style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px"
-          >
-          <q-tab-panel
-            v-if= "render"
-            name="nextLevel"
-            style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
-              <Core :formId = "uuid" />
-          </q-tab-panel>
-        </q-tab-panels>
-      </template>
     </div>
+    <!-- next drill down -->
+    <template>
+      <q-tab-panels
+        :id="tableChildrenId"
+        v-model="drilledOption"
+        animated
+        class="row col-grow col-xs-12"
+        :class="menuAccess"
+        style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px"
+        >
+        <q-tab-panel
+          v-if= "render"
+          name="nextLevel"
+          style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+            <Core :formId = "uuid" />
+        </q-tab-panel>
+      </q-tab-panels>
+    </template>
   </div>
 </template>
 
 <script>
+  import QFormBase from '../form/qFormBase.vue'
   import { mapMutations } from 'vuex'
   import drillLevels from '../../store/drillLevels'
   import * as sdata from '../form/seedData.vue'
   import TableScan from './table02'
-  import EditAdd from './edit02'
 
   export default {
-    components: { TableScan, EditAdd },
+    components: { QFormBase, TableScan },
     props: {
       formId: {
         type: Number,
@@ -170,15 +167,16 @@
         uuid: 0,
         uuid1: '',
         tableChildrenId: '',
+        // selectedRow: {},
+        // editRow: {},
+        // selected: [],
         filter: '',
         accept: true,
-
         tableAccessOption: 'display: hidden',
         tableSearchOption: 'display: hidden',
         editAccess: 'display: hidden',
         menuAccess: 'display: hidden',
         menuEditToggle: 'display: hidden',
-
         menuMode: 'menu',
         dropto: null,
         editedItem: {},
@@ -195,13 +193,13 @@
         editedIndex: -1,
         data: {},
         hideTable: false,
-        // editAddLabel: 'Edit >> ',
-        editAddLabel: '',
+        editAddLabel: 'Edit >> ',
         createForm: true,
       }
     },
 
     computed: {
+
       defaultItem() {
           var h1 = Object.keys(this.dataSchema);
           var h2 = {};
@@ -231,7 +229,7 @@
           }
         }
         return h2
-      },
+      }
     },
 
     methods: {
@@ -263,12 +261,6 @@
         this.editAccess = 'display: block'
       },
 
-      onEditSave(payload) {
-        this.extractPayload(payload)
-        this.save()
-      },
-
-      // onCreate(payload) {
       onCreate(payload) {
         this.extractPayload(payload)
         this.menuMode = 'edit'
@@ -278,29 +270,26 @@
         this.editAccess = 'display: block'
       },
 
-      onCreateSave(payload) {
-        this.extractPayload(payload)
-        // console.log('milestone ...');
-        this.save()
-        // this.recId = ''
-        this.editItem(this.defaultItem)
-      },
-
       extractPayload(payload) {
-        if (payload.menuMode) this.menuMode = payload.menuMode
-        if (payload.menuAccess) this.menuAccess = payload.menuAccess
-        if (payload.colTableClass) this.colTableClass = payload.colTableClass
-        if (payload.editAccess) this.editAccess = payload.editAccess
-        if (payload.recId) this.recId = payload.recId
-        if (payload.row) this.editedItem = payload.row
-        if (payload.editedIndex) this.editedIndex = payload.editedIndex
-        if (payload.editAddLabel) this.editAddLabel = payload.editAddLabel
-        if (payload.createForm) this.createForm = payload.createForm
+        this.menuMode = payload.menuMode
+        this.menuAccess = payload.menuAccess
+        this.colTableClass = payload.colTableClass
+        this.editAccess = payload.editAccess
+        this.recId = payload.recId
+        Object.assign(this.editedItem, payload.row)
+        Object.assign(this.editedItemBase, payload.row)
+        this.editAddLabel = payload.editAddLabel
+        this.createForm = payload.createForm
+        this.editedIndex = payload.editedIndex
       },
 
       onDelete(payload) {
         this.extractPayload(payload)
         this.deleteItem()
+      },
+
+      onClick(payload) {
+        this.extractPayload(payload)
       },
 
       searchOptionToggle () {
@@ -313,8 +302,9 @@
 
       btnMenuMode() {
         this.editAccess = 'display: hidden'
-        // this.editAccessL = false
+        this.editAccessL = false
         this.menuMode = 'menu'
+
         if (this.recId == '') {
           this.menuEditToggle = 'display: hidden'
           this.menuAccess = 'display: hidden'
@@ -338,25 +328,35 @@
           textColor: 'white',
           icon: 'cloud_done',
           message: 'Updated',
-          position: 'center',
-          timeout: 500,
-          })
-        this.save()
-        },
-
-      save () {
+          position: 'center'
+        })
         if (this.editedIndex > -1) {
           Object.assign(this.data[this.editedIndex], this.editedItem)
           }
-        else {
-          // console.log('created');
-          this.data.push(this.editedItem)
+          else {
+            this.data.push(this.editedItem)
+            this.editItem(this.defaultItem)
+          }
+        },
+
+      onReset () {
+        this.$q.notify({
+          color: 'accent',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Resetting',
+          position: 'center'
+        })
+        if (this.editedIndex > -1) {
+          this.editItem(this.editedItemBase)
+        } else {
+          this.editItem(this.defaultItem)
         }
       },
 
       editItem (item) {
-        this.editedIndex = this.data.indexOf(item)
         this.editedItem = Object.assign({}, item)
+        this.dialog = true
       },
 
       deleteItem () {
@@ -393,7 +393,6 @@
       iconAddEdit() {
         return this.createForm ? 'add' : 'edit'
       },
-
       saveLabel() {
         return this.createForm ? 'save' : 'update'
       }
@@ -408,14 +407,8 @@
 
     created() {
       this.data = JSON.parse(JSON.stringify(sdata.default.recordData))
-      this.tableAccessOption = 'display: hidden',
-      this.tableSearchOption = 'display: hidden',
-      this.editAccess = 'display: hidden',
-      this.menuAccess = 'display: hidden',
-      this.menuEditToggle = 'display: hidden'
-    },
+    }
   }
-
 </script>
 
 <style lang="sass">
