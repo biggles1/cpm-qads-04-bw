@@ -122,13 +122,11 @@
         tableChildrenId: '',
         filter: '',
         accept: true,
-
         tableAccessOption: 'display: hidden',
         tableSearchOption: 'display: hidden',
         editAccess: 'display: hidden',
         menuAccess: 'display: hidden',
         menuEditToggle: 'display: hidden',
-
         menuMode: 'menu',
         dropto: null,
         editedItem: {},

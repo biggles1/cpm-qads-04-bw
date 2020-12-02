@@ -154,24 +154,16 @@ export default {
   data() {
     return {
       recId: '',
-      // uuid: 0,
-      // uuid1: '',
-      // tableChildrenId: '',
       selectedRow: {},
       selected: [],
       filter: '',
       accept: true,
-      // tableAccessOption: 'display: hidden',
       tableSearchOption: 'display: hidden',
-      // addRecordOption: true,
-      // editRecordOption: true,
       editAccess: 'display: hidden',
       menuAccess: 'display: hidden',
       menuEditToggle: 'display: hidden',
       menuMode: 'menu',
       drilledDown: 'display: hidden',
-      // drilledDownDisplay: 'display: hidden',
-      // drilledOption: null,
       render: true,
       pagination: {
         rowsPerPage: 0
@@ -281,19 +273,6 @@ export default {
         this.tableSearchOption = 'display: hidden'
       }
     },
-
-    // btnMenuMode() {
-    //   this.editAccess = 'display: hidden'
-    //   this.editAccessL = false
-    //   this.menuMode = 'menu'
-    //   if (this.recId == '') {
-    //     this.menuEditToggle = 'display: hidden'
-    //     this.menuAccess = 'display: hidden'
-    //   } else {
-    //     this.menuEditToggle = 'display: block'
-    //     this.menuAccess = 'display: block'
-    //   }
-    // },
 
     btnEditMode() {
       this.menuMode = 'edit'

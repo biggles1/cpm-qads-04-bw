@@ -65,34 +65,12 @@
     data () {
       return {
         uuid: 0,
-        // uuid1: '',
-        // tableChildrenId: '',
-        // filter: '',
-        // accept: true,
-        // tableAccessOption: 'display: hidden',
-        // tableSearchOption: 'display: hidden',
-        // editAccess: 'display: hidden',
-        // menuAccess: 'display: hidden',
-        // menuEditToggle: 'display: hidden',
-        // menuMode: 'menu',
-        // dropto: null,
         row: {},
         rowBase: {},
         drilledDown: 'display: hidden',
-        // drilledDownDisplay: 'display: hidden',
-        // drilledOption: null,
-        // render: true,
-        // pagination: {
-        //   rowsPerPage: 0
-        // },
-        // colTableClass: 'col-xs-12 col-lg-6',
-        // breadcrumb: [],
         data: {},
-        // hideTable: false,
         createForm: true,
         payload: {},
-        // editData: {},
-        // formLabel: '',
       }
     },
 
@@ -154,10 +132,6 @@
         this.row = Object.assign({}, item)
         this.dialog = true
       },
-
-      // formTitle() {
-      //   return (this.createForm)? '': this.recId
-      // },
 
       iconAddEdit() {
         return this.createForm ? 'add' : 'edit'
