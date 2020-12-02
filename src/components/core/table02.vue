@@ -124,7 +124,7 @@
             </q-th>
           </q-tr>
         </template>
-        <!-- {{ props.selected }} -->
+
         <template v-slot:body="props">
           <q-tr class="cursor-pointer" :props="props" @click="props.selected = !props.selected; onRowClick(props.selected, props)">
             <q-td v-for="col in props.cols" :key="col.name" :props="props">
@@ -142,36 +142,36 @@ import { mapMutations } from 'vuex'
 import drillLevels from '../../store/drillLevels'
 
 export default {
-props: {
-  formId: {
-    type: Number,
-    default: 0
-  },
-  data: Array,
-  dataSchema: Object,
+  props: {
+    formId: {
+      type: Number,
+      default: 0
+    },
+    data: Array,
+    dataSchema: Object,
   },
 
   data() {
     return {
       recId: '',
-      uuid: 0,
-      uuid1: '',
-      tableChildrenId: '',
+      // uuid: 0,
+      // uuid1: '',
+      // tableChildrenId: '',
       selectedRow: {},
       selected: [],
       filter: '',
       accept: true,
-      tableAccessOption: 'display: hidden',
+      // tableAccessOption: 'display: hidden',
       tableSearchOption: 'display: hidden',
-      addRecordOption: true,
-      editRecordOption: true,
+      // addRecordOption: true,
+      // editRecordOption: true,
       editAccess: 'display: hidden',
       menuAccess: 'display: hidden',
       menuEditToggle: 'display: hidden',
       menuMode: 'menu',
       drilledDown: 'display: hidden',
-      drilledDownDisplay: 'display: hidden',
-      drilledOption: null,
+      // drilledDownDisplay: 'display: hidden',
+      // drilledOption: null,
       render: true,
       pagination: {
         rowsPerPage: 0
@@ -188,6 +188,7 @@ props: {
   },
 
   computed: {
+
     defaultItem() {
         var h1 = Object.keys(this.dataSchema);
         var h2 = {};
@@ -196,6 +197,7 @@ props: {
           }
         return h2
       },
+
     columns() {
       var h1 = Object.keys(this.dataSchema);
       var h2 = [];
@@ -232,7 +234,7 @@ props: {
 
     updateBreadCrumb(id) {
       this.$store.commit('drillLevels/updateBreadCrumb', id)
-      },
+    },
 
     onRowClick(selected, props) {
       if (this.recId == props.row.name) {
@@ -280,18 +282,18 @@ props: {
       }
     },
 
-    btnMenuMode() {
-      this.editAccess = 'display: hidden'
-      this.editAccessL = false
-      this.menuMode = 'menu'
-      if (this.recId == '') {
-        this.menuEditToggle = 'display: hidden'
-        this.menuAccess = 'display: hidden'
-      } else {
-        this.menuEditToggle = 'display: block'
-        this.menuAccess = 'display: block'
-      }
-    },
+    // btnMenuMode() {
+    //   this.editAccess = 'display: hidden'
+    //   this.editAccessL = false
+    //   this.menuMode = 'menu'
+    //   if (this.recId == '') {
+    //     this.menuEditToggle = 'display: hidden'
+    //     this.menuAccess = 'display: hidden'
+    //   } else {
+    //     this.menuEditToggle = 'display: block'
+    //     this.menuAccess = 'display: block'
+    //   }
+    // },
 
     btnEditMode() {
       this.menuMode = 'edit'
@@ -327,11 +329,11 @@ props: {
       this.$emit('onCreate', this.payload)
     },
 
-  deleteItem () {
-    this.menuAccess= 'display: hidden'
-    this.editAccess= 'display: hidden'
-    this.assignPayload()
-    this.$emit('onDelete', this.payload)
+    deleteItem () {
+      this.menuAccess= 'display: hidden'
+      this.editAccess= 'display: hidden'
+      this.assignPayload()
+      this.$emit('onDelete', this.payload)
     },
 
     drilledDownToggle () {
@@ -350,7 +352,7 @@ props: {
 
   created() {
     this.visibleColumns = this.setVisibleColumns;
-    }
+  }
 }
 
 </script>
