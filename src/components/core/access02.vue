@@ -55,11 +55,66 @@
                   </q-btn>
                   <q-btn flat icon="apps" class="q-ma-xs bg-grey-4" label="Options">
                     <q-menu>
-                      <q-list style="min-width: 150px">
-                        <q-item clickable v-close-popup @click="drilledOption = 'nextLevel'; render = true">
-                          <q-item-section>
-                            Next level
-                          </q-item-section>
+                      <q-list style="min-width: 150px" class="q-ma-xs bg-grey-1">
+                        <q-item 
+                          clickable 
+                          v-close-popup 
+                          @click="drilledOption = 'BarChart'"
+                         
+                          render = true;
+                          hideTable = true
+                          class="q-ma-xs bg-grey-4" 
+                          >
+                            <q-item-section>
+                              <q-item-label>
+                                Bar chart
+                              </q-item-label>
+                            </q-item-section>
+                        </q-item>
+                        <q-item 
+                          clickable 
+                          v-close-popup 
+                          @click="drilledOption = 'BarChart1'"
+                         
+                          render = true;
+                          hideTable = true
+                          class="q-ma-xs bg-grey-4" 
+                          >
+                            <q-item-section>
+                              <q-item-label>
+                                Bar chart 1
+                              </q-item-label>
+                            </q-item-section>
+                        </q-item>
+                        <q-item 
+                          clickable 
+                          v-close-popup 
+                          @click="drilledOption = 'BarChart3'"
+                         
+                          render = true;
+                          hideTable = true
+                          class="q-ma-xs bg-grey-4" 
+                          >
+                            <q-item-section>
+                              <q-item-label>
+                                Bar chart 3
+                              </q-item-label>
+                            </q-item-section>
+                        </q-item>
+                        <q-item 
+                          clickable 
+                          v-close-popup 
+                          @click="drilledOption = 'BubbleChart'"
+                          
+                          render = true;
+                          hideTable = true
+                          class="q-ma-xs bg-grey-4" 
+                          >
+                            <q-item-section color="bg-blue-2">
+                              <q-item-label color="bg-blue-2">
+                                Bubble chart
+                              </q-item-label>
+                            </q-item-section>
                         </q-item>
                       </q-list>
                     </q-menu>
@@ -96,6 +151,20 @@
         </q-tab-panel>
         <q-tab-panel
           v-if= "render"
+          name="BarChart1"
+          class="shadow-5"
+          style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+            <BarChart1 />
+        </q-tab-panel>
+        <q-tab-panel
+          v-if= "render"
+          name="BarChart3"
+          class="shadow-5"
+          style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+            <BarChart3 />
+        </q-tab-panel>
+        <q-tab-panel
+          v-if= "render"
           name="BubbleChart"
           class="shadow-5"
           style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
@@ -109,6 +178,8 @@
 <script>
   import * as sdata from '../form/seedData.vue'
   import BarChart from '../chart/barTest1.vue'
+  import BarChart1 from '../chart/barTest2.vue'
+  import BarChart3 from '../chart/barTest3.vue'
   import BubbleChart from '../chart/bubbleTest1.vue'
 
   export default {
@@ -125,7 +196,7 @@
       }
     },
 
-    components: { BarChart, BubbleChart },
+    components: { BarChart, BubbleChart, BarChart1, BarChart3 },
 
     data () {
       return {
