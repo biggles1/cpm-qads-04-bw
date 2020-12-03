@@ -29,7 +29,17 @@
       </template>
 
     <!-- access menus -->
-      <template>
+              <!-- :formId=this.uuid -->
+    <template>
+      <q-card id="access-menu" class="col-xs-12" :class="menuAccess">
+        <Access
+          :uuid=this.uuid
+          :recId=this.recId
+          >
+        </Access>
+      </q-card>
+    </template>
+      <!-- <template>
         <q-card id="access-menu" class="col-xs-12" :class="menuAccess">
           <q-card-section class="q-px-xl">
             <q-form
@@ -77,7 +87,6 @@
         </q-card>
       </template>
 
-      <!-- next drill down -->
       <template>
         <q-tab-panels
           :id="tableChildrenId"
@@ -94,7 +103,7 @@
               <Core :formId = "uuid" />
           </q-tab-panel>
         </q-tab-panels>
-      </template>
+      </template> -->
     </div>
   </div>
 </template>
@@ -105,9 +114,10 @@
   import * as sdata from '../form/seedData.vue'
   import TableScan from './table02'
   import EditAdd from './edit02'
+  import Access from './access02'
 
   export default {
-    components: { TableScan, EditAdd },
+    components: { TableScan, EditAdd, Access },
     props: {
       formId: {
         type: Number,
@@ -119,7 +129,7 @@
         recId: '',
         uuid: 0,
         uuid1: '',
-        tableChildrenId: '',
+        // tableChildrenId: '',
         filter: '',
         accept: true,
         tableAccessOption: 'display: hidden',
@@ -342,10 +352,12 @@
     },
 
     mounted() {
-      this.uuid = parseInt(this.formId, 10);
+      // this.uuid = parseInt(this.formId, 10)
+      // this.uuid = Object.assign({}, this.formId);
+      this.uuid = this.formId
       this.uuid += 1
       this.uuid1 = "table-"+this.uuid.toString().padStart(2,'0')
-      this.tableChildrenId = "tableChildren-"+this.uuid.toString().padStart(2,'0')
+      // this.tableChildrenId = "tableChildren-"+this.uuid.toString().padStart(2,'0')
     },
 
     created() {

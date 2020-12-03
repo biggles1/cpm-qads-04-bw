@@ -1,73 +1,9 @@
 <template>
-  <div id="EditCore">
-    <div :id="uuid1" class="row">
-      <!-- table scan -->
-      <TableScan
-        :formId="formId"
-        :data="data"
-        :dataSchema="dataSchema"
-        @onEdit="onEdit"
-        @onCreate="onCreate"
-        @onDelete="onDelete"
-        @onRowClick="onRowClick"
-      >
-      </TableScan>
-      <!-- form edits :class="editAccess" -->
-      <template>
-        <q-card class="col-xs-12 col-lg-6" :class="editAccess">
-          <q-card-section class="q-pa-xl">
-            <q-form
-              @submit="onSubmit"
-              @reset="onReset"
-              class="shadow-5"
-              style="padding: 0px"
-              rounded-borders
-            >
-              <q-toolbar>
-                <q-toolbar-title style="text-align: left">
-                  <q-btn
-                    flat
-                    :icon=iconAddEdit()
-                    :label=editAddLabel
-                  >
-                    <q-space />
-                    {{ recId }}
-                    <q-tooltip content-class="bg-accent">Add or edit data</q-tooltip>
-                  </q-btn>
-                </q-toolbar-title>
-                <q-space />
-                <q-btn
-                  :label=saveLabel()
-                  type="submit"
-                  icon="save"
-                  flat
-                  style="font-size: 12px"
-                  >
-                    <q-tooltip content-class="bg-accent">Save changes</q-tooltip>
-                </q-btn>
-                <q-btn
-                  label="Undo"
-                  type="reset"
-                  icon="undo"
-                  flat
-                  class="q-ml-sm"
-                  style="font-size: 12px"
-                  >
-                    <q-tooltip content-class="bg-accent">Undo changes</q-tooltip>
-                </q-btn>
-              </q-toolbar>
-              <QFormBase
-                id="formBaseTable"
-                :value= "editedItem"
-                :schema= "dataSchema"
-                />
-            </q-form>
-          </q-card-section>
-        </q-card>
-      </template>
+  <div id="AccessCore">
+    <div class="row">
     <!-- access menus -->
       <template>
-        <q-card id="access-menu" class="col-xs-12" :class="menuAccess">
+        <q-card id="access-menu" class="col-xs-12">
           <q-card-section class="q-px-xl">
             <q-form
               class="shadow-0"
@@ -77,14 +13,20 @@
                   <q-breadcrumbs
                     class="q-py-sm"
                     active-color="black"
-                    style="font-size: 12px">
-                      <q-breadcrumbs-el
-                        v-for="(c, index) in this.$store.state.drillLevels.breadCrumb.slice(0,this.uuid-1)"
-                        :key="index"
-                        :label="c"
-                        icon="navigation"
-                        :to="'#table-'+(index+1).toString().padStart(2,'0')"
-                      />
+                    style="font-size: 12px"
+                  >
+                  <!-- <h5>
+                    {{ this.$store.state.drillLevels.breadCrumb }}
+                    recid = {{ this.recId}} /
+                    / {{ uuid }} /
+                  </h5> -->
+                    <q-breadcrumbs-el
+                      v-for="(c, index) in this.$store.state.drillLevels.breadCrumb.slice(0,this.uuid-1)"
+                      :key="index"
+                      :label="c"
+                      icon="navigation"
+                      :to="'#table-'+(index+1).toString().padStart(2,'0')"
+                    />
                   </q-breadcrumbs>
                   <q-btn
                     flat
@@ -107,17 +49,6 @@
                       </q-list>
                     </q-menu>
                   </q-btn>
-                  <!-- <q-breadcrumbs
-                    active-color="black"
-                    style="font-size: 12px">
-                      <q-breadcrumbs-el
-                        v-for="(c, index) in this.$store.state.drillLevels.breadCrumb.slice(0,this.uuid-1)"
-                        :key="index"
-                        :label="c"
-                        icon="navigation"
-                        :to="'#table-'+(index+1).toString().padStart(2,'0')"
-                      />
-                  </q-breadcrumbs> -->
                 </q-toolbar-title>
               </q-toolbar>
             </q-form>
@@ -147,262 +78,277 @@
 </template>
 
 <script>
-  import QFormBase from '../form/qFormBase.vue'
-  import { mapMutations } from 'vuex'
-  import drillLevels from '../../store/drillLevels'
+  // import QFormBase from '../form/qFormBase.vue'
+  // import { mapMutations } from 'vuex'
+  // import drillLevels from '../../store/drillLevels'
   import * as sdata from '../form/seedData.vue'
-  import TableScan from './table02'
+  // import TableScan from './table02'
 
   export default {
-    components: { QFormBase, TableScan },
+    // components: { QFormBase, TableScan },
     props: {
-      formId: {
+      // formId: {
+      //   type: Number,
+      //   default: 0
+      // },
+
+      uuid: {
         type: Number,
         default: 0
+      },
+
+      recId: {
+        type: String,
+        default: ''
       }
     },
     data () {
       return {
-        recId: '',
-        uuid: 0,
-        uuid1: '',
+        // recId: '',
+        // uuid: 0,
+        // uuid1: '',
         tableChildrenId: '',
         // selectedRow: {},
         // editRow: {},
         // selected: [],
-        filter: '',
-        accept: true,
-        tableAccessOption: 'display: hidden',
-        tableSearchOption: 'display: hidden',
-        editAccess: 'display: hidden',
-        menuAccess: 'display: hidden',
+        // filter: '',
+        // accept: true,
+        // tableAccessOption: 'display: hidden',
+        // tableSearchOption: 'display: hidden',
+        // editAccess: 'display: hidden',
+        menuAccess: 'display: block',
         menuEditToggle: 'display: hidden',
         menuMode: 'menu',
-        dropto: null,
+        // dropto: null,
         editedItem: {},
         editedItemBase: {},
         drilledDown: 'display: hidden',
-        drilledDownDisplay: 'display: hidden',
+        // drilledDownDisplay: 'display: hidden',
         drilledOption: null,
         render: true,
-        pagination: {
-          rowsPerPage: 0
-        },
+        // pagination: {
+        //   rowsPerPage: 0
+        // },
         colTableClass: 'col-xs-12 col-lg-6',
         breadcrumb: [],
         editedIndex: -1,
         data: {},
         hideTable: false,
-        editAddLabel: 'Edit >> ',
-        createForm: true,
+        // editAddLabel: 'Edit >> ',
+        // createForm: true,
       }
     },
 
     computed: {
 
-      defaultItem() {
-          var h1 = Object.keys(this.dataSchema);
-          var h2 = {};
-          for (var i=0; i < h1.length; i++ ) {
-              h2[h1[i]] = this.dataSchema[h1[i]].defaultValue;
-          }
-          return h2
-      },
+      // defaultItem() {
+      //     var h1 = Object.keys(this.dataSchema);
+      //     var h2 = {};
+      //     for (var i=0; i < h1.length; i++ ) {
+      //         h2[h1[i]] = this.dataSchema[h1[i]].defaultValue;
+      //     }
+      //     return h2
+      // },
 
-      columns() {
-        var h1 = Object.keys(this.dataSchema);
-        var h2 = [];
-        for (var i=0; i < h1.length; i++ ) {
-          h2.push(this.dataSchema[h1[i]])
-          }
-        return h2
-      },
+      // columns() {
+      //   var h1 = Object.keys(this.dataSchema);
+      //   var h2 = [];
+      //   for (var i=0; i < h1.length; i++ ) {
+      //     h2.push(this.dataSchema[h1[i]])
+      //     }
+      //   return h2
+      // },
 
       dataSchema() { return sdata.default.dataSchema },
 
-      visibleColumns() {
-        var h1 = Object.keys(this.dataSchema);
-        var h2 = [];
-        for (var i=0; i < h1.length; i++ ) {
-          if (this.dataSchema[h1[i]].defaultVisible) {
-            h2.push(h1[i])
-          }
-        }
-        return h2
-      }
+      // visibleColumns() {
+      //   var h1 = Object.keys(this.dataSchema);
+      //   var h2 = [];
+      //   for (var i=0; i < h1.length; i++ ) {
+      //     if (this.dataSchema[h1[i]].defaultVisible) {
+      //       h2.push(h1[i])
+      //     }
+      //   }
+      //   return h2
+      // }
     },
 
     methods: {
-      ...mapMutations(drillLevels, ['updateBreadCrumb']),
+      // ...mapMutations(drillLevels, ['updateBreadCrumb']),
 
-      updateBreadCrumb(id) {
-        this.$store.commit('drillLevels/updateBreadCrumb', id)
-      },
+      // updateBreadCrumb(id) {
+      //   this.$store.commit('drillLevels/updateBreadCrumb', id)
+      // },
 
-      onRowClick(payload) {
-        this.extractPayload(payload)
-        if (this.recId == '') {
-          this.menuEditToggle = 'display: hidden'
-          this.menuAccess= 'display: hidden'
-          this.editAccess = 'display: hidden'
-          this.colTableClass = 'col-xs-12 col-md-8'
-        } else {
-          this.menuAccess= 'display: block'
-        }
-        this.updateBreadCrumb({'idx': this.uuid-1, 'selection': this.recId})
-      },
+      // onRowClick(payload) {
+      //   this.extractPayload(payload)
+      //   if (this.recId == '') {
+      //     this.menuEditToggle = 'display: hidden'
+      //     this.menuAccess= 'display: hidden'
+      //     this.editAccess = 'display: hidden'
+      //     this.colTableClass = 'col-xs-12 col-md-8'
+      //   } else {
+      //     this.menuAccess= 'display: block'
+      //   }
+      //   this.updateBreadCrumb({'idx': this.uuid-1, 'selection': this.recId})
+      // },
 
-      onEdit(payload) {
-        this.extractPayload(payload)
-        this.menuAccess = 'display: hidden'
-        this.menuMode = 'edit'
-        this.editItem(this.editedItem)
-        this.colTableClass = 'col-xs-12 col-lg-6'
-        this.editAccess = 'display: block'
-      },
+      // onEdit(payload) {
+      //   this.extractPayload(payload)
+      //   this.menuAccess = 'display: hidden'
+      //   this.menuMode = 'edit'
+      //   this.editItem(this.editedItem)
+      //   this.colTableClass = 'col-xs-12 col-lg-6'
+      //   this.editAccess = 'display: block'
+      // },
 
-      onCreate(payload) {
-        this.extractPayload(payload)
-        this.menuMode = 'edit'
-        this.recId = ''
-        this.editItem(this.defaultItem)
-        this.colTableClass = 'col-xs-12 col-lg-6'
-        this.editAccess = 'display: block'
-      },
+      // onCreate(payload) {
+      //   this.extractPayload(payload)
+      //   this.menuMode = 'edit'
+      //   this.recId = ''
+      //   this.editItem(this.defaultItem)
+      //   this.colTableClass = 'col-xs-12 col-lg-6'
+      //   this.editAccess = 'display: block'
+      // },
 
-      extractPayload(payload) {
-        this.menuMode = payload.menuMode
-        this.menuAccess = payload.menuAccess
-        this.colTableClass = payload.colTableClass
-        this.editAccess = payload.editAccess
-        this.recId = payload.recId
-        Object.assign(this.editedItem, payload.row)
-        Object.assign(this.editedItemBase, payload.row)
-        this.editAddLabel = payload.editAddLabel
-        this.createForm = payload.createForm
-        this.editedIndex = payload.editedIndex
-      },
+      // extractPayload(payload) {
+      //   this.menuMode = payload.menuMode
+      //   this.menuAccess = payload.menuAccess
+      //   this.colTableClass = payload.colTableClass
+      //   this.editAccess = payload.editAccess
+      //   this.recId = payload.recId
+      //   Object.assign(this.editedItem, payload.row)
+      //   Object.assign(this.editedItemBase, payload.row)
+      //   this.editAddLabel = payload.editAddLabel
+      //   this.createForm = payload.createForm
+      //   this.editedIndex = payload.editedIndex
+      // },
 
-      onDelete(payload) {
-        this.extractPayload(payload)
-        this.deleteItem()
-      },
+      // onDelete(payload) {
+      //   this.extractPayload(payload)
+      //   this.deleteItem()
+      // },
 
-      onClick(payload) {
-        this.extractPayload(payload)
-      },
+      // onClick(payload) {
+      //   this.extractPayload(payload)
+      // },
 
-      searchOptionToggle () {
-        if (this.tableSearchOption == 'display: hidden') {
-          this.tableSearchOption = 'display: block'
-        } else {
-          this.tableSearchOption = 'display: hidden'
-        }
-      },
+      // searchOptionToggle () {
+      //   if (this.tableSearchOption == 'display: hidden') {
+      //     this.tableSearchOption = 'display: block'
+      //   } else {
+      //     this.tableSearchOption = 'display: hidden'
+      //   }
+      // },
 
-      btnMenuMode() {
-        this.editAccess = 'display: hidden'
-        this.editAccessL = false
-        this.menuMode = 'menu'
+      // btnMenuMode() {
+      //   this.editAccess = 'display: hidden'
+      //   this.editAccessL = false
+      //   this.menuMode = 'menu'
 
-        if (this.recId == '') {
-          this.menuEditToggle = 'display: hidden'
-          this.menuAccess = 'display: hidden'
-        } else {
-          this.menuEditToggle = 'display: block'
-          this.menuAccess = 'display: block'
-        }
-      },
+      //   if (this.recId == '') {
+      //     this.menuEditToggle = 'display: hidden'
+      //     this.menuAccess = 'display: hidden'
+      //   } else {
+      //     this.menuEditToggle = 'display: block'
+      //     this.menuAccess = 'display: block'
+      //   }
+      // },
 
-      drilledDownToggle () {
-        if (this.drilledDown == 'display: hidden') {
-          this.drilledDown = 'display: block'
-        } else {
-          this.drilledDown = 'display: hidden'
-        }
-      },
+      // drilledDownToggle () {
+      //   if (this.drilledDown == 'display: hidden') {
+      //     this.drilledDown = 'display: block'
+      //   } else {
+      //     this.drilledDown = 'display: hidden'
+      //   }
+      // },
 
-      onSubmit () {
-        this.$q.notify({
-          color: 'accent',
-          textColor: 'white',
-          icon: 'cloud_done',
-          message: 'Updated',
-          position: 'center'
-        })
-        if (this.editedIndex > -1) {
-          Object.assign(this.data[this.editedIndex], this.editedItem)
-          }
-          else {
-            this.data.push(this.editedItem)
-            this.editItem(this.defaultItem)
-          }
-        },
+      // onSubmit () {
+      //   this.$q.notify({
+      //     color: 'accent',
+      //     textColor: 'white',
+      //     icon: 'cloud_done',
+      //     message: 'Updated',
+      //     position: 'center'
+      //   })
+      //   if (this.editedIndex > -1) {
+      //     Object.assign(this.data[this.editedIndex], this.editedItem)
+      //     }
+      //     else {
+      //       this.data.push(this.editedItem)
+      //       this.editItem(this.defaultItem)
+      //     }
+      //   },
 
-      onReset () {
-        this.$q.notify({
-          color: 'accent',
-          textColor: 'white',
-          icon: 'cloud_done',
-          message: 'Resetting',
-          position: 'center'
-        })
-        if (this.editedIndex > -1) {
-          this.editItem(this.editedItemBase)
-        } else {
-          this.editItem(this.defaultItem)
-        }
-      },
+      // onReset () {
+      //   this.$q.notify({
+      //     color: 'accent',
+      //     textColor: 'white',
+      //     icon: 'cloud_done',
+      //     message: 'Resetting',
+      //     position: 'center'
+      //   })
+      //   if (this.editedIndex > -1) {
+      //     this.editItem(this.editedItemBase)
+      //   } else {
+      //     this.editItem(this.defaultItem)
+      //   }
+      // },
 
-      editItem (item) {
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
+      // editItem (item) {
+      //   this.editedItem = Object.assign({}, item)
+      //   this.dialog = true
+      // },
 
-      deleteItem () {
-        this.$q.notify({
-          color: 'accent',
-          textColor: 'white',
-          icon: 'delete_forever',
-          message: 'Deleting',
-          timeout: 500,
-          position: 'center'
-        })
-        this.data.splice(this.editedIndex, 1);
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-        this.recId = ''
-        this.menuAccess= 'display: hidden'
-        this.editAccess= 'display: hidden'
-      },
+      // deleteItem () {
+      //   this.$q.notify({
+      //     color: 'accent',
+      //     textColor: 'white',
+      //     icon: 'delete_forever',
+      //     message: 'Deleting',
+      //     timeout: 500,
+      //     position: 'center'
+      //   })
+      //   this.data.splice(this.editedIndex, 1);
+      //   this.editedItem = Object.assign({}, this.defaultItem)
+      //   this.editedIndex = -1
+      //   this.recId = ''
+      //   this.menuAccess= 'display: hidden'
+      //   this.editAccess= 'display: hidden'
+      // },
 
-      closeEditor() {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      },
+      // closeEditor() {
+      //   this.editedItem = Object.assign({}, this.defaultItem)
+      //   this.editedIndex = -1
+      // },
 
-      toggleMenuEdit() {
-        if (this.menuMode == 'menu') {
-          this.editAccess = 'display: hidden'
-        }
-        else {
-          this.editAccess= 'display: none'
-        }
-      },
+      // toggleMenuEdit() {
+      //   if (this.menuMode == 'menu') {
+      //     this.editAccess = 'display: hidden'
+      //   }
+      //   else {
+      //     this.editAccess= 'display: none'
+      //   }
+      // },
 
-      iconAddEdit() {
-        return this.createForm ? 'add' : 'edit'
-      },
-      saveLabel() {
-        return this.createForm ? 'save' : 'update'
-      }
+      // iconAddEdit() {
+      //   return this.createForm ? 'add' : 'edit'
+      // },
+      // saveLabel() {
+      //   return this.createForm ? 'save' : 'update'
+      // }
     },
 
     mounted() {
-      this.uuid = parseInt(this.formId, 10);
-      this.uuid += 1
-      this.uuid1 = "table-"+this.uuid.toString().padStart(2,'0')
+      // console.log('this.formId: ', this.formId);
+      // this.uuid = this.formId
+      // console.log('this.uuid 1: ', this.uuid);
+      // this.uuid += 1
+      // console.log('this.uuid: ', this.uuid);
+      // this.uuid1 = "table-"+this.uuid.toString().padStart(2,'0')
       this.tableChildrenId = "tableChildren-"+this.uuid.toString().padStart(2,'0')
+      // console.log('this.tableChildrenId: ', this.tableChildrenId);
+      // console.log('fired', this.recId);
     },
 
     created() {
