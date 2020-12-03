@@ -90,7 +90,6 @@
         <q-tab-panel
           v-if= "render"
           name="BarChart"
-          class="shadow-5"
           style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
             <BarChart />
         </q-tab-panel>

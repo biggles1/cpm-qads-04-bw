@@ -1,5 +1,5 @@
 <template>
-  <div id='chart01' class='row shadow-5'>
+  <div id='chart01' class='row'>
     <!-- <q-card :class="colTableClass"> -->
     <q-card class="col-xs-12 col-lg-6 q-px-lg">
       <q-card-section>

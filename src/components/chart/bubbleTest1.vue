@@ -1,12 +1,13 @@
 <template>
   <div id='chart02' class='row shadow-5'>
     <!-- <q-card :class="colTableClass"> -->
-    <q-card class="col-xs-12 col-lg-6 q-px-lg">
-      <q-card-section>
+    <q-card class="col-xs-12 col-lg-6 q-px-lg shadow-5">
+      <q-card-section class="shadow-5">
         <GChart
           type="BubbleChart"
           :data="chartData"
           :options="chartOptions"
+          class="shadow-5"
         />
       </q-card-section>
     </q-card>
