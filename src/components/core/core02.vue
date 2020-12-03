@@ -29,7 +29,6 @@
       </template>
 
     <!-- access menus -->
-              <!-- :formId=this.uuid -->
     <template>
       <q-card id="access-menu" class="col-xs-12" :class="menuAccess">
         <Access
@@ -39,71 +38,6 @@
         </Access>
       </q-card>
     </template>
-      <!-- <template>
-        <q-card id="access-menu" class="col-xs-12" :class="menuAccess">
-          <q-card-section class="q-px-xl">
-            <q-form
-              class="shadow-0"
-            >
-              <q-toolbar>
-                <q-toolbar-title style="text-align: left">
-                  <q-breadcrumbs
-                    class="q-py-sm"
-                    active-color="black"
-                    style="font-size: 12px">
-                      <q-breadcrumbs-el
-                        v-for="(c, index) in this.$store.state.drillLevels.breadCrumb.slice(0,this.uuid-1)"
-                        :key="index"
-                        :label="c"
-                        icon="navigation"
-                        :to="'#table-'+(index+1).toString().padStart(2,'0')"
-                      />
-                  </q-breadcrumbs>
-                  <q-btn
-                    flat
-                    icon="arrow_drop_down"
-                    :label=recId
-                    @click="drilledOption = 'nextLevel'"
-                    render = true;
-                    hideTable = true
-                    class="q-ma-xs bg-grey-4"
-                  >
-                  </q-btn>
-                  <q-btn flat icon="apps" class="q-ma-xs bg-grey-4" label="Options">
-                    <q-menu>
-                      <q-list style="min-width: 150px">
-                        <q-item clickable v-close-popup @click="drilledOption = 'nextLevel'; render = true">
-                          <q-item-section>
-                            Next level
-                          </q-item-section>
-                        </q-item>
-                      </q-list>
-                    </q-menu>
-                  </q-btn>
-                </q-toolbar-title>
-              </q-toolbar>
-            </q-form>
-          </q-card-section>
-        </q-card>
-      </template>
-
-      <template>
-        <q-tab-panels
-          :id="tableChildrenId"
-          v-model="drilledOption"
-          animated
-          class="row col-grow col-xs-12"
-          :class="menuAccess"
-          style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px"
-          >
-          <q-tab-panel
-            v-if= "render"
-            name="nextLevel"
-            style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
-              <Core :formId = "uuid" />
-          </q-tab-panel>
-        </q-tab-panels>
-      </template> -->
     </div>
   </div>
 </template>
@@ -129,7 +63,6 @@
         recId: '',
         uuid: 0,
         uuid1: '',
-        // tableChildrenId: '',
         filter: '',
         accept: true,
         tableAccessOption: 'display: hidden',
@@ -352,12 +285,9 @@
     },
 
     mounted() {
-      // this.uuid = parseInt(this.formId, 10)
-      // this.uuid = Object.assign({}, this.formId);
       this.uuid = this.formId
       this.uuid += 1
       this.uuid1 = "table-"+this.uuid.toString().padStart(2,'0')
-      // this.tableChildrenId = "tableChildren-"+this.uuid.toString().padStart(2,'0')
     },
 
     created() {
