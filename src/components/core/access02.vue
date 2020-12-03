@@ -33,6 +33,26 @@
                     class="q-ma-xs bg-grey-4"
                   >
                   </q-btn>
+                  <q-btn
+                    flat
+                    icon="arrow_drop_down"
+                    label='Bar Chart'
+                    @click="drilledOption = 'BarChart'"
+                    render = true;
+                    hideTable = true
+                    class="q-ma-xs bg-grey-4"
+                  >
+                  </q-btn>
+                  <q-btn
+                    flat
+                    icon="arrow_drop_down"
+                    label='Bubble Chart'
+                    @click="drilledOption = 'BubbleChart'"
+                    render = true;
+                    hideTable = true
+                    class="q-ma-xs bg-grey-4"
+                  >
+                  </q-btn>
                   <q-btn flat icon="apps" class="q-ma-xs bg-grey-4" label="Options">
                     <q-menu>
                       <q-list style="min-width: 150px">
@@ -67,6 +87,20 @@
           style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
             <Core :formId = "uuid" />
         </q-tab-panel>
+        <q-tab-panel
+          v-if= "render"
+          name="BarChart"
+          class="shadow-5"
+          style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+            <BarChart />
+        </q-tab-panel>
+        <q-tab-panel
+          v-if= "render"
+          name="BubbleChart"
+          class="shadow-5"
+          style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+            <BubbleChart />
+        </q-tab-panel>
       </q-tab-panels>
     </template>
   </div>
@@ -74,6 +108,8 @@
 
 <script>
   import * as sdata from '../form/seedData.vue'
+  import BarChart from '../chart/barTest1.vue'
+  import BubbleChart from '../chart/bubbleTest1.vue'
 
   export default {
     props: {
@@ -88,6 +124,9 @@
         default: ''
       }
     },
+
+    components: { BarChart, BubbleChart },
+
     data () {
       return {
         tableChildrenId: '',

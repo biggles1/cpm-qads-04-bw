@@ -12,6 +12,10 @@ Using the following libraries:
     - will be eventually created using Quasar Cli
     - to be updated to Vue 3 with release of Quasar 2
   #### Vue
+
+  #### Google Charts
+    - https://www.npmjs.com/package/vue-google-charts
+
   #### Form generator
   #### AWS
     - Amplify
@@ -45,4 +49,4 @@ quasar build
 ### Customize the configuration
 See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
 "# quasar-cpm-03"
-"# cpm-qads-04" 
+"# cpm-qads-04"
