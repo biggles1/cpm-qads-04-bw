@@ -1,6 +1,5 @@
 <template>
   <div id='chart01' class='row'>
-    <!-- <q-card :class="colTableClass"> -->
     <q-card class="col-xs-12 col-lg-6 q-px-lg">
       <q-card-section>
         <GChart
@@ -46,7 +45,7 @@ export default {
         },
         bars: 'horizontal', // Required for Material Bar Charts.
         hAxis: { format: 'decimal' },
-        height: 400,
+        height: 300,
         colors: ['#1b9e77', '#d95f02', '#7570b3']
       })
     }

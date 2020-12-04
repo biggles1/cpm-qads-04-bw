@@ -92,36 +92,7 @@
     },
 
     computed: {
-      defaultItem() {
-          var h1 = Object.keys(this.dataSchema);
-          var h2 = {};
-          for (var i=0; i < h1.length; i++ ) {
-              h2[h1[i]] = this.dataSchema[h1[i]].defaultValue;
-          }
-          return h2
-      },
-
-      columns() {
-        var h1 = Object.keys(this.dataSchema);
-        var h2 = [];
-        for (var i=0; i < h1.length; i++ ) {
-          h2.push(this.dataSchema[h1[i]])
-          }
-        return h2
-      },
-
       dataSchema() { return sdata.default.dataSchema },
-
-      visibleColumns() {
-        var h1 = Object.keys(this.dataSchema);
-        var h2 = [];
-        for (var i=0; i < h1.length; i++ ) {
-          if (this.dataSchema[h1[i]].defaultVisible) {
-            h2.push(h1[i])
-          }
-        }
-        return h2
-      },
     },
 
     methods: {
@@ -137,7 +108,7 @@
           this.menuEditToggle = 'display: hidden'
           this.menuAccess= 'display: hidden'
           this.editAccess = 'display: hidden'
-          this.colTableClass = 'col-xs-12 col-md-8'
+          this.colTableClass = 'col-xs-12 col-lg-6'
         } else {
           this.menuAccess= 'display: block'
         }
@@ -178,7 +149,7 @@
         if (payload.menuAccess) this.menuAccess = payload.menuAccess
         if (payload.colTableClass) this.colTableClass = payload.colTableClass
         if (payload.editAccess) this.editAccess = payload.editAccess
-        if (payload.recId) this.recId = payload.recId
+        this.recId = payload.recId
         if (payload.row) this.editedItem = payload.row
         if (payload.editedIndex) this.editedIndex = payload.editedIndex
         if (payload.editAddLabel) this.editAddLabel = payload.editAddLabel
