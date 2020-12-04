@@ -1,5 +1,5 @@
 <template>
-  <div id='chart02' class='row shadow-5'>
+  <div id='chart02' class='row'>
     <!-- <q-card :class="colTableClass"> -->
     <q-card class="col-xs-12 col-lg-6 q-px-lg shadow-5">
       <q-card-section class="shadow-5">
@@ -35,7 +35,8 @@ export default {
         ["", 68, 477, 80]
       ],
       chartOptions: {
-        colorAxis: { colors: ["yellow", "red"] }
+        colorAxis: { colors: ["yellow", "red"] },
+        height: 300,
       }
     };
   }

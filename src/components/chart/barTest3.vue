@@ -1,10 +1,10 @@
 <template>
-  <div id='chart01' class='row shadow-5'>
+  <div id='chart01' class='row'>
     <!-- <q-card :class="colTableClass"> -->
     <q-card class="col-xs-12 col-lg-6 q-px-lg">
       <q-card-section>
         <GChart
-          :settings="{packages: ['corechart', 'line']}"
+          :settings="{packages: ['line']}"
           :data="chartData"
           :options="chartOptions"
           :createChart="(el, google) => new google.charts.Line(el)"
@@ -44,7 +44,8 @@ export default {
           title: 'Company Performance',
           subtitle: 'Sales, Expenses, and Profit: 2014-2017',
           curveType: 'function',
-          legend: { position: 'bottom' }
+          legend: { position: 'bottom' },
+          height: 300,
 
         },
         // bars: 'horizontal', // Required for Material Bar Charts.

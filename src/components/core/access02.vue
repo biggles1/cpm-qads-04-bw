@@ -3,10 +3,9 @@
     <div class="row">
     <!-- access menus -->
       <template>
-        <q-card id="access-menu" class="col-xs-12">
-          <q-card-section class="q-px-xl">
+        <q-card id="access-menu" class="col-xs-12 col-lg-6 q-px-lg">
+          <q-card-section>
             <q-form
-              class="shadow-0"
             >
               <q-toolbar>
                 <q-toolbar-title style="text-align: left">
@@ -56,14 +55,14 @@
                   <q-btn flat icon="apps" class="q-ma-xs bg-grey-4" label="Options">
                     <q-menu>
                       <q-list style="min-width: 150px" class="q-ma-xs bg-grey-1">
-                        <q-item 
-                          clickable 
-                          v-close-popup 
+                        <q-item
+                          clickable
+                          v-close-popup
                           @click="drilledOption = 'BarChart'"
-                         
+
                           render = true;
                           hideTable = true
-                          class="q-ma-xs bg-grey-4" 
+                          class="q-ma-xs bg-grey-4"
                           >
                             <q-item-section>
                               <q-item-label>
@@ -71,14 +70,14 @@
                               </q-item-label>
                             </q-item-section>
                         </q-item>
-                        <q-item 
-                          clickable 
-                          v-close-popup 
+                        <q-item
+                          clickable
+                          v-close-popup
                           @click="drilledOption = 'BarChart1'"
-                         
+
                           render = true;
                           hideTable = true
-                          class="q-ma-xs bg-grey-4" 
+                          class="q-ma-xs bg-grey-4"
                           >
                             <q-item-section>
                               <q-item-label>
@@ -86,14 +85,14 @@
                               </q-item-label>
                             </q-item-section>
                         </q-item>
-                        <q-item 
-                          clickable 
-                          v-close-popup 
+                        <q-item
+                          clickable
+                          v-close-popup
                           @click="drilledOption = 'BarChart3'"
-                         
+
                           render = true;
                           hideTable = true
-                          class="q-ma-xs bg-grey-4" 
+                          class="q-ma-xs bg-grey-4"
                           >
                             <q-item-section>
                               <q-item-label>
@@ -101,17 +100,17 @@
                               </q-item-label>
                             </q-item-section>
                         </q-item>
-                        <q-item 
-                          clickable 
-                          v-close-popup 
+                        <q-item
+                          clickable
+                          v-close-popup
                           @click="drilledOption = 'BubbleChart'"
-                          
+
                           render = true;
                           hideTable = true
-                          class="q-ma-xs bg-grey-4" 
+                          class="q-ma-xs bg-grey-4"
                           >
-                            <q-item-section color="bg-blue-2">
-                              <q-item-label color="bg-blue-2">
+                            <q-item-section>
+                              <q-item-label>
                                 Bubble chart
                               </q-item-label>
                             </q-item-section>
@@ -134,39 +133,35 @@
         animated
         class="row col-grow col-xs-12"
         :class="menuAccess"
-        style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px"
         >
         <q-tab-panel
           v-if= "render"
           name="nextLevel"
-          style=" margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+          >
             <Core :formId = "uuid" />
         </q-tab-panel>
         <q-tab-panel
           v-if= "render"
           name="BarChart"
-          style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+          >
             <BarChart />
         </q-tab-panel>
         <q-tab-panel
           v-if= "render"
           name="BarChart1"
-          class="shadow-5"
-          style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+          >
             <BarChart1 />
         </q-tab-panel>
         <q-tab-panel
           v-if= "render"
           name="BarChart3"
-          class="shadow-5"
-          style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+          >
             <BarChart3 />
         </q-tab-panel>
         <q-tab-panel
           v-if= "render"
           name="BubbleChart"
-          class="shadow-5"
-          style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; ">
+          >
             <BubbleChart />
         </q-tab-panel>
       </q-tab-panels>
