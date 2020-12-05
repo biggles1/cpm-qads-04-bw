@@ -15,6 +15,7 @@ Using the following libraries:
 
   #### Google Charts
     - https://www.npmjs.com/package/vue-google-charts
+    - reCharts - https://recharts.org/ - for standalone?
 
   #### Form generator
   #### AWS
