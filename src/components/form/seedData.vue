@@ -17,7 +17,7 @@
       { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
       { name: 'protein', label: 'Protein (g)', field: 'protein' },
       { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-      { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+      { name: 'calcium', label: 'Calcium (%)', suffix:'"%"', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
       { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
     ],
 
@@ -36,12 +36,12 @@
         defaultValue: ''
         },
       calories: { type: 'decimal', name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true, defaultValue: 99, defaultVisible: true },
-      fat: { type: 'decimal', name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, defaultValue: 0, defaultVisible: false },
-      carbs: { type: 'decimal', name: 'carbs', label: 'Carbs (g)', field: 'carbs', sortable: true, defaultValue: 0, defaultVisible: false },
-      protein: { type: 'decimal', name: 'protein', label: 'Protein (g)', field: 'protein', sortable: true, defaultValue: 0, defaultVisible: true },
-      sodium: { type: 'decimal', name: 'sodium', label: 'Sodium (mg)', field: 'sodium', sortable: true, defaultValue: 0, defaultVisible: true },
-      calcium: { type: 'decimal', name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, defaultValue: 0, defaultVisible: false },
-      iron: { type: 'decimal', name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, defaultValue: 0, defaultVisible: true }
+      fat: { type: 'decimal', name: 'fat', suffix:'g', label: 'Fat (g)', field: 'fat', sortable: true, defaultValue: 0, defaultVisible: false },
+      carbs: { type: 'decimal', name: 'carbs', suffix:'g', label: 'Carbs (g)', field: 'carbs', sortable: true, defaultValue: 0, defaultVisible: false },
+      protein: { type: 'decimal', name: 'protein', suffix:'g', label: 'Protein (g)', field: 'protein', sortable: true, defaultValue: 0, defaultVisible: true },
+      sodium: { type: 'decimal', name: 'sodium', suffix:'mg', label: 'Sodium (mg)', field: 'sodium', sortable: true, defaultValue: 0, defaultVisible: true },
+      calcium: { type: 'decimal', name: 'calcium', suffix:'%', label: 'Calcium (%)', field: 'calcium', sortable: true, defaultValue: 0, defaultVisible: false },
+      iron: { type: 'decimal', name: 'iron', suffix:'%', label: 'Iron (%)', field: 'iron', sortable: true, defaultValue: 0, defaultVisible: true }
     },
     recordData: [
       {

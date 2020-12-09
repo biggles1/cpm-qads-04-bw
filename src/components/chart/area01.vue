@@ -6,7 +6,6 @@
           type='AreaChart'
           :data="chartData"
           :options="chartOptions"
-          @ready="onChartReady"
           class="q-pa-xl shadow-5"
         />
       </q-card-section>
@@ -23,7 +22,7 @@ export default {
   },
   data () {
     return {
-      chartsLib: null,
+      // chartsLib: null,
       // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [
         ['Year', 'Sales', 'Expenses', 'Profit'],
@@ -31,27 +30,31 @@ export default {
         ['2015', 1170, 460, 250],
         ['2016', 660, 1120, 300],
         ['2017', 1030, 540, 350]
-      ]
+      ],
+      chartOptions: {
+        title: 'Company Performance',
+        subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+        height: 300,
+      }
     }
   },
   computed: {
-    chartOptions () {
-      if (!this.chartsLib) return null
-      return this.chartsLib.charts.Line.convertOptions({
-        chart: {
-          title: 'Company Performance',
-          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-          height: 300,
-
-        },
-      })
-    }
+    // chartOptions () {
+    //   if (!this.chartsLib) return null
+    //   return this.chartsLib.charts.Line.convertOptions({
+    //     chart: {
+    //       title: 'Company Performance',
+    //       subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+    //       height: 300,
+    //     },
+    //   })
+    // }
   },
-  methods: {
-    onChartReady (chart, google) {
-      this.chartsLib = google
-    }
-  }
+  // methods: {
+  //   onChartReady (chart, google) {
+  //     this.chartsLib = google
+  //   }
+  // }
 }
 </script>
 

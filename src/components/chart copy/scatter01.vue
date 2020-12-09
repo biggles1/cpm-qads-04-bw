@@ -1,12 +1,11 @@
 <template>
-  <div id='chart01' class='row'>
+  <div id='PieChart' class='row'>
     <q-card class="col-xs-12 col-lg-6 q-px-lg">
       <q-card-section>
         <GChart
-          type="bar"
+          type='ScatterChart'
           :data="chartData"
           :options="chartOptions"
-          :createChart="(el, google) => new google.charts.Bar(el)"
           @ready="onChartReady"
           class="q-pa-xl shadow-5"
         />
@@ -25,44 +24,30 @@ export default {
   data () {
     return {
       chartsLib: null,
-      // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [
-        ['Year', 'Sales', 'Expenses', 'Profit'],
-        ['2014', 1000, 400, 200],
-        ['2015', 1170, 460, 250],
-        ['2016', 660, 1120, 300],
-        ['2017', 1030, 540, 350]
+        ['Age', 'Weight'],
+        [ 8,      12],
+        [ 4,      5.5],
+        [ 11,     14],
+        [ 4,      5],
+        [ 3,      3.5],
+        [ 6.5,    7]
       ],
       chartOptions: {
-        title: 'Company Performance',
-        subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-        bars: 'horizontal', // Required for Material Bar Charts.
-        hAxis: { format: 'decimal' },
-        height: 300,
-        colors: ['#1b9e77', '#d95f02', '#7570b3']
-      },
+        title: 'Age vs. Weight comparison',
+        hAxis: {title: 'Age', minValue: 0, maxValue: 15},
+        vAxis: {title: 'Weight', minValue: 0, maxValue: 15},
+        legend: 'none',
+        height: 300
+      }
     }
-  // computed: {
-  //   chartOptions () {
-  //     if (!this.chartsLib) return null
-  //     return this.chartsLib.charts.Bar.convertOptions({
-  //       chart: {
-  //         title: 'Company Performance',
-  //         subtitle: 'Sales, Expenses, and Profit: 2014-2017'
-  //       },
-  //       bars: 'horizontal', // Required for Material Bar Charts.
-  //       hAxis: { format: 'decimal' },
-  //       height: 300,
-  //       colors: ['#1b9e77', '#d95f02', '#7570b3']
-  //     })
-  //   }
-  // },
-  // methods: {
-  //   onChartReady (chart, google) {
-  //     this.chartsLib = google
-  //   }
-  // }
   },
+
+  methods: {
+    onChartReady (chart, google) {
+      this.chartsLib = google
+    }
+  }
 }
 </script>
 

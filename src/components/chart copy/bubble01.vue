@@ -1,12 +1,13 @@
 <template>
-  <div id='PieChart' class='row'>
-    <q-card class="col-xs-12 col-lg-6 q-px-lg">
-      <q-card-section>
+  <div id='chart02' class='row'>
+    <!-- <q-card :class="colTableClass"> -->
+    <q-card class="col-xs-12 col-lg-6 q-px-lg shadow-5">
+      <q-card-section class="shadow-5">
         <GChart
-          type='PieChart'
+          type="BubbleChart"
           :data="chartData"
           :options="chartOptions"
-          class="q-pa-xl shadow-5"
+          class="shadow-5"
         />
       </q-card-section>
     </q-card>
@@ -14,34 +15,32 @@
 </template>
 
 <script>
-import { GChart } from 'vue-google-charts'
+import { GChart } from "vue-google-charts";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     GChart
   },
-  data () {
+  data() {
     return {
-      // chartsLib: null,
+      // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [
-        ['Task', 'Hours per Day'],
-        ['Work',     11],
-        ['Eat',      2],
-        ['Commute',  2],
-        ['Watch TV', 2],
-        ['Sleep',    7]
+        ["ID", "X", "Y", "Temperature"],
+        ["", 80, 167, 120],
+        ["", 79, 136, 130],
+        ["", 78, 184, 50],
+        ["", 72, 278, 230],
+        ["", 81, 200, 210],
+        ["", 72, 170, 100],
+        ["", 68, 477, 80]
       ],
       chartOptions: {
-        title: 'My Daily Activities',
-        pieHole: 0.2,
-        chartArea: {left:20,top:20,width:'100%',height:'75%'},
-        is3D: true,
-        height: 300
+        colorAxis: { colors: ["yellow", "red"] },
+        height: 300,
       }
-    }
-  },
-
-}
+    };
+  }
+};
 </script>
 
 <style lang="sass">

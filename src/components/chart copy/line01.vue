@@ -1,12 +1,13 @@
 <template>
   <div id='chart01' class='row'>
+    <!-- <q-card :class="colTableClass"> -->
     <q-card class="col-xs-12 col-lg-6 q-px-lg">
       <q-card-section>
         <GChart
-          type="bar"
+          :settings="{packages: ['line']}"
           :data="chartData"
           :options="chartOptions"
-          :createChart="(el, google) => new google.charts.Bar(el)"
+          :createChart="(el, google) => new google.charts.Line(el)"
           @ready="onChartReady"
           class="q-pa-xl shadow-5"
         />
@@ -32,37 +33,36 @@ export default {
         ['2015', 1170, 460, 250],
         ['2016', 660, 1120, 300],
         ['2017', 1030, 540, 350]
-      ],
-      chartOptions: {
-        title: 'Company Performance',
-        subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-        bars: 'horizontal', // Required for Material Bar Charts.
-        hAxis: { format: 'decimal' },
-        height: 300,
-        colors: ['#1b9e77', '#d95f02', '#7570b3']
-      },
+      ]
     }
-  // computed: {
-  //   chartOptions () {
-  //     if (!this.chartsLib) return null
-  //     return this.chartsLib.charts.Bar.convertOptions({
-  //       chart: {
-  //         title: 'Company Performance',
-  //         subtitle: 'Sales, Expenses, and Profit: 2014-2017'
-  //       },
-  //       bars: 'horizontal', // Required for Material Bar Charts.
-  //       hAxis: { format: 'decimal' },
-  //       height: 300,
-  //       colors: ['#1b9e77', '#d95f02', '#7570b3']
-  //     })
-  //   }
-  // },
-  // methods: {
-  //   onChartReady (chart, google) {
-  //     this.chartsLib = google
-  //   }
-  // }
   },
+  computed: {
+    chartOptions () {
+      if (!this.chartsLib) return null
+      return this.chartsLib.charts.Line.convertOptions({
+        chart: {
+          title: 'Company Performance',
+          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+          curveType: 'function',
+          legend: { position: 'bottom' },
+          height: 300,
+
+        },
+        // bars: 'horizontal', // Required for Material Bar Charts.
+        // hAxis: { format: 'decimal' },
+        // height: 400,
+        // colors: ['#1b9e77', '#d95f02', '#7570b3'],
+
+        // curveType: 'function',
+        // legend: { position: 'bottom' }
+      })
+    }
+  },
+  methods: {
+    onChartReady (chart, google) {
+      this.chartsLib = google
+    }
+  }
 }
 </script>
 

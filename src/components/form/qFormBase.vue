@@ -335,6 +335,7 @@
             </template>
 
             <!-- decimal -->
+            <!-- suffix="%" -->
             <template v-else-if="obj.schema.type === 'decimal'">
               <q-input
                 v-bind="obj.schema"
