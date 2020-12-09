@@ -187,6 +187,7 @@ export default {
         for (var i=0; i < h1.length; i++ ) {
             h2[h1[i]] = this.dataSchema[h1[i]].defaultValue;
           }
+          // console.log('defaultItem: ', h2);
         return h2
       },
 
@@ -259,7 +260,7 @@ export default {
       colTableClass: this.colTableClass,
       menuAccess: this.menuAccess,
       recId: this.recId,
-      row: this.selectedRow,
+      row: this.editedItem,
       editedIndex: this.editedIndex,
       editAddLabel: this.editAddLabel,
       createForm: this.createForm,
@@ -326,6 +327,8 @@ export default {
     editItem (item) {
       this.editedIndex = this.data.indexOf(item)
       this.editedItem = Object.assign({}, item)
+      // console.log('item: ', this.item);
+      // console.log('editedItem: ', this.editedItem);
     },
   },
 

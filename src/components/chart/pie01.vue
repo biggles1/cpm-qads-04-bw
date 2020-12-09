@@ -24,7 +24,6 @@ export default {
   data () {
     return {
       chartsLib: null,
-      // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [
         ['Task', 'Hours per Day'],
         ['Work',     11],
@@ -32,27 +31,14 @@ export default {
         ['Commute',  2],
         ['Watch TV', 2],
         ['Sleep',    7]
-      ]
-    }
-  },
-  computed: {
-    chartOptions () {
-      if (!this.chartsLib) return null
-      return this.chartsLib.charts.Line.convertOptions({
-        chart: {
+      ],
+      chartOptions: {
           title: 'Company Performance',
           subtitle: 'Sales, Expenses, and Profit: 2014-2017',
           height: 300,
-
         },
-      })
     }
   },
-  methods: {
-    onChartReady (chart, google) {
-      this.chartsLib = google
-    }
-  }
 }
 </script>
 

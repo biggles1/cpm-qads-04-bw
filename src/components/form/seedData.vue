@@ -35,13 +35,13 @@
         classes: 'bg-grey-2 ellipsis',
         defaultValue: ''
         },
-      calories: { type: 'text', name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true, defaultValue: 0, defaultVisible: true },
-      fat: { type: 'text', name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, defaultValue: 0, defaultVisible: false },
-      carbs: { type: 'text', name: 'carbs', label: 'Carbs (g)', field: 'carbs', defaultValue: 0, defaultVisible: false },
-      protein: { type: 'text', name: 'protein', label: 'Protein (g)', field: 'protein', defaultValue: 0, defaultVisible: true },
-      sodium: { type: 'text', name: 'sodium', label: 'Sodium (mg)', field: 'sodium', defaultValue: 0, defaultVisible: true },
-      calcium: { type: 'text', name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, defaultValue: 0, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10), defaultVisible: false },
-      iron: { type: 'text', name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, defaultValue: 0, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10), defaultVisible: true }
+      calories: { type: 'decimal', name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true, defaultValue: 99, defaultVisible: true },
+      fat: { type: 'decimal', name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, defaultValue: 0, defaultVisible: false },
+      carbs: { type: 'decimal', name: 'carbs', label: 'Carbs (g)', field: 'carbs', sortable: true, defaultValue: 0, defaultVisible: false },
+      protein: { type: 'decimal', name: 'protein', label: 'Protein (g)', field: 'protein', sortable: true, defaultValue: 0, defaultVisible: true },
+      sodium: { type: 'decimal', name: 'sodium', label: 'Sodium (mg)', field: 'sodium', sortable: true, defaultValue: 0, defaultVisible: true },
+      calcium: { type: 'decimal', name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, defaultValue: 0, defaultVisible: false },
+      iron: { type: 'decimal', name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, defaultValue: 0, defaultVisible: true }
     },
     recordData: [
       {
@@ -51,8 +51,8 @@
         carbs: 24,
         protein: 4.0,
         sodium: 87,
-        calcium: '14%',
-        iron: '1%'
+        calcium: 14,
+        iron: 1
       },
       {
         name: 'Ice cream sandwich',
@@ -61,8 +61,8 @@
         carbs: 37,
         protein: 4.3,
         sodium: 129,
-        calcium: '8%',
-        iron: '1%'
+        calcium: 8,
+        iron: 1
       },
       {
         name: 'Eclair',
@@ -71,8 +71,8 @@
         carbs: 23,
         protein: 6.0,
         sodium: 337,
-        calcium: '6%',
-        iron: '7%'
+        calcium: 6,
+        iron: 7
       },
       {
         name: 'Cupcake',
@@ -81,8 +81,8 @@
         carbs: 67,
         protein: 4.3,
         sodium: 413,
-        calcium: '3%',
-        iron: '8%'
+        calcium: 3,
+        iron: 8
       },
       {
         name: 'Gingerbread',
@@ -91,8 +91,8 @@
         carbs: 49,
         protein: 3.9,
         sodium: 327,
-        calcium: '7%',
-        iron: '16%'
+        calcium: 7,
+        iron: 16
       },
       {
         name: 'Jelly bean',
@@ -101,8 +101,8 @@
         carbs: 94,
         protein: 0.0,
         sodium: 50,
-        calcium: '0%',
-        iron: '0%'
+        calcium: 0,
+        iron: 0
       },
       {
         name: 'Lollipop',
@@ -111,8 +111,8 @@
         carbs: 98,
         protein: 0,
         sodium: 38,
-        calcium: '0%',
-        iron: '2%'
+        calcium: 0,
+        iron: 2
       },
       {
         name: 'Honeycomb',
@@ -121,8 +121,8 @@
         carbs: 87,
         protein: 6.5,
         sodium: 562,
-        calcium: '0%',
-        iron: '45%'
+        calcium: 0,
+        iron: 45
       },
       {
         name: 'Donut',
@@ -131,8 +131,8 @@
         carbs: 51,
         protein: 4.9,
         sodium: 326,
-        calcium: '2%',
-        iron: '22%'
+        calcium: 2,
+        iron: 22
       },
       {
         name: 'KitKat',
@@ -141,8 +141,8 @@
         carbs: 65,
         protein: 7,
         sodium: 54,
-        calcium: '12%',
-        iron: '6%'
+        calcium: 12,
+        iron: 6
       }
     ],
   };
