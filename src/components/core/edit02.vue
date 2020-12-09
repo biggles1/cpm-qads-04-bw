@@ -95,6 +95,7 @@
       },
 
       onSubmit () {
+        console.log('0');
         this.$q.notify({
           color: 'accent',
           textColor: 'white',
@@ -102,7 +103,9 @@
           message: 'Updated',
           position: 'center'
         })
+        console.log('1');
         this.assignPayload()
+        console.log('2');
         if (this.editedIndex > -1) {
           this.$emit('onEdit', this.payload)
           this.rowBase = Object.assign({}, this.editedItem)
@@ -143,6 +146,7 @@
     },
 
     beforeUpdate() {
+      // console.log('editedItem: ', JSON.stringify(this.editedItem));
       this.row = Object.assign({}, this.editedItem)
       this.rowBase = Object.assign({}, this.editedItem)
       this.createForm = (this.editedIndex < 0)? true: false

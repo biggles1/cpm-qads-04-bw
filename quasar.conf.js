@@ -89,7 +89,7 @@ module.exports = function (ctx) {
       port: 8080,
       // open: true // opens browser window automatically
       open: 'firefox',
-      vueDevtools: true
+      // vueDevtools: false
     },
 
     // animations: 'all', // --- includes all animations

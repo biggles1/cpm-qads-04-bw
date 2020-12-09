@@ -119,7 +119,6 @@
         this.extractPayload(payload)
         this.menuAccess = 'display: hidden'
         this.menuMode = 'edit'
-        this.editItem(this.editedItem)
         this.colTableClass = 'col-xs-12 col-lg-6'
         this.editAccess = 'display: block'
       },
@@ -133,7 +132,6 @@
         this.extractPayload(payload)
         this.menuMode = 'edit'
         this.recId = ''
-        this.editItem(this.defaultItem)
         this.colTableClass = 'col-xs-12 col-lg-6'
         this.editAccess = 'display: block'
       },
@@ -213,6 +211,7 @@
       editItem (item) {
         this.editedIndex = this.data.indexOf(item)
         this.editedItem = Object.assign({}, item)
+        // console.log('create: ', item);
       },
 
       deleteItem () {

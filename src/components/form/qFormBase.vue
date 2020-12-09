@@ -24,6 +24,7 @@
                 @input="onInput($event, obj)"
               ></q-option-group>
             </template>
+
             <!-- slider -->
             <template v-else-if="obj.schema.type === 'slider'">
               <q-badge :color="obj.schema.color">
@@ -39,6 +40,7 @@
                 :color="obj.schema.color"
               />
             </template>
+
             <!-- array -->
             <template v-else-if="obj.schema.type === 'array'">
               <div class="col">
@@ -60,6 +62,7 @@
                 </div>
               </div>
             </template>
+
             <!-- Generic date Lookup -->
             <template v-else-if="obj.schema.type === 'dateLookup'">
               <q-menu
@@ -87,6 +90,7 @@
                 ></q-date-picker>
               </q-menu>
             </template>
+
             <!-- Date Text lookup  -->
             <template v-else-if="obj.schema.type === 'dateTextLookup'">
               <div class="q-pa-md">
@@ -128,6 +132,7 @@
                 </q-input>
               </div>
             </template>
+
             <!-- Time lookup 1  -->
             <template v-else-if="obj.schema.type === 'timeTextLookup'">
               <div class="q-pa-md">
@@ -168,12 +173,14 @@
                 </q-input>
               </div>
             </template>
+
             <!-- treeview -->
             <template v-else-if="obj.schema.type === 'treeview'">
               <div class="q-pa-md q-gutter-sm">
                 <q-tree :nodes="setValue(obj)" node-key="label"> </q-tree>
               </div>
             </template>
+
             <!-- list -->
             <template v-else-if="obj.schema.type === 'list'">
               <div class="row">
@@ -200,6 +207,7 @@
                 </q-list>
               </div>
             </template>
+
             <!-- checkbox || switch -->
             <template
               v-else-if="
@@ -218,6 +226,7 @@
                 </q-checkbox>
               </div>
             </template>
+
             <!-- file -->
             <template v-else-if="obj.schema.type === 'file'">
               <div class="q-pa-md">
@@ -242,6 +251,7 @@
                 </div>
               </div>
             </template>
+
             <!-- btn-toggle -->
             <template v-else-if="obj.schema.type === 'btnToggle'">
               <q-btn-toggle
@@ -282,6 +292,7 @@
                 -->
               </q-btn-toggle>
             </template>
+
             <!-- btn   -->
             <template v-else-if="obj.schema.type === 'btn'">
               <q-btn
@@ -291,6 +302,7 @@
               >
               </q-btn>
             </template>
+
             <!-- if masked use this v-text-field section - https://vuejs-tips.github.io/vue-the-mask/  -->
             <template v-else-if="obj.schema.mask || obj.schema.type === 'text'">
               <q-input
@@ -300,6 +312,7 @@
                 @input="onInput($event, obj)"
               ></q-input>
             </template>
+
             <!-- textArea -->
             <template v-else-if="obj.schema.type === 'textArea'">
               <q-input
@@ -310,6 +323,63 @@
                 @input="onInput($event, obj)"
               ></q-input>
             </template>
+
+           <!-- Number                 mask="#####.##" -->
+            <template v-else-if="obj.schema.type === 'number'">
+              <q-input
+                v-bind="obj.schema"
+                v-model="obj.value"
+                filled
+                @input="onInput($event, obj)"
+              ></q-input>
+            </template>
+
+            <!-- decimal -->
+            <template v-else-if="obj.schema.type === 'decimal'">
+              <q-input
+                v-bind="obj.schema"
+                v-model="obj.value"
+                filled
+                @input="onInput($event, obj)"
+              ></q-input>
+            </template>
+
+            <!-- phone fixed -->
+            <template v-else-if="obj.schema.type === 'phoneFixed'">
+              <q-input
+                v-bind="obj.schema"
+                v-model="obj.value"
+                filled
+                mask="(###) #### - ####"
+                unmasked-value
+                hint="Mask: (###) #### - ####"
+                @input="onInput($event, obj)"
+              ></q-input>
+            </template>
+
+            <!-- phone mobile -->
+            <template v-else-if="obj.schema.type === 'phoneMobile'">
+              <q-input
+                v-bind="obj.schema"
+                v-model="obj.value"
+                filled
+                mask="(####) ### - ###"
+                unmasked-value
+                hint="Mask: (####) ### - ###"
+                @input="onInput($event, obj)"
+              ></q-input>
+            </template>
+
+            <!-- <template v-else-if="obj.schema.type === 'number'">
+              <q-input
+                type="number"
+                v-bind="obj.schema"
+                v-model.number="obj.value"
+                filled
+                @input="onInput($event, obj)"
+              ></q-input>
+            </template> -->
+
             <!-- password -->
             <template v-else-if="obj.schema.type === 'password'">
               <q-input
@@ -331,6 +401,7 @@
                 </template>
               </q-input>
             </template>
+
             <!-- email -->
             <template v-else-if="obj.schema.type === 'email'">
               <q-input
@@ -342,6 +413,7 @@
               >
               </q-input>
             </template>
+
             <!-- select -->
             <template v-else-if="obj.schema.type === 'select'">
               <q-select
@@ -363,6 +435,7 @@
                 </template>
               </q-select>
             </template>
+
             <!-- combobox -->
             <template v-else-if="obj.schema.type === 'combobox'">
               <q-select
@@ -389,6 +462,7 @@
                 </template>
               </q-select>
             </template>
+
             <!-- autocomplete -->
             <template v-else-if="obj.schema.type === 'autocomplete'">
               <q-select
@@ -418,6 +492,7 @@
                 </template>
               </q-select>
             </template>
+
             <!-- all other Types -> see typeToComponent -->
             <template v-else>
               <div
@@ -453,20 +528,25 @@
  /* eslint-disable no-debugger */
 import { get, isPlainObject, isFunction, isString } from "lodash";
 import { mask } from "vue-the-mask";
+// import { configure } from 'quasar/wrappers';
 
 const typeToComponent = {
   // use native HTML5 Input Types - https://www.wufoo.com/html5/
   // text: 'v-text-field',
-  password: "v-text-field",
-  email: "v-text-field",
+  password: "q-input",
+  email: "q-input",
   tel: "v-text-field",
+  phoneFixed: "q-input",
+  phoneMobile: "q-input",
   url: "v-text-field",
   search: "v-text-field",
-  number: "v-text-field",
+  number: "q-input",
+  decimal: "q-input",
 
   text: "q-input",
   radio: "q-radio",
   treeview: "q-tree",
+  // range: "v-slider",
   range: "v-slider",
   slider: "q-slider",
   file: "q-file-input",
@@ -484,6 +564,7 @@ const typeToComponent = {
   btn: "q-btn",
   btnToggle: "q-btn-toggle"
 };
+
 // Declaration
 // const orderDirection = 'ASC'
 const pathDelimiter = ".";
@@ -539,8 +620,8 @@ export default {
 
   data() {
     return {
-      debugStuff: false,
-      debugLevel: 0,
+      debugStuff: true,
+      debugLevel: 1,
       flatCombinedArray: [],
       clear,
       button,
@@ -565,38 +646,44 @@ export default {
     ref() {
       return this.id;
     },
+
     flatCombinedArraySorted() {
-      // debugger
       // debugging
-      if(this.debugStuff) {
-        console.log('flatCombineArray1: ', JSON.stringify(this.flatCombinedArray1));
-      }
+      // eslint-disable-next-line no-constant-condition
+      // if(this.debugStuff && false) {
+      //   console.log('flatCombineArray1: ', JSON.stringify(this.flatCombinedArray1));
+      // }
       return this.flatCombinedArray1;
     },
+
     flatCombinedArray1() {
       // debugging
-      if(this.debugStuff && this.debugLevel >= 0) {
-        console.log('storeStateData: ', JSON.stringify(this.storeStateData));
-        console.log('storeStateSchema: ', JSON.stringify(this.storeStateSchema));
-        console.log('flatternAndCombineToArray', JSON.stringify(this.flattenAndCombineToArray(
-          this.storeStateData,
-          this.storeStateSchema
-        )));
-      }
+      // eslint-disable-next-line no-constant-condition
+      // if(this.debugStuff && this.debugLevel >= 0 && false) {
+      //   console.log('storeStateData: ', JSON.stringify(this.storeStateData));
+      //   console.log('storeStateSchema: ', JSON.stringify(this.storeStateSchema));
+      //   console.log('flatternAndCombineToArray', JSON.stringify(this.flattenAndCombineToArray(
+      //     this.storeStateData,
+      //     this.storeStateSchema
+      //   )));
+      // }
 
       return this.flattenAndCombineToArray(
         this.storeStateData,
         this.storeStateSchema
       );
     },
+
     storeStateData() {
       this.updateArrayFromState(this.value, this.schema);
       return this.value;
     },
+
     storeStateSchema() {
       this.updateArrayFromState(this.value, this.schema);
       return this.schema;
     },
+
     gridFormat() {
       if (this.flex) {
         var sflex = "col-".concat(this.flex).concat("${gridSpacing");
@@ -606,20 +693,25 @@ export default {
       }
     }
   },
+
   methods: {
     // Date methods
     dateUpdateProxy(obj) {
       this.proxyDate = obj.value;
     },
+
     dateProxySave(obj) {
       this.onInput(this.proxyDate, obj);
     },
+
     timeUpdateProxy(obj) {
       this.proxyTime = obj.value;
     },
+
     timeProxySave(obj) {
       this.onInput(this.proxyTime, obj);
     },
+
     // Selection methods
     // eslint-disable-next-line no-unused-vars
     filterFn({ v, u, abort }, option) {
@@ -632,37 +724,45 @@ export default {
         });
       }, 100);
     },
+
     // Generic methods
     mapTypeToComponent(type) {
       return typeToComponent[type] ? typeToComponent[type] : `q-${type}`;
     },
+
     // KEY SLOTS
     getKeyArraySlot(obj) {
       // get Key specific name by replacing '.' with '-' and prepending 'slot-item'  -> 'slot-ARRAY-key-address-city'
       return this.getKeyClassNameWithAppendix(obj, arraySlotAppendix + "-key");
     },
+
     getKeyItemSlot(obj) {
       // get Key specific name by replacing '.' with '-' and prepending 'slot-item'  -> 'slot-item-key-address-city'
       return this.getKeyClassNameWithAppendix(obj, itemSlotAppendix + "-key");
     },
+
     getKeyTopSlot(obj) {
       // get Key specific name by replacing '.' with '-' and prepending 'slot-top'  -> 'slot-top-key-address-city'
       return this.getKeyClassNameWithAppendix(obj, topSlotAppendix + "-key");
     },
+
     getKeyBottomSlot(obj) {
       // get Key specific name by replacing '.' with '-' and prepending 'slot-bottom'  -> 'slot-bottom-key-address-city'
       return this.getKeyClassNameWithAppendix(obj, bottomSlotAppendix + "-key");
     },
+
     //
     // TYPE SLOTS
     getTypeItemSlot(obj) {
       // get Type specific slot name  -> 'slot-item-type-radio'
       return this.getTypeClassNameWithAppendix(obj, itemSlotAppendix + "-type");
     },
+
     getTypeTopSlot(obj) {
       // get Type specific slot name  -> 'slot-top-type-radio'
       return this.getTypeClassNameWithAppendix(obj, topSlotAppendix + "-type");
     },
+
     getTypeBottomSlot(obj) {
       // get Type specific slot name  -> 'slot-bottom-type-radio'
       return this.getTypeClassNameWithAppendix(
@@ -670,6 +770,7 @@ export default {
         bottomSlotAppendix + "-type"
       );
     },
+
     //
     // CLASS Names
     getPropertyClassNameWithAppendix(obj, appendix) {
@@ -681,9 +782,11 @@ export default {
             .join(" ")
         : "";
     },
+
     getPropertyClassName(obj) {
       return this.getPropertyClassNameWithAppendix(obj, propertyClassAppendix);
     },
+
     getKeyClassNameWithAppendix(obj, appendix) {
       // get KEY specific name by app-/prepending 'appendix-' and replacing '.' with '-' in nested key path  -> 'top-slot-address-city'
       return `${appendix ? appendix + classKeyDelimiter : ""}${obj.key.replace(
@@ -691,16 +794,20 @@ export default {
         "-"
       )}`;
     },
+
     getKeyClassName(obj) {
       return this.getKeyClassNameWithAppendix(obj, keyClassAppendix);
     },
+
     getTypeClassNameWithAppendix(obj, appendix) {
       // get TYPE specific class name by prepending '-type' -> 'type-checkbox'
       return `${appendix + classKeyDelimiter}${obj.schema.type}`;
     },
+
     getTypeClassName(obj) {
       return this.getTypeClassNameWithAppendix(obj, typeClassAppendix);
     },
+
     getFlexGridClassName(obj) {
       // get FLEX class from schema.flex ->  schema:{ flex:{ xs:12, md:4  } || flex: 4 } // flex: 4 -> is shorthand for -> flex:{ xs:4 }
       const keysToGridClassName = key =>
@@ -713,6 +820,7 @@ export default {
           : `col-xs-${obj.schema.flex}`
         : `${gridSize}`;
     },
+
     getOffsetGridClassName(obj) {
       // get OFFSET-FLEX class from schema.offset ->  schema:{ offset:{ xs:12, md:4  } || offset: 4 } // offset: 4 -> is shorthand for -> offset:{ xs:4 }
       const keysToOffsetClassName = key =>
@@ -725,10 +833,12 @@ export default {
           : `offset-lg-${obj.schema.offset}`
         : "";
     },
+
     getOrderGridClassName(obj) {
       // get ORDER-FLEX class from schema.order ->  schema:{ order:{ xs:12, md:4  } || order: 4 } // order: 4 -> is shorthand for -> order:{ xs:4 }
       return obj.schema.order ? `order-${obj.schema.order}` : "";
     },
+
     getGridClassName(obj) {
       // combine Flex, Offset, Order into a classname
       // return `${this.getFlexGridClassName(obj)} ${this.getOffsetGridClassName(obj)} ${this.getOrderGridClassName(obj)}`
@@ -738,6 +848,7 @@ export default {
         obj
       )} ${gridSpacing}`;
     },
+
     getClassName(obj) {
       // combines all into a single classname
       // class => ie. 'item type-checkbox key-address-zip prop-adress prop-zip xs12 md6 offset-xs0'
@@ -748,6 +859,7 @@ export default {
         obj
       )} ${this.getGridClassName(obj)}`;
     },
+
     //
     // Map Values coming FROM Control or going TO Control
     toCtrl(params) {
@@ -758,6 +870,7 @@ export default {
         ? params.obj.schema.toCtrl(params)
         : params.value;
     },
+
     fromCtrl(params) {
       // manipulate updated value from control, fromCtrl-function must return a (modified) value
       // schema:{ name: { type:'text', fromCtrl: ( {value} ) value && value.toUpperCase, ... }, ... }
@@ -765,11 +878,13 @@ export default {
         ? params.obj.schema.fromCtrl(params)
         : params.value;
     },
+
     //
     // Button-Toggle sanitize item from array schema.options
     sanitizeOptions(b) {
       return isString(b) ? { value: b, label: b } : b;
     },
+
     //
     // Set Value
     setValue(obj) {
@@ -782,6 +897,7 @@ export default {
         options: this.storeStateOptions
       });
     },
+
     setDateValue(obj) {
       // Control gets a Value
       this.dateLookupDefault = obj.value;
@@ -792,13 +908,20 @@ export default {
         schema: this.storeStateSchema
       });
     },
+
     //
     // Get Value from Input & other Events
     onInput(value, obj) {
-      // console.log("on input: ", value, obj);
-      // console.log("this.$parent oninput: ", this.$parent);
-      // console.log("this.$parent.parent oninput: ", this.$parent.$parent);
-      // console.log('on input: ', value)
+      console.log('testing');
+      // debugging
+      // eslint-disable-next-line  no-constant-condition
+      if(this.debugStuff && false  || true ) {
+        console.log("on input: ", value, obj);
+        console.log("this.$parent oninput: ", this.$parent);
+        console.log("this.$parent.parent oninput: ", this.$parent.$parent);
+        console.log('on input: ', value)
+      }
+
       // Value after change in Control
       value = this.fromCtrl({
         value,
@@ -868,6 +991,7 @@ export default {
         schema: this.storeStateSchema
       });
     },
+
     onSwipe(pos, obj) {
       this.emitValue("swipe", {
         on: "swipe",
@@ -880,6 +1004,7 @@ export default {
         schema: this.storeStateSchema
       });
     },
+
     onResize() {
       this.emitValue("resize", {
         on: "resize",
@@ -889,13 +1014,20 @@ export default {
         schema: this.storeStateSchema
       });
     },
+
     //
     // Event Base
     emitValue(emit, val) {
-      // console.log('emit: ', emit, 'val: ', val)
-      // console.log('parent.id: ', this.$parent.id)
-      // console.log('parent.parent.id: ', this.$parent.$parent.id)
-      // console.log('getEvent p/p: ', this.getEventGrandParentName(emit))
+
+      // debugging
+      // eslint-disable-next-line  no-constant-condition
+      // if(this.debugStuff && false) {
+      //   console.log('emit: ', emit, 'val: ', val)
+      //   console.log('parent.id: ', this.$parent.id)
+      //   console.log('parent.parent.id: ', this.$parent.$parent.id)
+      //   console.log('getEvent p/p: ', this.getEventGrandParentName(emit))
+      // }
+
       if (this.$parent.id) {
         this.$parent.$emit(this.getEventParentName(emit), {
           ...val,
@@ -929,19 +1061,23 @@ export default {
         this.$emit(this.getEventName("update"), val); // all listen to events
       }
     },
+
     getEventName(eventName) {
       return this.ref !== defaultID ? `${eventName}:${this.ref}` : eventName;
     },
+
     getEventParentName(eventName) {
       return this.$parent.id !== defaultID
         ? `${eventName}:${this.$parent.id}`
         : eventName;
     },
+
     getEventGrandParentName(eventName) {
       return this.$parent.$parent.id !== defaultID
         ? `${eventName}:${this.$parent.$parent.id}`
         : eventName;
     },
+
     //
     // PREPARE ARRAYS DATA & SCHEMA
     setObjectByPath(object, path, value) {
@@ -952,12 +1088,14 @@ export default {
         object = object[p];
       });
     },
+
     updateArrayFromState(data, schema) {
       this.flatCombinedArray.forEach(obj => {
         obj.value = get(data, obj.key, null); // get - lodash
         obj.schema = get(schema, obj.key, null); // get - lodash
       });
     },
+
     flattenObjects(dat, sch) {
       let data = {};
       let schema = {};
@@ -981,12 +1119,14 @@ export default {
       });
 
       // debugging
-      if(this.debugStuff) {
-        console.log("flatten objects - schema, data: ", schema, data);
-      }
+      // eslint-disable-next-line  no-constant-condition
+      // if(this.debugStuff && false) {
+      //   console.log("flatten objects - schema, data: ", schema, data);
+      // }
 
       return { data, schema };
     },
+
     combineObjectsToArray({ data, schema }) {
       let arr = [];
       Object.keys(data).forEach(key => {
@@ -1006,74 +1146,94 @@ export default {
       });
       return arr;
     },
+
     flattenAndCombineToArray(data, schema) {
       // flatten nested structure of both objects 'data' & 'schema' ...
       let flattenedObjects = this.flattenObjects(data, schema);
 
       // debugging
-      if(this.debugStuff) {
-        console.log("schema form base: ", schema, data);
-      }
+      // eslint-disable-next-line  no-constant-condition
+      // if(this.debugStuff && false) {
+      //   console.log("schema form base: ");
+      //   console.log("schema: ", JSON.stringify(schema));
+      //   console.log("data: ", JSON.stringify(data));
+      // }
 
       // ... and combine them to an array
       return this.combineObjectsToArray(flattenedObjects);
     }
   },
+
+
   created() {
     // debugging
-    if(this.debugStuff && this.debugLevel >= 0) {
+    // eslint-disable-next-line  no-constant-condition
+    // if(this.debugStuff && this.debugLevel >= 0) {
       // console.log('created ... parent before: ', this.$parent.id, this.$parent.$parent.id)
       // console.log(
       //   "created ... parent before: ",
-      //   this.$parent.id,
-      //   this.$parent,
-      //   this.$parent.$parent.id,
-      //   this.$parent.$parent
+      //   'parent.id: ', this.$parent.id,
+      //   'parent: ', this.$parent,
+      //   'parent.parent.id: ', this.$parent.$parent.id,
+      //   'parent.parent: ', this.$parent.$parent
+      //   // 'parent.parent: ', JSON.stringify(this.$parent.$parent)
       // );
-    }
+    // }
     this.flatCombinedArray = this.flattenAndCombineToArray(
       this.storeStateData,
       this.storeStateSchema
     );
+
     // debugging
-    if(this.debugStuff && this.debugLevel >= 0) {
-      // console.log('created ... parent after: ', this.$parent.id, this.$parent.$parent.id)
-      // console.log('flatCombinedArray .... ', this.flatCombinedArray)
-      // console.log('created ... parent 2: ', this.$parent.id)
-      // console.log("schema form base: ", schema, data);
-    }
+    // eslint-disable-next-line  no-constant-condition
+      // if(this.debugStuff && this.debugLevel >= 0 && false) {
+      //   console.log('created ... parent after: ', this.$parent.id, this.$parent.$parent.id)
+      //   console.log('flatCombinedArray .... ', JSON.stringify(this.flatCombinedArray))
+      //   console.log('created ... parent 2: ', this.$parent.id)
+      //   console.log("schema form base: ", JSON.stringify(this.schema), JSON.stringify(this.data));
+      // }
   },
+
   mounted() {
     // debugging
-    if(this.debugStuff && this.debugLevel >= 0) {
-       // console.log('mounted ... parent before: ', this.$parent.id,
-       //this.$parent.$parent.id, this.$parent.$parent.$parent.id, this.$parent.$parent.$parent.$parent.id)
-    }
+    // eslint-disable-next-line  no-constant-condition
+    // if(this.debugStuff && this.debugLevel >= 0 && false) {
+    //    console.log('mounted ... parent before: ', this.$parent.id,
+    //    this.$parent.$parent.id, this.$parent.$parent.$parent.id, this.$parent.$parent.$parent.$parent.id)
+    // }
+
     this.flatCombinedArray = this.flattenAndCombineToArray(
       this.storeStateData,
       this.storeStateSchema
     );
+
     // debugging
-    if(this.debugStuff && this.debugLevel >= 0) {
-    // console.log('mounted ... parent after: ', this.$parent.id, this.$parent.$parent.id)
-    // console.log('flatCombinedArray .... ', this.flatCombinedArray)
-    // console.log('mounted ... parent 1: ', this.$parent.id)
-    // this.flatCombinedArray = this.flattenAndCombineToArray(this.storeStateData, this.storeStateSchema)
-    }
+    // eslint-disable-next-line  no-constant-condition
+    // if(this.debugStuff && this.debugLevel >= 0 && false) {
+    //   console.log('mounted ... parent after: ', this.$parent.id, this.$parent.$parent.id)
+    //   console.log('flatCombinedArray .... ', this.flatCombinedArray)
+    //   console.log('mounted ... parent 1: ', this.$parent.id)
+    //   this.flatCombinedArray = this.flattenAndCombineToArray(this.storeStateData, this.storeStateSchema)
+    // }
   },
+
   beforeUpdate() {
     // debugging
-    if(this.debugStuff && this.debugLevel >= 0) {
-      // console.log('beforeUpdate ... parent: ', this.$parent.id, this.$parent.$parent.id)
-      // this.flatCombinedArray = this.flattenAndCombineToArray(this.storeStateData, this.storeStateSchema)
-    }
+    // eslint-disable-next-line  no-constant-condition
+    // if(this.debugStuff && this.debugLevel >= 0 && false) {
+    //   console.log('beforeUpdate ... parent: ', this.$parent.id, this.$parent.$parent.id)
+    //   this.flatCombinedArray = this.flattenAndCombineToArray(this.storeStateData, this.storeStateSchema)
+    // }
   },
+
   afterUpdate() {
     // debugging
-    if(this.debugStuff && this.debugLevel >= 0) {
-      // console.log('afterUpdate ... parent: ', this.$parent.id, this.$parent.$parent.id)
-    }
+    // eslint-disable-next-line  no-constant-condition
+    // if(this.debugStuff && this.debugLevel >= 0 && false) {
+    //   console.log('afterUpdate ... parent: ', this.$parent.id, this.$parent.$parent.id)
+    // }
   }
+
 };
 </script>
 
