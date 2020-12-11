@@ -1,4 +1,5 @@
 <template>
+<!-- material -->
   <div id='chart01' class='row'>
     <q-card class="col-xs-12 col-lg-6 q-px-lg">
       <q-card-section>
@@ -6,6 +7,7 @@
           type='ColumnChart'
           :data="chartData"
           :options="chartOptions"
+          :createChart="(el, google) => new google.charts.Bar(el)"
           @ready="onChartReady"
           class="q-pa-xl shadow-5"
         />
@@ -37,13 +39,13 @@ export default {
   computed: {
     chartOptions () {
       if (!this.chartsLib) return null
-      return this.chartsLib.charts.Line.convertOptions({
-        chart: {
-          title: 'Company Performance',
+      return this.chartsLib.charts.Bar.convertOptions({
+          title: 'Company Performance / Material',
           subtitle: 'Sales, Expenses, and Profit: 2014-2017',
           height: 300,
+          bars: 'vertical', // Required for Material Bar Charts.
+          hAxis: { format: 'decimal' },
 
-        },
       })
     }
   },

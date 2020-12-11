@@ -1,4 +1,5 @@
 <template>
+<!-- basic -->
   <div id='chart01' class='row'>
     <q-card class="col-xs-12 col-lg-6 q-px-lg">
       <q-card-section>
@@ -33,13 +34,19 @@ export default {
         ['2007/08',  139,      1110,        615,             968,           215,      609.4],
         ['2008/09',  136,      691,         629,             1026,          366,      569.6]
       ],
-      chartOptions: {
-        title : 'Monthly Coffee Production by Country',
+    }
+  },
+
+  computed: {
+    chartOptions () {
+      if (!this.chartsLib) return null
+      return this.chartsLib.charts.Bar.convertOptions({
+        title : 'Monthly Coffee Production by Country / Basic',
         vAxis: {title: 'Cups'},
         hAxis: {title: 'Month'},
         seriesType: 'bars',
         series: {5: {type: 'line'}}
-        }
+      })
     }
   },
 

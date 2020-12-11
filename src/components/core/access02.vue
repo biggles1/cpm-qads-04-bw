@@ -32,195 +32,6 @@
                     class="q-ma-xs bg-grey-4"
                   >
                   </q-btn>
-                  <!-- <q-btn
-                    flat
-                    icon="arrow_drop_down"
-                    label='Bar Chart'
-                    @click="drilledOption = 'BarChart'"
-                    render = true;
-                    hideTable = true
-                    class="q-ma-xs bg-grey-4"
-                  >
-                  </q-btn> -->
-                  <!-- <q-btn
-                    flat
-                    icon="arrow_drop_down"
-                    label='Bubble Chart'
-                    @click="drilledOption = 'BubbleChart'"
-                    render = true;
-                    hideTable = true
-                    class="q-ma-xs bg-grey-4"
-                  >
-                  </q-btn> -->
-
-                  <!-- <q-btn flat icon="apps" class="q-ma-xs bg-grey-4" label="Options">
-                    <q-menu>
-                      <q-list style="min-width: 150px" class="q-ma-xs bg-grey-1">
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'BarChart'"
-                          render = true;
-                          hideTable = true
-                          class="q-ma-xs bg-grey-4"
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Bar chart
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'BarChart1'"
-                          render = true;
-                          hideTable = true
-                          class="q-ma-xs bg-grey-4"
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Bar chart 1
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'BarChart3'"
-                          render = true;
-                          hideTable = true
-                          class="q-ma-xs bg-grey-4"
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Bar chart 3
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'BubbleChart'"
-                          render = true;
-                          hideTable = true
-                          class="q-ma-xs bg-grey-4"
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Bubble chart
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'BarChart4'"
-
-                          render = true;
-                          hideTable = true
-                          class="q-ma-xs bg-grey-4"
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Bar chart 4
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'BarChart5'"
-                          render = true;
-                          hideTable = true
-                          class="q-ma-xs bg-grey-4"
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Bar chart 5
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'BarChart6'"
-                          render = true;
-                          hideTable = true
-                          class="q-ma-xs bg-grey-4"
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Bar chart 6
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'BarChart7'"
-                          render = true;
-                          hideTable = true
-                          class="q-ma-xs bg-grey-4"
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Bar chart 7
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'BarChart8'"
-                          render = true;
-                          hideTable = true
-                          class="q-ma-xs bg-grey-4"
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Bar chart 8
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'BarChart9'"
-                          render = true;
-                          hideTable = true
-                          class="q-ma-xs bg-grey-4"
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Bar chart 9
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'BarChart10'"
-                          render = true;
-                          hideTable = true
-                          class="q-ma-xs bg-grey-4"
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Bar chart 10
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-                      </q-list>
-                    </q-menu>
-                  </q-btn> -->
 
                   <q-btn-dropdown flat class="q-ma-xs bg-grey-4" label="Google Charts">
                       <q-list style="min-width: 150px" class="q-ma-xs bg-grey-1">
@@ -260,6 +71,19 @@
                             <q-item-section>
                               <q-item-label>
                                 Lines
+                              </q-item-label>
+                            </q-item-section>
+                        </q-item>
+                        <q-item
+                          clickable
+                          v-close-popup
+                          @click="drilledOption = 'line02'"
+                          render = true;
+                          hideTable = true
+                          >
+                            <q-item-section>
+                              <q-item-label>
+                                Lines 2
                               </q-item-label>
                             </q-item-section>
                         </q-item>
@@ -398,6 +222,7 @@
         <q-tab-panel
           v-if= "render"
           name="nextLevel"
+          style="padding: 0px; margin: 0px"
           >
             <Core :formId = "uuid" />
         </q-tab-panel>
@@ -418,6 +243,12 @@
           name="line01"
           >
             <line01 />
+        </q-tab-panel>
+        <q-tab-panel
+          v-if= "render"
+          name="line02"
+          >
+            <line02 />
         </q-tab-panel>
         <q-tab-panel
           v-if= "render"
@@ -491,10 +322,11 @@
   import bar01 from '../chart/bar01.vue'
   import column01 from '../chart/column01.vue'
   import line01 from '../chart/line01.vue'
+  import line02 from '../chart/line02.vue'
   import column02 from '../chart/column02.vue'
   import pie01 from '../chart/pie01.vue'
   import area01 from '../chart/area01.vue'
-  import bubble02 from '../chart/buble02.vue'
+  import bubble02 from '../chart/bubble02.vue'
   import combination01 from '../chart/combination01.vue'
   import pie02 from '../chart/pie02.vue'
   import scatter01 from '../chart/scatter01.vue'
@@ -514,7 +346,7 @@
       }
     },
 
-    components: { bar01, column01, line01, column02, pie01, area01, bubble02, combination01, pie02, scatter01, bubble01 },
+    components: { bar01, column01, line01, line02, column02, pie01, area01, bubble02, combination01, pie02, scatter01, bubble01 },
 
     data () {
       return {
