@@ -36,173 +36,23 @@
                   <q-btn-dropdown flat class="q-ma-xs bg-grey-4" label="Google Charts">
                       <q-list style="min-width: 150px" class="q-ma-xs bg-grey-1">
                         <q-item
+                          v-for= "chart in chartArray"
+                          :key= "chart.title"
                           clickable
                           v-close-popup
-                          @click="drilledOption = 'bar01'"
-                          render = true;
+                          @click="drilledChart = chart.component;
+                            drilledTab = 'charts'"
+                          render = true
                           hideTable = true
                           >
                             <q-item-section>
                               <q-item-label>
-                                Bars
+                                {{ chart.title }}
                               </q-item-label>
                             </q-item-section>
                         </q-item>
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'column01'"
-                          render = true;
-                          hideTable = true
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Columns
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'line01'"
-                          render = true;
-                          hideTable = true
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Lines
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'line02'"
-                          render = true;
-                          hideTable = true
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Lines 2
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'bubble01'"
-                          render = true;
-                          hideTable = true
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Bubbles
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'column02'"
-                          render = true;
-                          hideTable = true
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Columns 2
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'pie01'"
-                          render = true;
-                          hideTable = true
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Pie
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'area01'"
-                          render = true;
-                          hideTable = true
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Area
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'bubble02'"
-                          render = true;
-                          hideTable = true
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Bubbles 2
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'combination01'"
-                          render = true;
-                          hideTable = true
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Combinations
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'pie02'"
-                          render = true;
-                          hideTable = true
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Pie 2
-                              </q-item-label>
-                            </q-item-section>
-                        </q-item>
-
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="drilledOption = 'scatter01'"
-                          render = true;
-                          hideTable = true
-                          >
-                            <q-item-section>
-                              <q-item-label>
-                                Scatter
-                              </q-item-label>
-                            </q-item-section>
-
-                        </q-item>
-
                       </q-list>
                   </q-btn-dropdown>
-
                 </q-toolbar-title>
               </q-toolbar>
             </q-form>
@@ -210,108 +60,32 @@
         </q-card>
       </template>
     </div>
+
     <!-- next drill down -->
     <template>
       <q-tab-panels
         :id="tableChildrenId"
-        v-model="drilledOption"
+        v-model="drilledTab"
         animated
         class="row col-grow col-xs-12"
         :class="menuAccess"
         >
         <q-tab-panel
-          v-if= "render"
           name="nextLevel"
           style="padding: 0px; margin: 0px"
           >
             <Core :formId = "uuid" />
         </q-tab-panel>
-        <q-tab-panel
-          v-if= "render"
-          name="bar01"
-          >
-            <bar01 />
-        </q-tab-panel>
-        <q-tab-panel
-          v-if= "render"
-          name="column01"
-          >
-            <column01 />
-        </q-tab-panel>
-        <q-tab-panel
-          v-if= "render"
-          name="line01"
-          >
-            <line01 />
-        </q-tab-panel>
-        <q-tab-panel
-          v-if= "render"
-          name="line02"
-          >
-            <line02 />
-        </q-tab-panel>
-        <q-tab-panel
-          v-if= "render"
-          name="column02"
-          >
-            <column02 />
-        </q-tab-panel>
 
         <q-tab-panel
-          v-if= "render"
-          name="pie01"
-          >
-            <pie01 />
+          name='charts'
+        >
+          <component
+            v-bind:is="drilledChart"
+            >
+          </component>
+          <bar01 />
         </q-tab-panel>
-
-        <q-tab-panel
-          v-if= "render"
-          name="area01"
-          >
-            <area01 />
-        </q-tab-panel>
-
-
-        <q-tab-panel
-          v-if= "render"
-          name="bubble02"
-          >
-            <bubble02 />
-        </q-tab-panel>
-
-
-        <q-tab-panel
-          v-if= "render"
-          name="combination01"
-          >
-            <combination01 />
-        </q-tab-panel>
-
-
-        <q-tab-panel
-          v-if= "render"
-          name="pie02"
-          >
-            <pie02 />
-        </q-tab-panel>
-
-
-        <q-tab-panel
-          v-if= "render"
-          name="scatter01"
-          >
-            <scatter01 />
-        </q-tab-panel>
-
-
-        <q-tab-panel
-          v-if= "render"
-          name="bubble01"
-          >
-            <bubble01 />
-        </q-tab-panel>
-
-
       </q-tab-panels>
     </template>
   </div>
@@ -357,13 +131,29 @@
         editedItem: {},
         editedItemBase: {},
         drilledDown: 'display: hidden',
-        drilledOption: null,
+        drilledOption: '',
+        drilledTab: '',
+        drilledChart: '',
         render: true,
         colTableClass: 'col-xs-12 col-lg-6',
         breadcrumb: [],
         editedIndex: -1,
         data: {},
         hideTable: false,
+        chartArray: [
+          {'title': 'Bar 01', 'component': 'bar01'},
+          {'title': 'Column 01', 'component': 'column01'},
+          {'title': 'Line 01', 'component': 'line01'},
+          {'title': 'Line 02', 'component': 'line02'},
+          {'title': 'Column 02', 'component': 'column02'},
+          {'title': 'Pie 01', 'component': 'pie01'},
+          {'title': 'Area 01', 'component': 'area01'},
+          {'title': 'Bubble 01', 'component': 'bubble01'},
+          {'title': 'Combination 01', 'component': 'combination01'},
+          {'title': 'Pie 02', 'component': 'pie02'},
+          {'title': 'Scatter 01', 'component': 'scatter01'},
+          {'title': 'Bubble 02', 'component': 'bubble02'},
+          ]
       }
     },
 
@@ -372,6 +162,9 @@
     },
 
     methods: {
+      charting() {
+        this.drilledOption = 'charts'
+      }
     },
 
     mounted() {
