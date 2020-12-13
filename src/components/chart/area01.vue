@@ -1,4 +1,5 @@
 <template>
+<!-- basic -->
   <div id='chart01' class='row'>
     <q-card class="col-xs-12 col-lg-6 q-px-lg">
       <q-card-section>
@@ -22,8 +23,6 @@ export default {
   },
   data () {
     return {
-      // chartsLib: null,
-      // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [
         ['Year', 'Sales', 'Expenses', 'Profit'],
         ['2014', 1000, 400, 200],
@@ -32,29 +31,12 @@ export default {
         ['2017', 1030, 540, 350]
       ],
       chartOptions: {
-        title: 'Company Performance',
+        title: 'Company Performance / Basic',
         subtitle: 'Sales, Expenses, and Profit: 2014-2017',
         height: 300,
       }
     }
   },
-  computed: {
-    // chartOptions () {
-    //   if (!this.chartsLib) return null
-    //   return this.chartsLib.charts.Line.convertOptions({
-    //     chart: {
-    //       title: 'Company Performance',
-    //       subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-    //       height: 300,
-    //     },
-    //   })
-    // }
-  },
-  // methods: {
-  //   onChartReady (chart, google) {
-  //     this.chartsLib = google
-  //   }
-  // }
 }
 </script>
 

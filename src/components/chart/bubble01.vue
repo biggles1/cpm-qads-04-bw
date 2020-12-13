@@ -1,12 +1,13 @@
 <template>
+<!-- basic -->
   <div id='chart02' class='row'>
-    <!-- <q-card :class="colTableClass"> -->
-    <q-card class="col-xs-12 col-lg-6 q-px-lg shadow-5">
+    <q-card class="col-xs-12 col-lg-6 q-px-xl shadow-5">
       <q-card-section class="shadow-5">
         <GChart
           type="BubbleChart"
           :data="chartData"
           :options="chartOptions"
+          @ready="onChartReady"
           class="shadow-5"
         />
       </q-card-section>
@@ -21,9 +22,9 @@ export default {
   components: {
     GChart
   },
+
   data() {
     return {
-      // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [
         ["ID", "X", "Y", "Temperature"],
         ["", 80, 167, 120],
@@ -35,12 +36,20 @@ export default {
         ["", 68, 477, 80]
       ],
       chartOptions: {
+        title: 'Templerature plots / Basic',
         colorAxis: { colors: ["yellow", "red"] },
-        height: 300,
+        height: 350,
       }
     };
+  },
+
+  methods: {
+    onChartReady (chart, google) {
+      this.chartsLib = google
+    }
   }
-};
+}
+
 </script>
 
 <style lang="sass">

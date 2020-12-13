@@ -1,12 +1,15 @@
 <template>
-<!-- basic -->
-  <div id='PieChart' class='row'>
+<!-- material -->
+  <div id='chart01' class='row'>
+    <!-- <q-card :class="colTableClass"> -->
     <q-card class="col-xs-12 col-lg-6 q-px-lg">
       <q-card-section>
         <GChart
-          type='PieChart'
+          :settings="{packages: ['line']}"
           :data="chartData"
           :options="chartOptions"
+          :createChart="(el, google) => new google.charts.Line(el)"
+          @ready="onChartReady"
           class="q-pa-xl shadow-5"
         />
       </q-card-section>
@@ -23,25 +26,34 @@ export default {
   },
   data () {
     return {
-      // chartsLib: null,
+      chartsLib: null,
+      // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [
-        ['Task', 'Hours per Day'],
-        ['Work',     11],
-        ['Eat',      2],
-        ['Commute',  2],
-        ['Watch TV', 2],
-        ['Sleep',    7]
-      ],
-      chartOptions: {
-        title: 'My Daily Activities / Basic',
-        pieHole: 0.2,
-        chartArea: {left:20,top:20,width:'100%',height:'75%'},
-        is3D: true,
-        height: 300
-      }
+        ['Year', 'Sales', 'Expenses', 'Profit'],
+        ['2014', 1000, 400, 200],
+        ['2015', 1170, 460, 250],
+        ['2016', 660, 1120, 300],
+        ['2017', 1030, 540, 350]
+      ]
     }
   },
-
+  computed: {
+    chartOptions () {
+      if (!this.chartsLib) return null
+      return this.chartsLib.charts.Line.convertOptions({
+          title: 'Company Performance',
+          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+          curveType: 'function',
+          legend: { position: 'bottom' },
+          height: 300,
+      })
+    }
+  },
+  methods: {
+    onChartReady (chart, google) {
+      this.chartsLib = google
+    }
+  }
 }
 </script>
 

@@ -1,4 +1,5 @@
 <template>
+<!-- basic -->
   <div id='PieChart' class='row'>
     <q-card class="col-xs-12 col-lg-6 q-px-lg">
       <q-card-section>
@@ -34,7 +35,7 @@ export default {
         [ 6.5,    7]
       ],
       chartOptions: {
-        title: 'Age vs. Weight comparison',
+        title: 'Age vs. Weight comparison / Basic',
         hAxis: {title: 'Age', minValue: 0, maxValue: 15},
         vAxis: {title: 'Weight', minValue: 0, maxValue: 15},
         legend: 'none',

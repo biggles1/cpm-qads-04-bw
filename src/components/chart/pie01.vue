@@ -1,4 +1,5 @@
 <template>
+<!-- basic -->
   <div id='chart01' class='row'>
     <q-card class="col-xs-12 col-lg-6 q-px-lg">
       <q-card-section>
@@ -6,7 +7,6 @@
           type='PieChart'
           :data="chartData"
           :options="chartOptions"
-          @ready="onChartReady"
           class="q-pa-xl shadow-5"
         />
       </q-card-section>
@@ -33,7 +33,7 @@ export default {
         ['Sleep',    7]
       ],
       chartOptions: {
-          title: 'Company Performance',
+          title: 'Company Performance / Basic',
           subtitle: 'Sales, Expenses, and Profit: 2014-2017',
           height: 300,
         },
