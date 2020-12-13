@@ -84,7 +84,6 @@
             v-bind:is="drilledChart"
             >
           </component>
-          <bar01 />
         </q-tab-panel>
       </q-tab-panels>
     </template>
