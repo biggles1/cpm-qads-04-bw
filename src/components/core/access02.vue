@@ -26,7 +26,7 @@
                     flat
                     icon="arrow_drop_down"
                     :label=recId
-                    @click="drilledTab = 'nextLevel'"
+                    @click="drilledOption = 'nextLevel'"
                     render = true;
                     hideTable = true
                     class="q-ma-xs bg-grey-4"
